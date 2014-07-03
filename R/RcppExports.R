@@ -2,30 +2,30 @@
 # Generator token: 10BE3573-1514-4C36-9D1C-5A225CD40393
 
 corC <- function(x, y) {
-    .Call('Reot_corC', PACKAGE = 'Reot', x, y)
+    .Call('remote_corC', PACKAGE = 'remote', x, y)
 }
 
 lmC <- function(x, y) {
-    .Call('Reot_lmC', PACKAGE = 'Reot', x, y)
+    .Call('remote_lmC', PACKAGE = 'remote', x, y)
 }
 
 predRsquaredSum <- function(pred_vals, resp_vals, standardised) {
-    .Call('Reot_predRsquaredSum', PACKAGE = 'Reot', pred_vals, resp_vals, standardised)
+    .Call('remote_predRsquaredSum', PACKAGE = 'remote', pred_vals, resp_vals, standardised)
 }
 
 respLmParam <- function(x, y, cell) {
-    .Call('Reot_respLmParam', PACKAGE = 'Reot', x, y, cell)
+    .Call('remote_respLmParam', PACKAGE = 'remote', x, y, cell)
 }
 
 findudC <- function(x) {
-    .Call('Reot_findudC', PACKAGE = 'Reot', x)
+    .Call('remote_findudC', PACKAGE = 'remote', x)
 }
 
 iodaC <- function(x, y) {
-    .Call('Reot_iodaC', PACKAGE = 'Reot', x, y)
+    .Call('remote_iodaC', PACKAGE = 'remote', x, y)
 }
 
 iodaSumC <- function(pred_vals, resp_vals) {
-    .Call('Reot_iodaSumC', PACKAGE = 'Reot', pred_vals, resp_vals)
+    .Call('remote_iodaSumC', PACKAGE = 'remote', pred_vals, resp_vals)
 }
 

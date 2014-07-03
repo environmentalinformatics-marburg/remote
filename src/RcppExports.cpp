@@ -7,7 +7,7 @@ using namespace Rcpp;
 
 // corC
 double corC(NumericVector x, NumericVector y);
-RcppExport SEXP Reot_corC(SEXP xSEXP, SEXP ySEXP) {
+RcppExport SEXP remote_corC(SEXP xSEXP, SEXP ySEXP) {
 BEGIN_RCPP
     SEXP __sexp_result;
     {
@@ -23,7 +23,7 @@ END_RCPP
 }
 // lmC
 List lmC(NumericVector x, NumericVector y);
-RcppExport SEXP Reot_lmC(SEXP xSEXP, SEXP ySEXP) {
+RcppExport SEXP remote_lmC(SEXP xSEXP, SEXP ySEXP) {
 BEGIN_RCPP
     SEXP __sexp_result;
     {
@@ -39,7 +39,7 @@ END_RCPP
 }
 // predRsquaredSum
 NumericVector predRsquaredSum(NumericMatrix pred_vals, NumericMatrix resp_vals, bool standardised);
-RcppExport SEXP Reot_predRsquaredSum(SEXP pred_valsSEXP, SEXP resp_valsSEXP, SEXP standardisedSEXP) {
+RcppExport SEXP remote_predRsquaredSum(SEXP pred_valsSEXP, SEXP resp_valsSEXP, SEXP standardisedSEXP) {
 BEGIN_RCPP
     SEXP __sexp_result;
     {
@@ -56,7 +56,7 @@ END_RCPP
 }
 // respLmParam
 List respLmParam(NumericMatrix x, NumericMatrix y, int cell);
-RcppExport SEXP Reot_respLmParam(SEXP xSEXP, SEXP ySEXP, SEXP cellSEXP) {
+RcppExport SEXP remote_respLmParam(SEXP xSEXP, SEXP ySEXP, SEXP cellSEXP) {
 BEGIN_RCPP
     SEXP __sexp_result;
     {
@@ -73,7 +73,7 @@ END_RCPP
 }
 // findudC
 NumericVector findudC(NumericVector x);
-RcppExport SEXP Reot_findudC(SEXP xSEXP) {
+RcppExport SEXP remote_findudC(SEXP xSEXP) {
 BEGIN_RCPP
     SEXP __sexp_result;
     {
@@ -88,7 +88,7 @@ END_RCPP
 }
 // iodaC
 double iodaC(NumericVector x, NumericVector y);
-RcppExport SEXP Reot_iodaC(SEXP xSEXP, SEXP ySEXP) {
+RcppExport SEXP remote_iodaC(SEXP xSEXP, SEXP ySEXP) {
 BEGIN_RCPP
     SEXP __sexp_result;
     {
@@ -104,7 +104,7 @@ END_RCPP
 }
 // iodaSumC
 NumericVector iodaSumC(NumericMatrix pred_vals, NumericMatrix resp_vals);
-RcppExport SEXP Reot_iodaSumC(SEXP pred_valsSEXP, SEXP resp_valsSEXP) {
+RcppExport SEXP remote_iodaSumC(SEXP pred_valsSEXP, SEXP resp_valsSEXP) {
 BEGIN_RCPP
     SEXP __sexp_result;
     {

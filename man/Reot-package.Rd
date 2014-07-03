@@ -1,7 +1,7 @@
 \docType{package}
-\name{Reot-package}
-\alias{Reot}
-\alias{Reot-package}
+\name{remote-package}
+\alias{remote}
+\alias{remote-package}
 \title{Empirical Orthogonal Teleconnections in R}
 \description{
 Empirical Orthogonal Teleconnections in R
@@ -26,7 +26,7 @@ van den Dool (2007)\cr Oxford University Press, Oxford, New
 York (2007)\cr
 }
 \seealso{
-\pkg{Reot} is built upon raster* classes from the
+\pkg{remote} is built upon Raster* classes from the
 \code{\link{raster-package}}. Please see their
 documentation for data preparation etc.
 }

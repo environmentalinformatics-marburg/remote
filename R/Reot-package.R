@@ -4,8 +4,8 @@
 #' Some handy functions for preprocessing, such as deseasoning, denoising, lagging 
 #' are readily available for ease of usage.
 #' 
-#' @name Reot-package
-#' @aliases Reot
+#' @name remote-package
+#' @aliases remote
 #' @docType package
 #' @title Empirical Orthogonal Teleconnections in R
 #' @author Tim Appelhans, Florian Detsch\cr
@@ -21,7 +21,7 @@
 #' Empirical methods in short-term climate prediction\cr
 #' H. M. van den Dool (2007)\cr
 #' Oxford University Press, Oxford, New York (2007)\cr
-#' @seealso \pkg{Reot} is built upon raster* classes from the \code{\link{raster-package}}.
+#' @seealso \pkg{remote} is built upon Raster* classes from the \code{\link{raster-package}}.
 #' Please see their documentation for data preparation etc.
 #' @import Rcpp raster foreach gridExtra latticeExtra mapdata scales
 #' 
