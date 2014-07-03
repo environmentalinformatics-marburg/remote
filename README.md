@@ -1,4 +1,4 @@
-Reot
+remote
 ====
 
 ### Empirical Orthogonal Teleconnections in R
@@ -21,11 +21,11 @@ Oxford University Press, Oxford, New York (2007)
 
 install and load the [devtools](http://cran.r-project.org/web/packages/devtools/index.html) package.
 
-For the stable release version of **Reot** use
+For the stable release version of **remote** use
 
 
 ```S
-install_github("Reot", "environmentalinformatics-marburg")
+install_github("remote", "environmentalinformatics-marburg")
 ```
 
 
@@ -33,10 +33,10 @@ To install the development version use
 
 
 ```S
-install_github("Reot", "environmentalinformatics-marburg", ref = "develop")
+install_github("remote", "environmentalinformatics-marburg", ref = "develop")
 ```
 
 
 ### Contact
 
-Please file bug reports and feature requests at https://github.com/environmentalinformatics-marburg/Reot/issues
+Please file bug reports and feature requests at https://github.com/environmentalinformatics-marburg/remote/issues

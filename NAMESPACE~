@@ -1,4 +1,4 @@
-useDynLib(remote)
+useDynLib(Reot)
 #exportPattern("^[[:alpha:]]+")
 export(EotCycle)
 export(anomalize)

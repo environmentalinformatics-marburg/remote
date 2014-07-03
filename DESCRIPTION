@@ -1,4 +1,4 @@
-Package: Reot
+Package: remote
 Type: Package
 Title: Empirical Orthogonal Teleconnections in R
 Version: 0.1.0
