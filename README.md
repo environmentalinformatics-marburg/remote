@@ -40,4 +40,3 @@ install_github("remote", "environmentalinformatics-marburg", ref = "develop")
 ### Contact
 
 Please file bug reports and feature requests at https://github.com/environmentalinformatics-marburg/remote/issues
-=======
