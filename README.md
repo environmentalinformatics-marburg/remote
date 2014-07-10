@@ -1,7 +1,7 @@
 remote
 ====
 
-### Empirical Orthogonal Teleconnections in R
+### R EMpirical Orthogonal TEleconnections
 
 for detailed descriptions of the algorithm & methodolgy please have a look at:
 
