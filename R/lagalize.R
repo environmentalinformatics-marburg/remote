@@ -5,8 +5,8 @@
 #' from the beginning, the first from the tail to ensure equal output lengths
 #' (provided that input lengths were equal).
 #' 
-#' @param data.pred a RasterStack (to be cut from tail)
-#' @param data.resp a RasterStack (to be cut from beginning)
+#' @param pred a RasterStack (to be cut from tail)
+#' @param resp a RasterStack (to be cut from beginning)
 #' @param lag the desired lag (in the native frequency of the stacks)
 #' @param freq the frequency of the RasterStacks
 #' @param ... currently not used
@@ -24,26 +24,26 @@
 #' lagged[[2]][[1]] #check names to see date of layer
 #' 
 #' @export lagalize
-lagalize <- function(data.pred, 
-                     data.resp, 
+lagalize <- function(pred, 
+                     resp, 
                      lag = NULL,
                      freq = 12,
                      ...) {
   
   # Return list of unmodified RasterStacks if lag == NULL
   if (is.null(lag)) {
-    return(list(data.pred, data.resp))
+    return(list(pred, resp))
   } else {
     rest <- freq - lag
     # Lagalize predictor stack
-    data.pred.lag <- cutStack(data = data.pred, tail = TRUE, 
+    pred.lag <- cutStack(data = pred, tail = TRUE, 
                               lag = lag)
-    data.pred.lag.adj <- data.pred.lag[[1:(nlayers(data.pred.lag) - rest)]]
+    pred.lag.adj <- pred.lag[[1:(nlayers(pred.lag) - rest)]]
     # Lagalize response stack
-    data.resp.lag <- cutStack(data = data.resp, tail = FALSE, 
+    resp.lag <- cutStack(data = resp, tail = FALSE, 
                               lag = lag)
-    data.resp.lag.adj <- data.resp.lag[[1:(nlayers(data.resp.lag) - rest)]]
+    resp.lag.adj <- resp.lag[[1:(nlayers(resp.lag) - rest)]]
     # Return list of lagalized stacks
-    return(list(data.pred.lag, data.resp.lag))
+    return(list(pred.lag, resp.lag))
   }
 }

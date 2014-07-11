@@ -3,10 +3,10 @@
 \alias{denoise}
 \title{Noise filtering through principal components.}
 \usage{
-denoise(data, k = NULL, expl.var = 0.95, weighted = TRUE, ...)
+denoise(x, k = NULL, expl.var = 0.95, weighted = TRUE, ...)
 }
 \arguments{
-\item{data}{RasterStack to be filtered}
+\item{x}{RasterStack to be filtered}
 
 \item{k}{number of components to be kept for reconstruction
 (set this to NULL if you supply \code{expl.var})}
@@ -29,11 +29,11 @@ and subsequent reconstruction using only a subset of components
 }
 \examples{
 data("vdendool")
-vdd.dns <- denoise(vdendool, expl.var = 0.8)
+vdd_dns <- denoise(vdendool, expl.var = 0.8)
 
 opar <- par(mfrow = c(1,2))
 plot(vdendool[[1]], main = "original")
-plot(vdd.dns[[1]], main = "denoised")
+plot(vdd_dns[[1]], main = "denoised")
 par(opar)
 }
 \seealso{

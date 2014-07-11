@@ -3,9 +3,9 @@
 \name{remote-package}
 \alias{remote}
 \alias{remote-package}
-\title{Empirical Orthogonal Teleconnections in R}
+\title{R EMpirical Orthogonal TEleconnections}
 \description{
-Empirical Orthogonal Teleconnections in R
+R EMpirical Orthogonal TEleconnections
 }
 \details{
 A collection of functions to facilitate empirical orthogonal teleconnection analysis.

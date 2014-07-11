@@ -6,12 +6,12 @@
 #' domain, iii) the time series at the identified base point
 #' 
 #' @param eot.obj an EOT object as returned by \code{\link{eot}}
-#' @param eot numeric. the mode to be plotted
+#' @param mode numeric. the mode to be plotted
 #' @param pred.prm the parameter of the predictor to be plotted.\cr
 #' Can be any of "r", "rsq", "rsq.sums", "p", "int" or "slp"
 #' @param resp.prm the parameter of the response to be plotted.\cr
 #' Can be any of "r", "rsq", "rsq.sums", "p", "int" or "slp"
-#' @param show.eot.loc logical. If \code{TRUE} a grey circle will be drawn 
+#' @param show.mode.loc logical. If \code{TRUE} a grey circle will be drawn 
 #' in the predictor image to indicate the location of the mode
 #' @param anomalies logical. If \code{TRUE} a reference line will be drawn
 #' a 0 in the EOT time series
@@ -36,21 +36,21 @@
 #' plotEot(modes)
 #' 
 #' # showing the loction of the mode
-#' plotEot(modes, eot = 1, show.eot.loc = TRUE)
+#' plotEot(modes, mode = 1, show.mode.loc = TRUE)
 #' 
 #' # changing parameters
-#' plotEot(modes, eot = 1, show.eot.loc = TRUE,
+#' plotEot(modes, mode = 1, show.mode.loc = TRUE,
 #'         pred.prm = "r", resp.prm = "p")
 #'         
 #' # change plot arrangement
-#' plotEot(modes, eot = 1, show.eot.loc = TRUE, arrange = "long") 
+#' plotEot(modes, mode = 1, show.mode.loc = TRUE, arrange = "long") 
 #' 
 #' @export plotEot
 plotEot <- function(eot.obj,
-                    eot = 1,
+                    mode = 1,
                     pred.prm = "rsq",
                     resp.prm = "r",
-                    show.eot.loc = FALSE,
+                    show.mode.loc = FALSE,
                     anomalies = TRUE,
                     add.map = TRUE,
                     times.vec = NULL,
@@ -70,10 +70,10 @@ plotEot <- function(eot.obj,
   if (is.null(times.vec)) 
     times.vec <- seq(nlayers(eot.obj[[1]]$resid.response))
   
-  xy <- xyFromCell(eot.obj[[eot]]$rsq.predictor, 
-                   cell = eot.obj[[eot]]$max.xy)
+  xy <- xyFromCell(eot.obj[[mode]]$rsq.predictor, 
+                   cell = eot.obj[[mode]]$max.xy)
   
-  eot.location.p <- xyplot(xy[1, 2] ~ xy[1, 1], cex = 2,
+  mode.location.p <- xyplot(xy[1, 2] ~ xy[1, 1], cex = 2,
                            pch = 21, fill = "grey80", col = "black")
   
   if (isTRUE(add.map)) {
@@ -84,27 +84,27 @@ plotEot <- function(eot.obj,
       x <- ifelse((x < 1) | (x > 359), NA, x)
     })
     
-    if (max(extent(eot.obj[[eot]][[p.prm]])@xmax) > 180) {
+    if (max(extent(eot.obj[[mode]][[p.prm]])@xmax) > 180) {
       mm.pred <- mm360
     } else {
       mm.pred <- mm180
     }
     
-    if (max(extent(eot.obj[[eot]][[r.prm]])@xmax) > 180) {
+    if (max(extent(eot.obj[[mode]][[r.prm]])@xmax) > 180) {
       mm.resp <- mm360
     } else {
       mm.resp <- mm180
     }
   }
   
-  px.pred <- ncell(eot.obj[[eot]][[p.prm]])
-  px.resp <- ncell(eot.obj[[eot]][[r.prm]])
+  px.pred <- ncell(eot.obj[[mode]][[p.prm]])
+  px.resp <- ncell(eot.obj[[mode]][[r.prm]])
   
-  pred.p <- spplot(eot.obj[[eot]][[p.prm]], 
+  pred.p <- spplot(eot.obj[[mode]][[p.prm]], 
                    mm = mm.pred, maxpixels = px.pred,
                    colorkey = list(space = "top",
                                    width = 0.7, height = 0.8), 
-                   main = paste(p.prm, "EOT", eot, sep = " "), 
+                   main = paste(p.prm, "mode", mode, sep = " "), 
                    col.regions = clr, panel = function(..., mm) {
                      panel.levelplot(...)
                      if (isTRUE(add.map)) {
@@ -113,13 +113,13 @@ plotEot <- function(eot.obj,
                      }
                      }, ...) 
   
-  if (show.eot.loc) pred.p <- pred.p + as.layer(eot.location.p)
+  if (show.mode.loc) pred.p <- pred.p + as.layer(mode.location.p)
   
-  resp.p <- spplot(eot.obj[[eot]][[r.prm]], 
+  resp.p <- spplot(eot.obj[[mode]][[r.prm]], 
                    mm = mm.resp, maxpixels = px.resp,
                    colorkey = list(space = "top",
                                    width = 0.7, height = 0.8), 
-                   main = paste(r.prm, "EOT", eot, sep = " "), 
+                   main = paste(r.prm, "mode", mode, sep = " "), 
                    col.regions = clr, panel = function(..., mm) {
                      panel.levelplot(...)
                      if (isTRUE(add.map)) {
@@ -128,18 +128,18 @@ plotEot <- function(eot.obj,
                      }
                    }, ...) 
   
-  if (show.eot.loc) resp.p <- resp.p + as.layer(eot.location.p)
+  if (show.mode.loc) resp.p <- resp.p + as.layer(mode.location.p)
   
-  ts.main <- paste("time series EOT", eot, 
+  ts.main <- paste("time series mode", mode, 
                    "- explained response domain variance:", 
-                   round(if (eot > 1) {
-                     eot.obj[[eot]]$exp.var * 100 -
-                       eot.obj[[eot - 1]]$exp.var * 100
+                   round(if (mode > 1) {
+                     eot.obj[[mode]]$exp.var * 100 -
+                       eot.obj[[mode - 1]]$exp.var * 100
                      } else {
-                       eot.obj[[eot]]$exp.var * 100
+                       eot.obj[[mode]]$exp.var * 100
                        }, 2), "%", sep = " ")
   
-  eot.ts <- xyplot(eot.obj[[eot]]$eot.series[1, ] ~ times.vec,
+  eot.ts <- xyplot(eot.obj[[mode]]$eot.series[1, ] ~ times.vec,
                    type = "b", pch = 20, col = "black", 
                    ylab = "", xlab = "",
                    scales = list(tck = c(0.5, 0), x = list(axs = "i")), 

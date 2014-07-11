@@ -4,7 +4,7 @@
 #' The function cuts a specified number of layers off a RrasterStack in 
 #' order to create lagged RasterStacks.
 #' 
-#' @param data a RasterStack
+#' @param x a RasterStack
 #' @param tail logical. If \code{TRUE} the layers will be taken away from
 #' the end of the stack. If \code{FALSE} layers will be taken away from 
 #' the beginning.
@@ -22,20 +22,20 @@
 #' cutStack(australiaGPCP, tail = TRUE, lag = 8)
 #' 
 #' @export cutStack
-cutStack <- function(data, 
+cutStack <- function(x, 
                      tail = TRUE,
                      lag = NULL) {
   
   # Return unmodified RasterStack if lag == NULL
   if (is.null(lag)) {
-    return(data)
+    return(x)
   } else {
     # Supplied RasterStack is predictor:
     if (tail) {
-      return(data[[1:(nlayers(data)-lag)]])
+      return(x[[1:(nlayers(x)-lag)]])
     # Supplied RasterStack is response:  
     } else {
-      return(data[[(lag+1):nlayers(data)]])
+      return(x[[(lag+1):nlayers(x)]])
     }
   }
 }

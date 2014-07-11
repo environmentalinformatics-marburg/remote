@@ -3,7 +3,7 @@
 #' Filter noise from a RasterStack by decomposing into principal components 
 #' and subsequent reconstruction using only a subset of components
 #' 
-#' @param data RasterStack to be filtered
+#' @param x RasterStack to be filtered
 #' @param k number of components to be kept for reconstruction 
 #' (set this to NULL if you supply \code{expl.var})
 #' @param expl.var  minimum amount of variance to be kept after reconstruction
@@ -22,27 +22,27 @@
 #' 
 #' @examples
 #' data("vdendool")
-#' vdd.dns <- denoise(vdendool, expl.var = 0.8)
+#' vdd_dns <- denoise(vdendool, expl.var = 0.8)
 #' 
 #' opar <- par(mfrow = c(1,2))
 #' plot(vdendool[[1]], main = "original")
-#' plot(vdd.dns[[1]], main = "denoised")
+#' plot(vdd_dns[[1]], main = "denoised")
 #' par(opar)
-denoise <- function(data,
+denoise <- function(x,
                     k = NULL,
                     expl.var = 0.95,
                     weighted = TRUE,
                     ...) {
 
-  x <- data[]
-  #x[is.na(x)] <- 0
+  x.vals <- x[]
+  #x.vals[is.na(x.vals)] <- 0
   
   # PCA
   if (weighted) { 
-    pca <- princomp(~ x, covmat = covWeight(x, getWeights(data)), 
+    pca <- princomp(~ x.vals, covmat = covWeight(x.vals, getWeights(x)), 
                     scores = TRUE, na.action = na.exclude, ...)
   } else {
-    pca <- princomp(~ x, scores = TRUE, na.action = na.exclude, ...)
+    pca <- princomp(~ x.vals, scores = TRUE, na.action = na.exclude, ...)
   }
   
   # declare reconstruction characteristics according to supplied values
@@ -56,7 +56,7 @@ denoise <- function(data,
       "Using the first ",
       k,
       " components (of ",
-      nlayers(data),
+      nlayers(x),
       ") to reconstruct series...\n",
       " these account for ",
       expl.var,
@@ -64,18 +64,18 @@ denoise <- function(data,
       sep = "")
   
   # Reconstruction
-  recons <- lapply(seq(nlayers(data)), function(i) {
+  recons <- lapply(seq(nlayers(x)), function(i) {
     rowSums(t(as.matrix(pca$loadings[, 1:k])[i, ] * 
                 t(pca$scores[, 1:k]))) + pca$center[i]
   })
   
   # Insert reconstructed values in original data set 
-  data.tmp <- brick(lapply(seq(recons), function(i) {
-    tmp.data <- data[[i]]
-    tmp.data[] <- recons[[i]]
-    return(tmp.data)
+  x.tmp <- brick(lapply(seq(recons), function(i) {
+    tmp.x <- x[[i]]
+    tmp.x[] <- recons[[i]]
+    return(tmp.x)
   }))
 
   # Return denoised data set
-  return(data.tmp)
+  return(x.tmp)
 }

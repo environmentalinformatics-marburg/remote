@@ -3,10 +3,10 @@
 \alias{deseason}
 \title{Create seasonal anomalies}
 \usage{
-deseason(data, cycle.window = 12, ...)
+deseason(x, cycle.window = 12, ...)
 }
 \arguments{
-\item{data}{a RasterStack}
+\item{x}{a RasterStack}
 
 \item{cycle.window}{the window for the creation of the anomalies}
 
@@ -23,11 +23,11 @@ raster stack of 12 layers per year, use \code{cycle.window = 12}.
 \examples{
 data("australiaGPCP")
 
-aus.dsn <- deseason(australiaGPCP, 12)
+aus_dsn <- deseason(australiaGPCP, 12)
 
 opar <- par(mfrow = c(1,2))
 plot(australiaGPCP[[1]], main = "original")
-plot(aus.dsn[[1]], main = "deseasoned")
+plot(aus_dsn[[1]], main = "deseasoned")
 par(opar)
 }
 \seealso{

@@ -3,10 +3,10 @@
 \alias{cutStack}
 \title{Shorten a RasterStack}
 \usage{
-cutStack(data, tail = TRUE, lag = NULL)
+cutStack(x, tail = TRUE, lag = NULL)
 }
 \arguments{
-\item{data}{a RasterStack}
+\item{x}{a RasterStack}
 
 \item{tail}{logical. If \code{TRUE} the layers will be taken away from
 the end of the stack. If \code{FALSE} layers will be taken away from

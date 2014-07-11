@@ -24,11 +24,11 @@ For the creation of seasonal anomalies use \code{\link{deseason}}.
 \examples{
 data(australiaGPCP)
 
-aus.anom <- anomalize(australiaGPCP)
+aus_anom <- anomalize(australiaGPCP)
 
 opar <- par(mfrow = c(1,2))
 plot(australiaGPCP[[1]], main = "original")
-plot(aus.anom[[1]], main = "anomalized")
+plot(aus_anom[[1]], main = "anomalized")
 par(opar)
 }
 \seealso{

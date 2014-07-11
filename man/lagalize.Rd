@@ -3,12 +3,12 @@
 \alias{lagalize}
 \title{Create lagged RasterStacks}
 \usage{
-lagalize(data.pred, data.resp, lag = NULL, freq = 12, ...)
+lagalize(pred, resp, lag = NULL, freq = 12, ...)
 }
 \arguments{
-\item{data.pred}{a RasterStack (to be cut from tail)}
+\item{pred}{a RasterStack (to be cut from tail)}
 
-\item{data.resp}{a RasterStack (to be cut from beginning)}
+\item{resp}{a RasterStack (to be cut from beginning)}
 
 \item{lag}{the desired lag (in the native frequency of the stacks)}
 

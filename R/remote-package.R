@@ -1,4 +1,4 @@
-#' Empirical Orthogonal Teleconnections in R
+#' R EMpirical Orthogonal TEleconnections
 #' 
 #' A collection of functions to facilitate empirical orthogonal teleconnection analysis. 
 #' Some handy functions for preprocessing, such as deseasoning, denoising, lagging 
@@ -7,7 +7,7 @@
 #' @name remote-package
 #' @aliases remote
 #' @docType package
-#' @title Empirical Orthogonal Teleconnections in R
+#' @title R EMpirical Orthogonal TEleconnections
 #' @author Tim Appelhans, Florian Detsch\cr
 #' \cr
 #' \emph{Maintainer:} Tim Appelhans \email{tim.appelhans@@gmail.com}

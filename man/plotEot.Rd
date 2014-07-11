@@ -3,15 +3,15 @@
 \alias{plotEot}
 \title{Plot the results of eot}
 \usage{
-plotEot(eot.obj, eot = 1, pred.prm = "rsq", resp.prm = "r",
-  show.eot.loc = FALSE, anomalies = TRUE, add.map = TRUE,
+plotEot(eot.obj, mode = 1, pred.prm = "rsq", resp.prm = "r",
+  show.mode.loc = FALSE, anomalies = TRUE, add.map = TRUE,
   times.vec = NULL, arrange = c("wide", "long"),
   clr = colorRampPalette(rev(brewer.pal(9, "Spectral")))(1000), ...)
 }
 \arguments{
 \item{eot.obj}{an EOT object as returned by \code{\link{eot}}}
 
-\item{eot}{numeric. the mode to be plotted}
+\item{mode}{numeric. the mode to be plotted}
 
 \item{pred.prm}{the parameter of the predictor to be plotted.\cr
 Can be any of "r", "rsq", "rsq.sums", "p", "int" or "slp"}
@@ -19,7 +19,7 @@ Can be any of "r", "rsq", "rsq.sums", "p", "int" or "slp"}
 \item{resp.prm}{the parameter of the response to be plotted.\cr
 Can be any of "r", "rsq", "rsq.sums", "p", "int" or "slp"}
 
-\item{show.eot.loc}{logical. If \code{TRUE} a grey circle will be drawn
+\item{show.mode.loc}{logical. If \code{TRUE} a grey circle will be drawn
 in the predictor image to indicate the location of the mode}
 
 \item{anomalies}{logical. If \code{TRUE} a reference line will be drawn
@@ -55,13 +55,13 @@ modes <- eot(pred = vdendool, resp = NULL, n = 2, reduce.both = FALSE,
 plotEot(modes)
 
 # showing the loction of the mode
-plotEot(modes, eot = 1, show.eot.loc = TRUE)
+plotEot(modes, mode = 1, show.mode.loc = TRUE)
 
 # changing parameters
-plotEot(modes, eot = 1, show.eot.loc = TRUE,
+plotEot(modes, mode = 1, show.mode.loc = TRUE,
         pred.prm = "r", resp.prm = "p")
 
 # change plot arrangement
-plotEot(modes, eot = 1, show.eot.loc = TRUE, arrange = "long")
+plotEot(modes, mode = 1, show.mode.loc = TRUE, arrange = "long")
 }
 

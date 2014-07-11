@@ -8,12 +8,12 @@
 #' @examples 
 #' data("australiaGPCP")
 #' wghts <- getWeights(australiaGPCP)
-#' wghts.rst <- australiaGPCP[[1]]
-#' wghts.rst[] <- wghts
+#' wghts_rst <- australiaGPCP[[1]]
+#' wghts_rst[] <- wghts
 #' 
 #' opar <- par(mfrow = c(1,2))
 #' plot(australiaGPCP[[1]], main = "data")
-#' plot(wghts.rst, main = "weights")
+#' plot(wghts_rst, main = "weights")
 #' par(opar)
 #' 
 #' @export getWeights
