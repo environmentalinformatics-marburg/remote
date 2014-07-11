@@ -95,8 +95,8 @@ data(vdendool)
 modes <- eot(pred = vdendool, resp = NULL, n = 2, reduce.both = FALSE,
              standardised = FALSE, print.console = TRUE)
 
-plotEot(modes, eot = 1, show.eot.loc = TRUE)
-plotEot(modes, eot = 2, show.eot.loc = TRUE)
+plotEot(modes, mode = 1, show.eot.loc = TRUE)
+plotEot(modes, mode = 2, show.eot.loc = TRUE)
 }
 \references{
 \bold{Empirical Orthogonal Teleconnections}\cr
