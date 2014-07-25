@@ -148,15 +148,15 @@ eot <- function(pred,
             pred
           } else {
             if (z == 2) {
-              pred.eot$resid.predictor
+              pred.eot@resid_predictor
             } else {
-              pred.eot[[z-1]]$resid.predictor
+              pred.eot[[z-1]]@resid_predictor
             }
           }, 
           resp = if (z == 2) {
-            pred.eot$resid.response 
+            pred.eot@resid_response 
           } else {
-            pred.eot[[z-1]]$resid.response
+            pred.eot[[z-1]]@resid_response
           }, 
           resp.eq.pred = resp.eq.pred,
           n = z, 
@@ -170,14 +170,19 @@ eot <- function(pred,
         
         if (z == 2) {
           pred.eot <- list(pred.eot, tmp.pred.eot)
-          names(pred.eot) <- c("EOT_1", paste("EOT", z, sep = "_"))
+          names(pred.eot) <- c("mode_1", paste("mode", z, sep = "_"))
         } else {
           tmp.names <- names(pred.eot)
           pred.eot <- append(pred.eot, list(tmp.pred.eot))
-          names(pred.eot) <- c(tmp.names, paste("EOT", z, sep = "_"))
+          names(pred.eot) <- c(tmp.names, paste("mode", z, sep = "_"))
         }
       }
     }
     
-    return(pred.eot)
+  if (length(pred.eot) == 1) {
+    out <- pred.eot
+  } else {
+    out <- new('EotStack', modes = pred.eot)
+  }
+  return(out)
 }

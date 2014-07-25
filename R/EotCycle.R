@@ -208,24 +208,25 @@ EotCycle <- function(pred,
     ### Output
     
     # Output returned by function
-    out <- list(eot.series = eot.ts,
-                max.xy = maxxy,
-                exp.var = expl.var,
-                loc.eot = location.df,
-                r.predictor = rst.pred.r,
-                rsq.predictor = rst.pred.rsq,
-                rsq.sums.predictor = rst.pred.rsq.sums,
-                int.predictor = rst.pred.intercept, 
-                slp.predictor = rst.pred.slp,
-                p.predictor = rst.pred.p,
-                resid.predictor = brck.pred.resids,
-                r.response = rst.resp.r,
-                rsq.response = rst.resp.rsq,
-                int.response = rst.resp.intercept, 
-                slp.response = rst.resp.slp,
-                p.response = rst.resp.p,
-                resid.response = brck.resp.resids)
-    
+  out <- new('EotMode',
+             eot = eot.ts,
+             coords_bp = location.df,
+             cell_bp = maxxy,
+             explained_variance = expl.var,
+             r_predictor = rst.pred.r,
+             rsq_predictor = rst.pred.rsq,
+             rsq_sums_predictor = rst.pred.rsq.sums,
+             int_predictor = rst.pred.intercept, 
+             slp_predictor = rst.pred.slp,
+             p_predictor = rst.pred.p,
+             resid_predictor = brck.pred.resids,
+             r_response = rst.resp.r,
+             rsq_response = rst.resp.rsq,
+             int_response = rst.resp.intercept, 
+             slp_response = rst.resp.slp,
+             p_response = rst.resp.p,
+             resid_response = brck.resp.resids)
+  
     # Output storage (optional)
     if (write.out) {
       out.name <- lapply(c("pred_r", "pred_rsq", "pred_rsq_sums", 
@@ -275,8 +276,7 @@ EotCycle <- function(pred,
       gc()
       
     }
-  
-  # Return output
-  return(out)
 
+  return(out)
+  
 }
