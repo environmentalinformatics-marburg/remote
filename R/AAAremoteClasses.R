@@ -22,7 +22,7 @@
 #' @rdname EotMode-class
 
 setClass('EotMode',
-         slots = c(eot = 'ANY',
+         slots = c(eot = 'numeric',
                    coords_bp = 'ANY',
                    cell_bp = 'integer',
                    explained_variance = 'numeric',
