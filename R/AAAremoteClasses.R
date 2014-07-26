@@ -1,5 +1,6 @@
 #' Class EotMode
 #' 
+#' @slot mode the number of the identified mode
 #' @slot eot the EOT (time series) at the identified base point. Note, this is a simple numeric vector
 #' @slot coords_bp the coordinates of the identified base point
 #' @slot cell_bp the cell number of the indeified base point
@@ -22,23 +23,24 @@
 #' @rdname EotMode-class
 
 setClass('EotMode',
-         slots = c(eot = 'numeric',
-                   coords_bp = 'ANY',
+         slots = c(mode = 'integer',
+                   eot = 'numeric',
+                   coords_bp = 'matrix',
                    cell_bp = 'integer',
                    explained_variance = 'numeric',
-                   r_predictor = 'ANY',
-                   rsq_predictor = 'ANY',
-                   rsq_sums_predictor = 'ANY',
-                   int_predictor = 'ANY', 
-                   slp_predictor = 'ANY',
-                   p_predictor = 'ANY',
-                   resid_predictor = 'ANY',
-                   r_response = 'ANY',
-                   rsq_response = 'ANY',
-                   int_response = 'ANY', 
-                   slp_response = 'ANY',
-                   p_response = 'ANY',
-                   resid_response = 'ANY'))
+                   r_predictor = 'RasterLayer',
+                   rsq_predictor = 'RasterLayer',
+                   rsq_sums_predictor = 'RasterLayer',
+                   int_predictor = 'RasterLayer', 
+                   slp_predictor = 'RasterLayer',
+                   p_predictor = 'RasterLayer',
+                   resid_predictor = 'RasterBrick',
+                   r_response = 'RasterLayer',
+                   rsq_response = 'RasterLayer',
+                   int_response = 'RasterLayer', 
+                   slp_response = 'RasterLayer',
+                   p_response = 'RasterLayer',
+                   resid_response = 'RasterBrick'))
 
 NULL
 

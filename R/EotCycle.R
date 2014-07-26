@@ -209,8 +209,9 @@ EotCycle <- function(pred,
     
     # Output returned by function
   out <- new('EotMode',
+             mode = n,
              eot = eot.ts,
-             coords_bp = location.df,
+             coords_bp = xy,
              cell_bp = maxxy,
              explained_variance = expl.var,
              r_predictor = rst.pred.r,

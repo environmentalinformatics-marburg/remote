@@ -5,19 +5,19 @@
 #' Three panels will be drawn i) the predictor domain, ii) the response 
 #' domain, iii) the time series at the identified base point
 #' 
-#' @param eot.obj an EOT object as returned by \code{\link{eot}}
+#' @param x an EotMode object as returned by \code{\link{eot}}
 #' @param mode numeric. the mode to be plotted
 #' @param pred.prm the parameter of the predictor to be plotted.\cr
 #' Can be any of "r", "rsq", "rsq.sums", "p", "int" or "slp"
 #' @param resp.prm the parameter of the response to be plotted.\cr
 #' Can be any of "r", "rsq", "rsq.sums", "p", "int" or "slp"
-#' @param show.mode.loc logical. If \code{TRUE} a grey circle will be drawn 
-#' in the predictor image to indicate the location of the mode
+#' @param show.bp logical. If \code{TRUE} a grey circle will be drawn 
+#' in the predictor image to indicate the location of the base point
 #' @param anomalies logical. If \code{TRUE} a reference line will be drawn
 #' a 0 in the EOT time series
 #' @param add.map logical. If \code{TRUE} country outlines will be added 
 #' to the predictor and response images
-#' @param times.vec an (optional) time series vector of the considered 
+#' @param ts.vec an (optional) time series vector of the considered 
 #' EOT calculation to be shown as the x-axis in the time series plot
 #' @param arrange whether the final plot should be arranged in "wide" or
 #' "long" format
@@ -33,27 +33,30 @@
 #'              standardised = FALSE, print.console = TRUE)
 #'
 #' # default settings 
-#' plotEot(modes)
+#' plot(modes)
 #' 
 #' # showing the loction of the mode
-#' plotEot(modes, mode = 1, show.mode.loc = TRUE)
+#' plot(modes, mode = 1, show.bp = TRUE)
 #' 
 #' # changing parameters
-#' plotEot(modes, mode = 1, show.mode.loc = TRUE,
+#' plot(modes, mode = 1, show.bp = TRUE,
 #'         pred.prm = "r", resp.prm = "p")
 #'         
 #' # change plot arrangement
-#' plotEot(modes, mode = 1, show.mode.loc = TRUE, arrange = "long") 
+#' plot(modes, mode = 1, show.bp = TRUE, arrange = "long") 
 #' 
 #' @export plotEot
-plotEot <- function(eot.obj,
+
+
+# define function ---------------------------------------------------------
+plotEot <- function(x,
                     mode = 1,
                     pred.prm = "rsq",
                     resp.prm = "r",
-                    show.mode.loc = FALSE,
+                    show.bp = FALSE,
                     anomalies = TRUE,
                     add.map = TRUE,
-                    times.vec = NULL,
+                    ts.vec = NULL,
                     arrange = c("wide", "long"),
                     clr = colorRampPalette(
                       rev(brewer.pal(9, "Spectral")))(1000),
@@ -64,14 +67,17 @@ plotEot <- function(eot.obj,
   library(gridExtra)
   library(mapdata)
   
-  p.prm <- paste(pred.prm, "predictor", sep = ".")
-  r.prm <- paste(resp.prm, "response", sep = ".")
+  p.prm <- paste(pred.prm, "predictor", sep = "_")
+  r.prm <- paste(resp.prm, "response", sep = "_")
   
-  if (is.null(times.vec)) 
-    times.vec <- seq(nlayers(eot.obj[[1]]$resid.response))
+  ps <- slot(x, p.prm)
+  rs <- slot(x, r.prm)
   
-  xy <- xyFromCell(eot.obj[[mode]]$rsq.predictor, 
-                   cell = eot.obj[[mode]]$max.xy)
+  if (is.null(ts.vec)) 
+    times.vec <- seq(nlayers(x@resid_response))
+  
+  xy <- xyFromCell(x@rsq_predictor, 
+                   cell = x@cell_bp)
   
   mode.location.p <- xyplot(xy[1, 2] ~ xy[1, 1], cex = 2,
                            pch = 21, fill = "grey80", col = "black")
@@ -84,38 +90,38 @@ plotEot <- function(eot.obj,
       x <- ifelse((x < 1) | (x > 359), NA, x)
     })
     
-    if (max(extent(eot.obj[[mode]][[p.prm]])@xmax) > 180) {
+    if (max(extent(ps)@xmax) > 180) {
       mm.pred <- mm360
     } else {
       mm.pred <- mm180
     }
     
-    if (max(extent(eot.obj[[mode]][[r.prm]])@xmax) > 180) {
+    if (max(extent(rs)@xmax) > 180) {
       mm.resp <- mm360
     } else {
       mm.resp <- mm180
     }
   }
   
-  px.pred <- ncell(eot.obj[[mode]][[p.prm]])
-  px.resp <- ncell(eot.obj[[mode]][[r.prm]])
+  px.pred <- ncell(ps)
+  px.resp <- ncell(rs)
   
-  pred.p <- spplot(eot.obj[[mode]][[p.prm]], 
+  pred.p <- spplot(ps, 
                    mm = mm.pred, maxpixels = px.pred,
                    colorkey = list(space = "top",
                                    width = 0.7, height = 0.8), 
-                   main = paste(p.prm, "mode", mode, sep = " "), 
+                   main = x@mode, 
                    col.regions = clr, panel = function(..., mm) {
                      panel.levelplot(...)
                      if (isTRUE(add.map)) {
-                     panel.polygon(mm$x, mm$y, lwd = 0.5, 
-                                   border = "grey20")
+                       panel.polygon(mm$x, mm$y, lwd = 0.5, 
+                                     border = "grey20")
                      }
-                     }, ...) 
+                   }, ...) 
   
-  if (show.mode.loc) pred.p <- pred.p + as.layer(mode.location.p)
+  if (show.bp) pred.p <- pred.p + as.layer(mode.location.p)
   
-  resp.p <- spplot(eot.obj[[mode]][[r.prm]], 
+  resp.p <- spplot(rs, 
                    mm = mm.resp, maxpixels = px.resp,
                    colorkey = list(space = "top",
                                    width = 0.7, height = 0.8), 
@@ -128,18 +134,19 @@ plotEot <- function(eot.obj,
                      }
                    }, ...) 
   
-  if (show.mode.loc) resp.p <- resp.p + as.layer(mode.location.p)
+  if (show.bp) resp.p <- resp.p + as.layer(mode.location.p)
   
-  ts.main <- paste("time series mode", mode, 
+  md <- x@mode
+  
+  ts.main <- paste("time series mode", x@mode, 
                    "- explained response domain variance:", 
-                   round(if (mode > 1) {
-                     eot.obj[[mode]]$exp.var * 100 -
-                       eot.obj[[mode - 1]]$exp.var * 100
+                   round(if (x@mode > 1) {
+                     x@explained_variance * 100 
                      } else {
-                       eot.obj[[mode]]$exp.var * 100
-                       }, 2), "%", sep = " ")
+                       x@explained_variance * 100
+                     }, 2), "%", sep = " ")
   
-  eot.ts <- xyplot(eot.obj[[mode]]$eot.series[1, ] ~ times.vec,
+  eot.ts <- xyplot(x@eot ~ ts.vec,
                    type = "b", pch = 20, col = "black", 
                    ylab = "", xlab = "",
                    scales = list(tck = c(0.5, 0), x = list(axs = "i")), 
@@ -164,3 +171,13 @@ plotEot <- function(eot.obj,
   grid.arrange(c.pred.resp, eot.ts, heights = c(1, 0.5), ncol = 1)
   
 }
+
+
+# set methods -------------------------------------------------------------
+if ( !isGeneric('plot') ) {
+  setGeneric('plot', function(x, ...)
+    standardGeneric('plot'))
+}
+
+setMethod('plot', signature(x = 'EotMode'), 
+          plotEot)

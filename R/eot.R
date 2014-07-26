@@ -45,25 +45,26 @@
 #' @return 
 #' a list of \code{n} EOTs. Each EOT is also a list with the following components:
 #' \itemize{
-#' \item \emph{eot.series} - the EOT time series at the identified base point
-#' \item \emph{max.xy} - the cell number of the indeified base point
-#' \item \emph{exp.var} - the (cumulative) explained variance of the considered EOT
-#' \item \emph{loc.eot} - the location of the base point (in original coordinates)
-#' \item \emph{r.predictor} - the \emph{RasterLayer} of the correlation coefficients 
+#' \item \emph{mode} - the number of the identified mode
+#' \item \emph{eot} - the EOT (time series) at the identified base point. Note, this is a simple numeric vector
+#' \item \emph{coords_bp} - the coordinates of the identified base point
+#' \item \emph{cell_bp} - the cell number of the indeified base point
+#' \item \emph{explained_variance} - the (cumulative) explained variance of the considered EOT
+#' \item \emph{r_predictor} - the \emph{RasterLayer} of the correlation coefficients 
 #' between the base point and each pixel of the predictor domain
-#' \item \emph{rsq.predictor} - as above but for the coefficient of determination
-#' \item \emph{rsq.sums.predictor} - as above but for the sums of coefficient of determination
-#' \item \emph{int.predictor} - the \emph{RasterLayer} of the intercept of the 
+#' \item \emph{rsq_predictor} - as above but for the coefficient of determination
+#' \item \emph{rsq_sums_predictor} - as above but for the sums of coefficient of determination
+#' \item \emph{int_predictor} - the \emph{RasterLayer} of the intercept of the 
 #' regression equation for each pixel of the predictor domain
-#' \item \emph{slp.predictor} - same as above but for the slope of the 
+#' \item \emph{slp_predictor} - same as above but for the slope of the 
 #' regression equation for each pixel of the predictor domain
-#' \item \emph{p.predictor} - the \emph{RasterLayer} of the significance (p-value) 
+#' \item \emph{p_predictor} - the \emph{RasterLayer} of the significance (p-value) 
 #' of the the regression equation for each pixel of the predictor domain
-#' \item \emph{resid.predictor} - the \emph{RasterBrick} of the reduced data 
+#' \item \emph{resid_predictor} - the \emph{RasterBrick} of the reduced data 
 #' for the predictor domain
 #' }
 #' 
-#' All \emph{*.predictor} fields are also returned for the \emph{*.response} domain, 
+#' All \emph{*_predictor} fields are also returned for the \emph{*_response} domain, 
 #' even if predictor and response domain are equal. This is due to that fact, 
 #' that if not both fields are reduced after the first EOT is found, 
 #' these \emph{RasterLayers} will differ.
@@ -94,17 +95,19 @@
 #' plotEot(modes, mode = 2, show.eot.loc = TRUE)
 #' 
 #' @export eot
-eot <- function(pred, 
-                resp = NULL, 
-                n = 1, 
-                standardised = TRUE, 
-                write.out = FALSE,
-                path.out = ".", 
-                names.out = NULL,
-                reduce.both = FALSE, 
-                type = c("rsq", "ioa"),
-                print.console = TRUE,
-                ...) {
+
+# define function ---------------------------------------------------------
+eotFun <- function(pred, 
+                   resp = NULL, 
+                   n = 1, 
+                   standardised = TRUE, 
+                   write.out = FALSE,
+                   path.out = ".", 
+                   names.out = NULL,
+                   reduce.both = FALSE, 
+                   type = c("rsq", "ioa"),
+                   print.console = TRUE,
+                   ...) {
   
   # Duplicate predictor set in case predictor and response are identical
   if (is.null(resp)) {
@@ -113,72 +116,79 @@ eot <- function(pred,
   } else {
     resp.eq.pred <- FALSE
   }
-  
-  if (!standardised) {
-    t <- mean(apply(getValues(resp), 1, var, na.rm = TRUE), na.rm = TRUE)
-    s <- mean(apply(getValues(resp), 2, var, na.rm = TRUE), na.rm = TRUE)
-    orig.var <- t + s
-  } else {
-    orig.var <- var(as.vector(getValues(resp)), na.rm = TRUE)
+
+  calcVar <- function(x) {
+    if (!standardised) {
+      t <- mean(apply(getValues(x), 1, var, na.rm = TRUE), na.rm = TRUE)
+      s <- mean(apply(getValues(x), 2, var, na.rm = TRUE), na.rm = TRUE)
+      orig.var <- t + s
+    } else {
+      orig.var <- var(as.vector(getValues(x)), na.rm = TRUE)
+    }
   }
-  
   
   ### EOT
   
-    # Loop through number of desired EOTs
-    for (z in seq(n)) {
-      # Use initial response data set in case of first iteration
-      if (z == 1) {
-        pred.eot <- EotCycle(pred = pred, 
-                             resp = resp,
-                             resp.eq.pred = resp.eq.pred,
-                             n = z, 
-                             type = type,
-                             standardised = standardised, 
-                             orig.var = orig.var,
-                             write.out = write.out,
-                             path.out = path.out, 
-                             print.console = print.console,
-                             names.out = names.out)
-                
+  # Loop through number of desired EOTs
+  for (z in seq(n)) {
+    
+    # Use initial response data set in case of first iteration
+    if (z == 1) {
+      
+      pred.eot <- EotCycle(pred = pred, 
+                           resp = resp,
+                           resp.eq.pred = resp.eq.pred,
+                           n = z, 
+                           type = type,
+                           standardised = standardised, 
+                           orig.var = calcVar(resp),
+                           write.out = write.out,
+                           path.out = path.out, 
+                           print.console = print.console,
+                           names.out = names.out)
+      
       # Use last entry of slot 'residuals' otherwise  
-      } else if (z > 1) {
-        tmp.pred.eot <- EotCycle(
-          pred = if (!reduce.both) {
-            pred
-          } else {
-            if (z == 2) {
-              pred.eot@resid_predictor
-            } else {
-              pred.eot[[z-1]]@resid_predictor
-            }
-          }, 
-          resp = if (z == 2) {
-            pred.eot@resid_response 
-          } else {
-            pred.eot[[z-1]]@resid_response
-          }, 
-          resp.eq.pred = resp.eq.pred,
-          n = z, 
-          type = type,
-          standardised = standardised, 
-          orig.var = orig.var,
-          write.out = write.out,
-          path.out = path.out,  
-          print.console = print.console,
-          names.out = names.out)
-        
-        if (z == 2) {
-          pred.eot <- list(pred.eot, tmp.pred.eot)
-          names(pred.eot) <- c("mode_1", paste("mode", z, sep = "_"))
+    } else if (z > 1) {
+      tmp.pred.eot <- EotCycle(
+        pred = if (!reduce.both) {
+          pred
         } else {
-          tmp.names <- names(pred.eot)
-          pred.eot <- append(pred.eot, list(tmp.pred.eot))
-          names(pred.eot) <- c(tmp.names, paste("mode", z, sep = "_"))
-        }
+          if (z == 2) {
+            pred.eot@resid_predictor
+          } else {
+            pred.eot[[z-1]]@resid_predictor
+          }
+        }, 
+        resp = if (z == 2) {
+          pred.eot@resid_response 
+        } else {
+          pred.eot[[z-1]]@resid_response
+        }, 
+        resp.eq.pred = resp.eq.pred,
+        n = z, 
+        type = type,
+        standardised = standardised, 
+        orig.var = if (z == 2) {
+          calcVar(pred.eot@resid_response)
+        } else {
+          calcVar(pred.eot[[z-1]]@resid_response)
+        },
+        write.out = write.out,
+        path.out = path.out,  
+        print.console = print.console,
+        names.out = names.out)
+      
+      if (z == 2) {
+        pred.eot <- list(pred.eot, tmp.pred.eot)
+        names(pred.eot) <- c("mode_1", paste("mode", z, sep = "_"))
+      } else {
+        tmp.names <- names(pred.eot)
+        pred.eot <- append(pred.eot, list(tmp.pred.eot))
+        names(pred.eot) <- c(tmp.names, paste("mode", z, sep = "_"))
       }
     }
-    
+  }
+  
   if (length(pred.eot) == 1) {
     out <- pred.eot
   } else {
@@ -186,3 +196,18 @@ eot <- function(pred,
   }
   return(out)
 }
+
+
+# set methods -------------------------------------------------------------
+if ( !isGeneric('eot') ) {
+  setGeneric('eot', function(pred, ...)
+    standardGeneric('eot'))
+}
+
+setMethod('eot', signature(pred = 'RasterStack'), 
+          eotFun)
+
+setMethod('eot', signature(pred = 'RasterBrick'), 
+          eotFun)
+
+
