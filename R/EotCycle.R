@@ -20,7 +20,7 @@
 #' @param type the type of the link function. Defaults to \code{'rsq'} as in original
 #' proposed method from \cite{Dool2000}. If set to \code{'ioa'} index of agreement is
 #' used instead
-#' @param print.console logical. If \code{TRUE} some details about the 
+#' @param verbose logical. If \code{TRUE} some details about the 
 #' calculation process will be output to the console
 #' @param ... not used at the moment
 #' 
@@ -35,7 +35,7 @@ EotCycle <- function(pred,
                      path.out,
                      names.out,
                      type,
-                     print.console,
+                     verbose,
                      ...) {
   
     ### Identification of the most explanatory pred pixel
@@ -46,7 +46,7 @@ EotCycle <- function(pred,
   type <- type[1]
   
   # Calculate and summarize R-squared per pred pixel
-  if (print.console) {
+  if (verbose) {
     cat("\nCalculating linear model ...", "\n")
   }
   
@@ -59,7 +59,7 @@ EotCycle <- function(pred,
   }
   
   # Identify pred pixel with highest sum of r.squared
-  if (print.console) {
+  if (verbose) {
     cat("Locating ", n, ". EOT ...", "\n", sep = "")
   }
   
@@ -67,14 +67,14 @@ EotCycle <- function(pred,
   maxxy <- maxxy.all[1]
 
   if (length(maxxy.all) != 1) {
-    if (print.console) {
+    if (verbose) {
       cat("WARNING:", "\n",
           "LOCATION OF EOT AMBIGUOUS! MULTIPLE POSSIBLE LOCATIONS DETECTED, 
         USING ONLY THE FIRST!\n\n")
     }
   }
 
-  if (print.console) {
+  if (verbose) {
     cat("Location:", xyFromCell(pred, maxxy), "\n", sep = " ")
   }
   
@@ -190,7 +190,7 @@ EotCycle <- function(pred,
   
   cum.expl.var <- (orig.var - resid.var) / orig.var
   
-  if (print.console) {
+  if (verbose) {
     cat("Cum. expl. variance (%):", cum.expl.var * 100, "\n", sep = " ")
   }
   

@@ -2,11 +2,6 @@
 \name{eot}
 \alias{eot}
 \title{EOT analysis of a predictor and (optionally) a response RasterStack}
-\usage{
-eot(pred, resp = NULL, n = 1, standardised = TRUE, write.out = FALSE,
-  path.out = ".", names.out = NULL, reduce.both = FALSE, type = c("rsq",
-  "ioa"), print.console = TRUE, ...)
-}
 \arguments{
 \item{pred}{a ratser stack used as predictor}
 
@@ -34,7 +29,7 @@ are reduced after each iteration. If \code{FALSE} only \code{resp} is reduced}
 proposed method from \cite{Dool2000}. If set to \code{'ioa'} index of agreement is
 used instead}
 
-\item{print.console}{logical. If \code{TRUE} some details about the
+\item{verbose}{logical. If \code{TRUE} some details about the
 calculation process will be output to the console}
 
 \item{...}{not used at the moment}
@@ -42,25 +37,26 @@ calculation process will be output to the console}
 \value{
 a list of \code{n} EOTs. Each EOT is also a list with the following components:
 \itemize{
-\item \emph{eot.series} - the EOT time series at the identified base point
-\item \emph{max.xy} - the cell number of the indeified base point
-\item \emph{exp.var} - the (cumulative) explained variance of the considered EOT
-\item \emph{loc.eot} - the location of the base point (in original coordinates)
-\item \emph{r.predictor} - the \emph{RasterLayer} of the correlation coefficients
+\item \emph{mode} - the number of the identified mode
+\item \emph{eot} - the EOT (time series) at the identified base point. Note, this is a simple numeric vector
+\item \emph{coords_bp} - the coordinates of the identified base point
+\item \emph{cell_bp} - the cell number of the indeified base point
+\item \emph{explained_variance} - the (cumulative) explained variance of the considered EOT
+\item \emph{r_predictor} - the \emph{RasterLayer} of the correlation coefficients
 between the base point and each pixel of the predictor domain
-\item \emph{rsq.predictor} - as above but for the coefficient of determination
-\item \emph{rsq.sums.predictor} - as above but for the sums of coefficient of determination
-\item \emph{int.predictor} - the \emph{RasterLayer} of the intercept of the
+\item \emph{rsq_predictor} - as above but for the coefficient of determination
+\item \emph{rsq_sums_predictor} - as above but for the sums of coefficient of determination
+\item \emph{int_predictor} - the \emph{RasterLayer} of the intercept of the
 regression equation for each pixel of the predictor domain
-\item \emph{slp.predictor} - same as above but for the slope of the
+\item \emph{slp_predictor} - same as above but for the slope of the
 regression equation for each pixel of the predictor domain
-\item \emph{p.predictor} - the \emph{RasterLayer} of the significance (p-value)
+\item \emph{p_predictor} - the \emph{RasterLayer} of the significance (p-value)
 of the the regression equation for each pixel of the predictor domain
-\item \emph{resid.predictor} - the \emph{RasterBrick} of the reduced data
+\item \emph{resid_predictor} - the \emph{RasterBrick} of the reduced data
 for the predictor domain
 }
 
-All \emph{*.predictor} fields are also returned for the \emph{*.response} domain,
+All \emph{*_predictor} fields are also returned for the \emph{*_response} domain,
 even if predictor and response domain are equal. This is due to that fact,
 that if not both fields are reduced after the first EOT is found,
 these \emph{RasterLayers} will differ.
@@ -92,11 +88,12 @@ variability within the same or another geographic field.
 data(vdendool)
 
 # claculate 2 leading modes
-modes <- eot(pred = vdendool, resp = NULL, n = 2, reduce.both = FALSE,
-             standardised = FALSE, print.console = TRUE)
+nh_modes <- eot(pred = vdendool, resp = NULL, n = 2,
+                reduce.both = FALSE, standardised = FALSE,
+                verbose = TRUE)
 
-plotEot(modes, mode = 1, show.eot.loc = TRUE)
-plotEot(modes, mode = 2, show.eot.loc = TRUE)
+plot(nh_modes, mode = 1, show.bp = TRUE)
+plot(nh_modes, mode = 2, show.bp = TRUE)
 }
 \references{
 \bold{Empirical Orthogonal Teleconnections}\cr

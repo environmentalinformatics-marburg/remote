@@ -9,13 +9,15 @@ Class EotMode
 \section{Slots}{
 
 \describe{
+\item{\code{mode}}{the number of the identified mode}
+
 \item{\code{eot}}{the EOT (time series) at the identified base point. Note, this is a simple numeric vector}
 
 \item{\code{coords_bp}}{the coordinates of the identified base point}
 
 \item{\code{cell_bp}}{the cell number of the indeified base point}
 
-\item{\code{explained_variance}}{the (cumulative) explained variance of the considered EOT mode}
+\item{\code{cum_exp_var}}{the cumulative explained variance of the considered EOT mode}
 
 \item{\code{r_predictor}}{the RasterLayer of the correlation coefficients between the base point and each pixel of the predictor domain}
 

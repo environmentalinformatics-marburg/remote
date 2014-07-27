@@ -4,7 +4,7 @@
 \title{Calculate a single EOT}
 \usage{
 EotCycle(pred, resp, resp.eq.pred = F, n = 1, standardised, orig.var,
-  write.out, path.out, names.out, type, print.console, ...)
+  write.out, path.out, names.out, type, verbose, ...)
 }
 \arguments{
 \item{pred}{a ratser stack used as predictor}
@@ -34,7 +34,7 @@ Defaults to current working directory}
 proposed method from \cite{Dool2000}. If set to \code{'ioa'} index of agreement is
 used instead}
 
-\item{print.console}{logical. If \code{TRUE} some details about the
+\item{verbose}{logical. If \code{TRUE} some details about the
 calculation process will be output to the console}
 
 \item{...}{not used at the moment}
