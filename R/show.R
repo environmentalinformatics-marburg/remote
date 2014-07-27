@@ -24,12 +24,11 @@ setMethod ('show' , 'EotMode',
 setMethod ('show' , 'EotStack', 
            function(object) {
              cat('class                :', class(object), '\n')
-             cat('modes                :', nmodes(object), '\n')
              cat('cum. expl. variance  :', object[[nmodes(object)]]@cum_exp_var, '\n')
              cat('names                :', names(object), '\n')
              cat('dimensions           : ', nrow(object[[1]]@r_predictor), ', ', 
                  ncol(object[[1]]@r_predictor), ', ', ncell(object[[1]]@r_predictor),
-                 '  (nrow, ncol, ncell)\n', sep="") 
+                 ', ', nmodes(object), '  (nrow, ncol, ncell, nmodes)\n', sep="") 
              cat('resolution           : ', xres(object[[1]]@r_predictor), ', ', 
                  yres(object[[1]]@r_predictor), '  (x, y)\n', sep="")
              cat('extent               : ', object[[1]]@r_predictor@extent@xmin, 
