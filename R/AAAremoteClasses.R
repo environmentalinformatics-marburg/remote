@@ -4,7 +4,7 @@
 #' @slot eot the EOT (time series) at the identified base point. Note, this is a simple numeric vector
 #' @slot coords_bp the coordinates of the identified base point
 #' @slot cell_bp the cell number of the indeified base point
-#' @slot explained_variance the (cumulative) explained variance of the considered EOT mode
+#' @slot cum_exp_var the cumulative explained variance of the considered EOT mode
 #' @slot r_predictor the RasterLayer of the correlation coefficients between the base point and each pixel of the predictor domain
 #' @slot rsq_predictor as above but for the coefficient of determination of the predictor domain
 #' @slot rsq_sums_predictor as above but for the sums of coefficient of determination of the predictor domain
@@ -27,7 +27,7 @@ setClass('EotMode',
                    eot = 'numeric',
                    coords_bp = 'matrix',
                    cell_bp = 'integer',
-                   explained_variance = 'numeric',
+                   cum_exp_var = 'numeric',
                    r_predictor = 'RasterLayer',
                    rsq_predictor = 'RasterLayer',
                    rsq_sums_predictor = 'RasterLayer',

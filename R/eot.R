@@ -117,15 +117,7 @@ eotFun <- function(pred,
     resp.eq.pred <- FALSE
   }
 
-  calcVar <- function(x) {
-    if (!standardised) {
-      t <- mean(apply(getValues(x), 1, var, na.rm = TRUE), na.rm = TRUE)
-      s <- mean(apply(getValues(x), 2, var, na.rm = TRUE), na.rm = TRUE)
-      orig.var <- t + s
-    } else {
-      orig.var <- var(as.vector(getValues(x)), na.rm = TRUE)
-    }
-  }
+  orig.var <- calcVar(resp, standardised = standardised)
   
   ### EOT
   
@@ -141,7 +133,7 @@ eotFun <- function(pred,
                            n = z, 
                            type = type,
                            standardised = standardised, 
-                           orig.var = calcVar(resp),
+                           orig.var = orig.var,
                            write.out = write.out,
                            path.out = path.out, 
                            print.console = print.console,
@@ -168,11 +160,7 @@ eotFun <- function(pred,
         n = z, 
         type = type,
         standardised = standardised, 
-        orig.var = if (z == 2) {
-          calcVar(pred.eot@resid_response)
-        } else {
-          calcVar(pred.eot[[z-1]]@resid_response)
-        },
+        orig.var = orig.var,
         write.out = write.out,
         path.out = path.out,  
         print.console = print.console,

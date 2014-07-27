@@ -4,7 +4,7 @@
 #' Simple plotting routine to visualise the location of all identified base
 #' points colour coded according to eot mode (1 to n).
 #' 
-#' @param eot.obj an EOT object as returned by \code{\link{eot}}
+#' @param x an EotStack object as returned by \code{\link{eot}}
 #' @param ... further arguments to be passed to \code{\link{spplot}}
 #' 
 #' @export plotLocations
@@ -17,7 +17,39 @@
 #'              standardised = FALSE, print.console = TRUE)
 #'
 #' plotLocations(modes)
-plotLocations <- function(eot.obj, ...) {
+
+### some helper functions especially for the grid layout
+### resizingTextGrob from 
+### http://ryouready.wordpress.com/2012/08/01/
+resizingTextGrob <- function(..., scale.fact = 1) {
+  
+  grob(tg = textGrob(...), cl = "resizingTextGrob", 
+       scale.fact = scale.fact)
+  
+}
+
+drawDetails.resizingTextGrob <- function(x, scale.fact, recording = TRUE) {
+  
+  grid.draw(x$tg)
+  
+}
+
+preDrawDetails.resizingTextGrob <- function(x, ...) {
+  
+  library(scales)
+  
+  h <- convertHeight(unit(1, "npc"), "mm", valueOnly = TRUE)
+  fs <- rescale(h, to = c(80, 15), from = c(120, 20)) * x$scale.fact
+  pushViewport(viewport(gp = gpar(fontsize = fs)))
+  
+}
+
+postDrawDetails.resizingTextGrob <- function(x) popViewport()
+###
+
+
+# definde function --------------------------------------------------------
+plotLocations <- function(x, ...) {
   
   library(latticeExtra)
   library(gridExtra)
@@ -25,18 +57,18 @@ plotLocations <- function(eot.obj, ...) {
   
   ### plot function
   loc.df <- as.data.frame(do.call("rbind", 
-                                  lapply(seq(eot.obj), function(i) {
-    xyFromCell(eot.obj[[i]]$rsq.predictor, 
-               cell = eot.obj[[i]]$max.xy)
+                                  lapply(seq(nmodes(x)), function(i) {
+    xyFromCell(x[[i]]@rsq_predictor, 
+               cell = x[[i]]@cell_bp)
   })))
   
-  loc.df$eot <- paste("EOT", sprintf("%02.f", seq(eot.obj)), 
+  loc.df$eot <- paste("EOT", sprintf("%02.f", seq(x)), 
                       sep = "_")
   
   mm <- map("world", plot = FALSE, fill = TRUE)
-  px.pred <- ncell(eot.obj$EOT_1$r.predictor)
+  px.pred <- ncell(x[[1]]@r_predictor)
   
-  pred.p <- spplot(eot.obj$EOT_1$rsq.predictor, 
+  pred.p <- spplot(x[[1]]@rsq_predictor, 
                    mm = mm, maxpixels = px.pred,
                    colorkey = FALSE, 
                    col.regions = "grey50", panel = function(..., mm) {
@@ -50,15 +82,14 @@ plotLocations <- function(eot.obj, ...) {
         c = 70, l = 50, fixup = TRUE)
   }
   
-  clrs <- clrs.hcl(length(eot.obj))
+  n <- nmodes(x)
+  clrs <- clrs.hcl(n)
   
   points.p <- xyplot(y ~ x, data = loc.df, col = "black", 
                      fill = clrs, pch = 21,
                      cex = 2)
   
   out <- pred.p + as.layer(points.p)
-  
-  n <- length(eot.obj)
   
   grid.newpage()
   
@@ -109,8 +140,8 @@ plotLocations <- function(eot.obj, ...) {
       
       pushViewport(vp)
       
-      txt <- resizingTextGrob(x = 0.2, sort(names(eot.obj))[i],
-                              just = "left")
+      txt <- textGrob(x = 0.2, sort(names(x))[i],
+                      just = "left")
       
       grid.draw(txt)
       
@@ -122,31 +153,3 @@ plotLocations <- function(eot.obj, ...) {
  
 }
 
-### some helper functions especially for the grid layout
-### resizingTextGrob from 
-### http://ryouready.wordpress.com/2012/08/01/
-resizingTextGrob <- function(..., scale.fact = 1) {
-  
-  grob(tg = textGrob(...), cl = "resizingTextGrob", 
-       scale.fact = scale.fact)
-  
-}
-
-drawDetails.resizingTextGrob <- function(x, scale.fact, recording = TRUE) {
-  
-  grid.draw(x$tg)
-  
-}
-
-preDrawDetails.resizingTextGrob <- function(x, ...) {
-  
-  library(scales)
-  
-  h <- convertHeight(unit(1, "npc"), "mm", valueOnly = TRUE)
-  fs <- rescale(h, to = c(80, 15), from = c(120, 20)) * x$scale.fact
-  pushViewport(viewport(gp = gpar(fontsize = fs)))
-  
-}
-
-postDrawDetails.resizingTextGrob <- function(x) popViewport()
-###

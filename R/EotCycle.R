@@ -175,28 +175,30 @@ EotCycle <- function(pred,
     brck.pred.resids[] <- matrix(sapply(pred.lm.param.p, "[[", 4), 
                                  ncol = nlayers(pred), byrow = TRUE)
   
-    #expl.var <- x[maxxy] / orig.var
-  if (!standardised) {
-    t <- mean(apply(getValues(brck.resp.resids), 1, var, na.rm = TRUE), 
-              na.rm = TRUE)
-    s <- mean(apply(getValues(brck.resp.resids), 2, var, na.rm = TRUE), 
-              na.rm = TRUE)
-    resid.var <- t + s
-  } else {
-    resid.var <- var(as.vector(getValues(brck.resp.resids)), na.rm = TRUE)
-  }
+#     #expl.var <- x[maxxy] / orig.var
+#   if (!standardised) {
+#     t <- mean(apply(getValues(brck.resp.resids), 1, var, na.rm = TRUE), 
+#               na.rm = TRUE)
+#     s <- mean(apply(getValues(brck.resp.resids), 2, var, na.rm = TRUE), 
+#               na.rm = TRUE)
+#     resid.var <- t + s
+#   } else {
+#     resid.var <- var(as.vector(getValues(brck.resp.resids)), na.rm = TRUE)
+#   }
   
-  expl.var <- (orig.var - resid.var) / orig.var
+  resid.var <- calcVar(brck.resp.resids, standardised = standardised)
+  
+  cum.expl.var <- (orig.var - resid.var) / orig.var
   
   if (print.console) {
-    cat("Cum. expl. variance (%):", expl.var * 100, "\n", sep = " ")
+    cat("Cum. expl. variance (%):", cum.expl.var * 100, "\n", sep = " ")
   }
   
   xy <- xyFromCell(pred, maxxy)
   location.df <- as.data.frame(cbind(xy, paste("EOT", 
                                                sprintf("%02.f", n), 
                                                sep = "_"),
-                                     expl.var,
+                                     cum.expl.var,
                                      if (length(maxxy.all) != 1) 
                                        "ambiguous" else "ok"),
                                stringsAsFactors = FALSE)
@@ -213,7 +215,7 @@ EotCycle <- function(pred,
              eot = eot.ts,
              coords_bp = xy,
              cell_bp = maxxy,
-             explained_variance = expl.var,
+             cum_exp_var = cum.expl.var,
              r_predictor = rst.pred.r,
              rsq_predictor = rst.pred.rsq,
              rsq_sums_predictor = rst.pred.rsq.sums,
