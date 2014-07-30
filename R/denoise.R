@@ -78,4 +78,5 @@ denoise <- function(x,
 
   # Return denoised data set
   return(x.tmp)
+  
 }

@@ -3,10 +3,10 @@
 #' @description
 #' EotCycle() calculates a single EOT and is controlled by the main eot() function
 #' 
-#' @param pred a ratser stack used as predictor
-#' @param resp a RasterStack used as response. If \code{resp} is \code{NULL},
-#' \code{pred} is used as \code{resp}
-#' @param resp.eq.pred logical. Whether predictor and response stack are the same
+#' @param x a ratser stack used as predictor
+#' @param y a RasterStack used as response. If \code{y} is \code{NULL},
+#' \code{x} is used as \code{y}
+#' @param y.eq.x logical. Whether predictor and response stack are the same
 #' @param n the number of EOT modes to calculate
 #' @param standardised logical. If \code{FALSE} the calculated r-squared values 
 #' will be multiplied by the variance
@@ -25,9 +25,9 @@
 #' @param ... not used at the moment
 #' 
 #' @export EotCycle
-EotCycle <- function(pred, 
-                     resp, 
-                     resp.eq.pred = F,
+EotCycle <- function(x, 
+                     y, 
+                     y.eq.x = F,
                      n = 1,
                      standardised, 
                      orig.var,
@@ -41,8 +41,8 @@ EotCycle <- function(pred,
     ### Identification of the most explanatory pred pixel
   
   # Extract pixel entries from RasterStack objects
-  pred.vals <- getValues(pred)
-  resp.vals <- getValues(resp)
+  x.vals <- getValues(x)
+  y.vals <- getValues(y)
   type <- type[1]
   
   # Calculate and summarize R-squared per pred pixel
@@ -52,10 +52,10 @@ EotCycle <- function(pred,
   
   type <- type[1]
   if (type == "rsq") {
-    x <- predRsquaredSum(pred_vals = pred.vals, resp_vals = resp.vals, 
+    a <- predRsquaredSum(pred_vals = x.vals, resp_vals = y.vals, 
                          standardised = standardised)
   } else {
-    x <- iodaSumC(pred_vals = pred.vals, resp_vals = resp.vals)
+    a <- iodaSumC(pred_vals = x.vals, resp_vals = y.vals)
   }
   
   # Identify pred pixel with highest sum of r.squared
@@ -63,7 +63,7 @@ EotCycle <- function(pred,
     cat("Locating ", n, ". EOT ...", "\n", sep = "")
   }
   
-  maxxy.all <- which(x == max(x, na.rm = TRUE))
+  maxxy.all <- which(a == max(a, na.rm = TRUE))
   maxxy <- maxxy.all[1]
 
   if (length(maxxy.all) != 1) {
@@ -75,17 +75,17 @@ EotCycle <- function(pred,
   }
 
   if (verbose) {
-    cat("Location:", xyFromCell(pred, maxxy), "\n", sep = " ")
+    cat("Location:", xyFromCell(x, maxxy), "\n", sep = " ")
   }
   
   ### Regression of most explanatory pred pixel with resp pixels
     
   ## Fit lm
   
-  # lm(resp.vals[i, ] ~ pred.vals[maxxy, ]) with T statistics
-  resp.lm.param.t <- respLmParam(pred.vals, resp.vals, maxxy - 1) # C++ starts at 0!
+  # lm(y.vals[i, ] ~ x.vals[maxxy, ]) with T statistics
+  y.lm.param.t <- respLmParam(x.vals, y.vals, maxxy - 1) # C++ starts at 0!
   # Calculate p value from T statistics
-  resp.lm.param.p <- lapply(resp.lm.param.t, function(i) {
+  y.lm.param.p <- lapply(y.lm.param.t, function(i) {
     tmp <- i
     tmp[[5]] <- 2 * pt(-abs(tmp[[5]]), df = tmp[[6]])
     
@@ -96,46 +96,46 @@ EotCycle <- function(pred,
   ## Rasterize lm parameters
   
   # RasterLayer template for R-squared, slope and p value
-  rst.resp.template <- raster(nrows = nrow(resp), ncols = ncol(resp), 
-                         xmn = xmin(resp), xmx = xmax(resp), 
-                         ymn = ymin(resp), ymx = ymax(resp))
+  rst.y.template <- raster(nrows = nrow(y), ncols = ncol(y), 
+                         xmn = xmin(y), xmx = xmax(y), 
+                         ymn = ymin(y), ymx = ymax(y))
   
-  rst.resp.r <- rst.resp.rsq <- rst.resp.intercept <- 
-    rst.resp.slp <- rst.resp.p <- rst.resp.template
+  rst.y.r <- rst.y.rsq <- rst.y.intercept <- 
+    rst.y.slp <- rst.y.p <- rst.y.template
 
   # RasterBrick template for residuals
-  brck.resp.resids <- brick(nrows = nrow(resp), ncols = ncol(resp), 
-                            xmn = xmin(resp), xmx = xmax(resp), 
-                            ymn = ymin(resp), ymx = ymax(resp), 
-                            nl = nlayers(resp))
+  brck.y.resids <- brick(nrows = nrow(y), ncols = ncol(y), 
+                            xmn = xmin(y), xmx = xmax(y), 
+                            ymn = ymin(y), ymx = ymax(y), 
+                            nl = nlayers(y))
   
   # R
-  rst.resp.r[] <- sapply(resp.lm.param.p, "[[", 1)
+  rst.y.r[] <- sapply(y.lm.param.p, "[[", 1)
   # R-squared
-  rst.resp.rsq[] <- sapply(resp.lm.param.p, "[[", 1) ^ 2
+  rst.y.rsq[] <- sapply(y.lm.param.p, "[[", 1) ^ 2
   # Intercept
-  rst.resp.intercept[] <- sapply(resp.lm.param.p, "[[", 2)
+  rst.y.intercept[] <- sapply(y.lm.param.p, "[[", 2)
   # Slope
-  rst.resp.slp[] <- sapply(resp.lm.param.p, "[[", 3)
+  rst.y.slp[] <- sapply(y.lm.param.p, "[[", 3)
   # P value
-  rst.resp.p[] <- sapply(resp.lm.param.p, "[[", 5)
+  rst.y.p[] <- sapply(y.lm.param.p, "[[", 5)
   # Residuals
-  brck.resp.resids[] <- matrix(sapply(resp.lm.param.p, "[[", 4), 
-                               ncol = nlayers(pred), byrow = TRUE)
+  brck.y.resids[] <- matrix(sapply(y.lm.param.p, "[[", 4), 
+                               ncol = nlayers(x), byrow = TRUE)
   # EOT over time
-  eot.ts <- as.numeric(raster::extract(pred, maxxy)[1, ])
+  eot.ts <- as.numeric(raster::extract(x, maxxy)[1, ])
   
   ### Regression of most explanatory pred pixel with pred pixels
   
   # Following code is only executed when pred and resp are not equal
-  #if (!resp.eq.pred) {
+  #if (!y.eq.x) {
     
     ## Fit lm
     
-    # lm(pred.vals[i, ] ~ pred.vals[maxxy, ]) with T statistics
-    pred.lm.param.t <- respLmParam(pred.vals, pred.vals, maxxy - 1) # C++ starts at 0!
+    # lm(x.vals[i, ] ~ x.vals[maxxy, ]) with T statistics
+    x.lm.param.t <- respLmParam(x.vals, x.vals, maxxy - 1) # C++ starts at 0!
     # Calculate p value from T statistics
-    pred.lm.param.p <- lapply(pred.lm.param.t, function(i) {
+    x.lm.param.p <- lapply(x.lm.param.t, function(i) {
       tmp <- i
       tmp[[5]] <- 2 * pt(-abs(tmp[[5]]), df = tmp[[6]])
       
@@ -146,47 +146,47 @@ EotCycle <- function(pred,
     ## Rasterize lm parameters
     
     # RasterLayer template for R-squared, slope and p value
-    rst.pred.template <- raster(nrows = nrow(pred), ncols = ncol(pred), 
-                                xmn = xmin(pred), xmx = xmax(pred), 
-                                ymn = ymin(pred), ymx = ymax(pred))
+    rst.x.template <- raster(nrows = nrow(x), ncols = ncol(x), 
+                                xmn = xmin(x), xmx = xmax(x), 
+                                ymn = ymin(x), ymx = ymax(x))
     
-    rst.pred.r <- rst.pred.rsq <- rst.pred.rsq.sums <- rst.pred.intercept <- 
-      rst.pred.slp <- rst.pred.p <- rst.pred.template
+    rst.x.r <- rst.x.rsq <- rst.x.rsq.sums <- rst.x.intercept <- 
+      rst.x.slp <- rst.x.p <- rst.x.template
     
     # RasterBrick template for residuals
-    brck.pred.resids <- brick(nrows = nrow(pred), ncols = ncol(pred), 
-                              xmn = xmin(pred), xmx = xmax(pred), 
-                              ymn = ymin(pred), ymx = ymax(pred), 
-                              nl = nlayers(pred))
+    brck.x.resids <- brick(nrows = nrow(x), ncols = ncol(x), 
+                              xmn = xmin(x), xmx = xmax(x), 
+                              ymn = ymin(x), ymx = ymax(x), 
+                              nl = nlayers(x))
     
     # R
-    rst.pred.r[] <- sapply(pred.lm.param.p, "[[", 1)
+    rst.x.r[] <- sapply(x.lm.param.p, "[[", 1)
     # R-squared
-    rst.pred.rsq[] <- sapply(pred.lm.param.p, "[[", 1) ^ 2
+    rst.x.rsq[] <- sapply(x.lm.param.p, "[[", 1) ^ 2
     # R-squared sums
-    rst.pred.rsq.sums[] <- x
+    rst.x.rsq.sums[] <- a
     # Intercept
-    rst.pred.intercept[] <- sapply(pred.lm.param.p, "[[", 2)
+    rst.x.intercept[] <- sapply(x.lm.param.p, "[[", 2)
     # Slope
-    rst.pred.slp[] <- sapply(pred.lm.param.p, "[[", 3)
+    rst.x.slp[] <- sapply(x.lm.param.p, "[[", 3)
     # P value
-    rst.pred.p[] <- sapply(pred.lm.param.p, "[[", 5)
+    rst.x.p[] <- sapply(x.lm.param.p, "[[", 5)
     # Residuals
-    brck.pred.resids[] <- matrix(sapply(pred.lm.param.p, "[[", 4), 
-                                 ncol = nlayers(pred), byrow = TRUE)
+    brck.x.resids[] <- matrix(sapply(x.lm.param.p, "[[", 4), 
+                                 ncol = nlayers(x), byrow = TRUE)
   
 #     #expl.var <- x[maxxy] / orig.var
 #   if (!standardised) {
-#     t <- mean(apply(getValues(brck.resp.resids), 1, var, na.rm = TRUE), 
+#     t <- mean(apply(getValues(brck.y.resids), 1, var, na.rm = TRUE), 
 #               na.rm = TRUE)
-#     s <- mean(apply(getValues(brck.resp.resids), 2, var, na.rm = TRUE), 
+#     s <- mean(apply(getValues(brck.y.resids), 2, var, na.rm = TRUE), 
 #               na.rm = TRUE)
 #     resid.var <- t + s
 #   } else {
-#     resid.var <- var(as.vector(getValues(brck.resp.resids)), na.rm = TRUE)
+#     resid.var <- var(as.vector(getValues(brck.y.resids)), na.rm = TRUE)
 #   }
   
-  resid.var <- calcVar(brck.resp.resids, standardised = standardised)
+  resid.var <- calcVar(brck.y.resids, standardised = standardised)
   
   cum.expl.var <- (orig.var - resid.var) / orig.var
   
@@ -194,7 +194,7 @@ EotCycle <- function(pred,
     cat("Cum. expl. variance (%):", cum.expl.var * 100, "\n", sep = " ")
   }
   
-  xy <- xyFromCell(pred, maxxy)
+  xy <- xyFromCell(x, maxxy)
   location.df <- as.data.frame(cbind(xy, paste("EOT", 
                                                sprintf("%02.f", n), 
                                                sep = "_"),
@@ -216,19 +216,19 @@ EotCycle <- function(pred,
              coords_bp = xy,
              cell_bp = maxxy,
              cum_exp_var = cum.expl.var,
-             r_predictor = rst.pred.r,
-             rsq_predictor = rst.pred.rsq,
-             rsq_sums_predictor = rst.pred.rsq.sums,
-             int_predictor = rst.pred.intercept, 
-             slp_predictor = rst.pred.slp,
-             p_predictor = rst.pred.p,
-             resid_predictor = brck.pred.resids,
-             r_response = rst.resp.r,
-             rsq_response = rst.resp.rsq,
-             int_response = rst.resp.intercept, 
-             slp_response = rst.resp.slp,
-             p_response = rst.resp.p,
-             resid_response = brck.resp.resids)
+             r_predictor = rst.x.r,
+             rsq_predictor = rst.x.rsq,
+             rsq_sums_predictor = rst.x.rsq.sums,
+             int_predictor = rst.x.intercept, 
+             slp_predictor = rst.x.slp,
+             p_predictor = rst.x.p,
+             resid_predictor = brck.x.resids,
+             r_response = rst.y.r,
+             rsq_response = rst.y.rsq,
+             int_response = rst.y.intercept, 
+             slp_response = rst.y.slp,
+             p_response = rst.y.p,
+             resid_response = brck.y.resids)
   
     # Output storage (optional)
     if (write.out) {
@@ -249,11 +249,11 @@ EotCycle <- function(pred,
       
       a <- b <- NULL
       
-      foreach(a = c(rst.pred.r, rst.pred.rsq, rst.pred.rsq.sums, 
-                    rst.pred.intercept, rst.pred.slp, rst.pred.p, 
-                    brck.pred.resids, rst.resp.r, rst.resp.rsq, 
-                    rst.resp.intercept, rst.resp.slp, rst.resp.p, 
-                    brck.resp.resids), 
+      foreach(a = c(rst.x.r, rst.x.rsq, rst.x.rsq.sums, 
+                    rst.x.intercept, rst.x.slp, rst.x.p, 
+                    brck.x.resids, rst.y.r, rst.y.rsq, 
+                    rst.y.intercept, rst.y.slp, rst.y.p, 
+                    brck.y.resids), 
               b = unlist(out.name)) %do% { 
                 writeRaster(a, paste(path.out, b, sep = "/"), 
                             format = "raster", overwrite = TRUE, ...)
@@ -263,19 +263,19 @@ EotCycle <- function(pred,
                   "maxxy",
                   "location.df",
                   "expl.var",
-                  "rst.pred.r",
-                  "rst.pred.rsq",
-                  "rst.pred.rsq.sums",
-                  "rst.pred.intercept", 
-                  "rst.pred.slp",
-                  "rst.pred.p",
-                  "brck.pred.resids",
-                  "rst.resp.r",
-                  "rst.resp.rsq",
-                  "rst.resp.intercept", 
-                  "rst.resp.slp",
-                  "rst.resp.p",
-                  "brck.resp.resids"))
+                  "rst.x.r",
+                  "rst.x.rsq",
+                  "rst.x.rsq.sums",
+                  "rst.x.intercept", 
+                  "rst.x.slp",
+                  "rst.x.p",
+                  "brck.x.resids",
+                  "rst.y.r",
+                  "rst.y.rsq",
+                  "rst.y.intercept", 
+                  "rst.y.slp",
+                  "rst.y.p",
+                  "brck.y.resids"))
       gc()
       
     }

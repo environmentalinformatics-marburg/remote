@@ -3,10 +3,10 @@
 \alias{eot}
 \title{EOT analysis of a predictor and (optionally) a response RasterStack}
 \arguments{
-\item{pred}{a ratser stack used as predictor}
+\item{x}{a RasterStack used as predictor}
 
-\item{resp}{a RasterStack used as response. If \code{resp} is \code{NULL},
-\code{pred} is used as \code{resp}}
+\item{y}{a RasterStack used as response. If \code{y} is \code{NULL},
+\code{x} is used as \code{y}}
 
 \item{n}{the number of EOT modes to calculate}
 
@@ -22,8 +22,8 @@ Defaults to current working directory}
 \item{names.out}{optional prefix to be used for naming of results if
 \code{write.out} is \code{TRUE}}
 
-\item{reduce.both}{logical. If \code{TRUE} both \code{pred} and \code{resp}
-are reduced after each iteration. If \code{FALSE} only \code{resp} is reduced}
+\item{reduce.both}{logical. If \code{TRUE} both \code{x} and \code{y}
+are reduced after each iteration. If \code{FALSE} only \code{y} is reduced}
 
 \item{type}{the type of the link function. Defaults to \code{'rsq'} as in original
 proposed method from \cite{Dool2000}. If set to \code{'ioa'} index of agreement is
@@ -35,7 +35,8 @@ calculation process will be output to the console}
 \item{...}{not used at the moment}
 }
 \value{
-a list of \code{n} EOTs. Each EOT is also a list with the following components:
+if n = 1 an \emph{EotMode}, if n > 1 an \emph{EotStack} of \code{n}
+\emph{EotMode}s. Each \emph{EotMode} has the following components:
 \itemize{
 \item \emph{mode} - the number of the identified mode
 \item \emph{eot} - the EOT (time series) at the identified base point. Note, this is a simple numeric vector
@@ -88,7 +89,7 @@ variability within the same or another geographic field.
 data(vdendool)
 
 # claculate 2 leading modes
-nh_modes <- eot(pred = vdendool, resp = NULL, n = 2,
+nh_modes <- eot(x = vdendool, y = NULL, n = 2,
                 reduce.both = FALSE, standardised = FALSE,
                 verbose = TRUE)
 

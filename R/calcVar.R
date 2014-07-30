@@ -17,6 +17,7 @@
 #' 
 #' calcVar(pacificSST)
 calcVar <- function(x, standardised = FALSE, ...) {
+  
   if (!standardised) {
     t <- mean(apply(getValues(x), 1, var, na.rm = TRUE), na.rm = TRUE)
     s <- mean(apply(getValues(x), 2, var, na.rm = TRUE), na.rm = TRUE)
@@ -24,5 +25,7 @@ calcVar <- function(x, standardised = FALSE, ...) {
   } else {
     vrnc <- var(as.vector(getValues(x)), na.rm = TRUE)
   }
+  
   return(vrnc)
+  
 }

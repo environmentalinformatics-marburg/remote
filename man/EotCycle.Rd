@@ -3,16 +3,16 @@
 \alias{EotCycle}
 \title{Calculate a single EOT}
 \usage{
-EotCycle(pred, resp, resp.eq.pred = F, n = 1, standardised, orig.var,
-  write.out, path.out, names.out, type, verbose, ...)
+EotCycle(x, y, y.eq.x = F, n = 1, standardised, orig.var, write.out,
+  path.out, names.out, type, verbose, ...)
 }
 \arguments{
-\item{pred}{a ratser stack used as predictor}
+\item{x}{a ratser stack used as predictor}
 
-\item{resp}{a RasterStack used as response. If \code{resp} is \code{NULL},
-\code{pred} is used as \code{resp}}
+\item{y}{a RasterStack used as response. If \code{y} is \code{NULL},
+\code{x} is used as \code{y}}
 
-\item{resp.eq.pred}{logical. Whether predictor and response stack are the same}
+\item{y.eq.x}{logical. Whether predictor and response stack are the same}
 
 \item{n}{the number of EOT modes to calculate}
 

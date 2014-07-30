@@ -4,9 +4,9 @@
 #' Calculate a given number of EOT modes either internally or between 
 #' RasterStacks.
 #' 
-#' @param pred a ratser stack used as predictor
-#' @param resp a RasterStack used as response. If \code{resp} is \code{NULL},
-#' \code{pred} is used as \code{resp}
+#' @param x a RasterStack used as predictor
+#' @param y a RasterStack used as response. If \code{y} is \code{NULL},
+#' \code{x} is used as \code{y}
 #' @param n the number of EOT modes to calculate
 #' @param standardised logical. If \code{FALSE} the calculated r-squared values 
 #' will be multiplied by the variance
@@ -16,8 +16,8 @@
 #' Defaults to current working directory
 #' @param names.out optional prefix to be used for naming of results if 
 #' \code{write.out} is \code{TRUE}
-#' @param reduce.both logical. If \code{TRUE} both \code{pred} and \code{resp} 
-#' are reduced after each iteration. If \code{FALSE} only \code{resp} is reduced
+#' @param reduce.both logical. If \code{TRUE} both \code{x} and \code{y} 
+#' are reduced after each iteration. If \code{FALSE} only \code{y} is reduced
 #' @param type the type of the link function. Defaults to \code{'rsq'} as in original
 #' proposed method from \cite{Dool2000}. If set to \code{'ioa'} index of agreement is
 #' used instead
@@ -43,7 +43,8 @@
 #' variability within the same or another geographic field.
 #' 
 #' @return 
-#' a list of \code{n} EOTs. Each EOT is also a list with the following components:
+#' if n = 1 an \emph{EotMode}, if n > 1 an \emph{EotStack} of \code{n} 
+#' \emph{EotMode}s. Each \emph{EotMode} has the following components:
 #' \itemize{
 #' \item \emph{mode} - the number of the identified mode
 #' \item \emph{eot} - the EOT (time series) at the identified base point. Note, this is a simple numeric vector
@@ -88,7 +89,7 @@
 #' data(vdendool)
 #' 
 #' # claculate 2 leading modes
-#' nh_modes <- eot(pred = vdendool, resp = NULL, n = 2, 
+#' nh_modes <- eot(x = vdendool, y = NULL, n = 2, 
 #'                 reduce.both = FALSE, standardised = FALSE, 
 #'                 verbose = TRUE)
 #' 
@@ -100,13 +101,13 @@
 
 # set methods -------------------------------------------------------------
 if ( !isGeneric('eot') ) {
-  setGeneric('eot', function(pred, ...)
+  setGeneric('eot', function(x, ...)
     standardGeneric('eot'))
 }
 
-setMethod('eot', signature(pred = 'RasterStack'), 
-          function(pred, 
-                   resp = NULL, 
+setMethod('eot', signature(x = 'RasterStack'), 
+          function(x, 
+                   y = NULL, 
                    n = 1, 
                    standardised = TRUE, 
                    write.out = FALSE,
@@ -118,14 +119,14 @@ setMethod('eot', signature(pred = 'RasterStack'),
                    ...) {
             
             # Duplicate predictor set in case predictor and response are identical
-            if (is.null(resp)) {
-              resp <- pred  
-              resp.eq.pred <- TRUE
+            if (is.null(y)) {
+              y <- x  
+              y.eq.x <- TRUE
             } else {
-              resp.eq.pred <- FALSE
+              y.eq.x <- FALSE
             }
             
-            orig.var <- calcVar(resp, standardised = standardised)
+            orig.var <- calcVar(y, standardised = standardised)
             
             ### EOT
             
@@ -135,36 +136,36 @@ setMethod('eot', signature(pred = 'RasterStack'),
               # Use initial response data set in case of first iteration
               if (z == 1) {
                 
-                pred.eot <- EotCycle(pred = pred, 
-                                     resp = resp,
-                                     resp.eq.pred = resp.eq.pred,
-                                     n = z, 
-                                     type = type,
-                                     standardised = standardised, 
-                                     orig.var = orig.var,
-                                     write.out = write.out,
-                                     path.out = path.out, 
-                                     verbose = verbose,
-                                     names.out = names.out)
+                x.eot <- EotCycle(x = x, 
+                                  y = y,
+                                  y.eq.x = y.eq.x,
+                                  n = z, 
+                                  type = type,
+                                  standardised = standardised, 
+                                  orig.var = orig.var,
+                                  write.out = write.out,
+                                  path.out = path.out, 
+                                  verbose = verbose,
+                                  names.out = names.out)
                 
                 # Use last entry of slot 'residuals' otherwise  
               } else if (z > 1) {
-                tmp.pred.eot <- EotCycle(
-                  pred = if (!reduce.both) {
-                    pred
+                tmp.x.eot <- EotCycle(
+                  x = if (!reduce.both) {
+                    x
                   } else {
                     if (z == 2) {
-                      pred.eot@resid_predictor
+                      x.eot@resid_predictor
                     } else {
-                      pred.eot[[z-1]]@resid_predictor
+                      x.eot[[z-1]]@resid_predictor
                     }
                   }, 
-                  resp = if (z == 2) {
-                    pred.eot@resid_response 
+                  y = if (z == 2) {
+                    x.eot@resid_response 
                   } else {
-                    pred.eot[[z-1]]@resid_response
+                    x.eot[[z-1]]@resid_response
                   }, 
-                  resp.eq.pred = resp.eq.pred,
+                  y.eq.x = y.eq.x,
                   n = z, 
                   type = type,
                   standardised = standardised, 
@@ -175,28 +176,28 @@ setMethod('eot', signature(pred = 'RasterStack'),
                   names.out = names.out)
                 
                 if (z == 2) {
-                  pred.eot <- list(pred.eot, tmp.pred.eot)
-                  names(pred.eot) <- c("mode_1", paste("mode", z, sep = "_"))
+                  x.eot <- list(x.eot, tmp.x.eot)
+                  names(x.eot) <- c("mode_1", paste("mode", z, sep = "_"))
                 } else {
-                  tmp.names <- names(pred.eot)
-                  pred.eot <- append(pred.eot, list(tmp.pred.eot))
-                  names(pred.eot) <- c(tmp.names, paste("mode", z, sep = "_"))
+                  tmp.names <- names(x.eot)
+                  x.eot <- append(x.eot, list(tmp.x.eot))
+                  names(x.eot) <- c(tmp.names, paste("mode", z, sep = "_"))
                 }
               }
             }
             
-            if (length(pred.eot) == 1) {
-              out <- pred.eot
+            if (length(x.eot) == 1) {
+              out <- x.eot
             } else {
-              out <- new('EotStack', modes = pred.eot)
+              out <- new('EotStack', modes = x.eot)
             }
             return(out)
           }
 )
 
-setMethod('eot', signature(pred = 'RasterBrick'), 
-          function(pred, 
-                   resp = NULL, 
+setMethod('eot', signature(x = 'RasterBrick'), 
+          function(x, 
+                   y = NULL, 
                    n = 1, 
                    standardised = TRUE, 
                    write.out = FALSE,
@@ -208,14 +209,14 @@ setMethod('eot', signature(pred = 'RasterBrick'),
                    ...) {
             
             # Duplicate predictor set in case predictor and response are identical
-            if (is.null(resp)) {
-              resp <- pred  
-              resp.eq.pred <- TRUE
+            if (is.null(y)) {
+              y <- x  
+              y.eq.x <- TRUE
             } else {
-              resp.eq.pred <- FALSE
+              y.eq.x <- FALSE
             }
             
-            orig.var <- calcVar(resp, standardised = standardised)
+            orig.var <- calcVar(y, standardised = standardised)
             
             ### EOT
             
@@ -225,36 +226,36 @@ setMethod('eot', signature(pred = 'RasterBrick'),
               # Use initial response data set in case of first iteration
               if (z == 1) {
                 
-                pred.eot <- EotCycle(pred = pred, 
-                                     resp = resp,
-                                     resp.eq.pred = resp.eq.pred,
-                                     n = z, 
-                                     type = type,
-                                     standardised = standardised, 
-                                     orig.var = orig.var,
-                                     write.out = write.out,
-                                     path.out = path.out, 
-                                     verbose = verbose,
-                                     names.out = names.out)
+                x.eot <- EotCycle(x = x, 
+                                  y = y,
+                                  y.eq.x = y.eq.x,
+                                  n = z, 
+                                  type = type,
+                                  standardised = standardised, 
+                                  orig.var = orig.var,
+                                  write.out = write.out,
+                                  path.out = path.out, 
+                                  verbose = verbose,
+                                  names.out = names.out)
                 
                 # Use last entry of slot 'residuals' otherwise  
               } else if (z > 1) {
-                tmp.pred.eot <- EotCycle(
-                  pred = if (!reduce.both) {
-                    pred
+                tmp.x.eot <- EotCycle(
+                  x = if (!reduce.both) {
+                    x
                   } else {
                     if (z == 2) {
-                      pred.eot@resid_predictor
+                      x.eot@resid_predictor
                     } else {
-                      pred.eot[[z-1]]@resid_predictor
+                      x.eot[[z-1]]@resid_predictor
                     }
                   }, 
-                  resp = if (z == 2) {
-                    pred.eot@resid_response 
+                  y = if (z == 2) {
+                    x.eot@resid_response 
                   } else {
-                    pred.eot[[z-1]]@resid_response
+                    x.eot[[z-1]]@resid_response
                   }, 
-                  resp.eq.pred = resp.eq.pred,
+                  y.eq.x = y.eq.x,
                   n = z, 
                   type = type,
                   standardised = standardised, 
@@ -265,20 +266,20 @@ setMethod('eot', signature(pred = 'RasterBrick'),
                   names.out = names.out)
                 
                 if (z == 2) {
-                  pred.eot <- list(pred.eot, tmp.pred.eot)
-                  names(pred.eot) <- c("mode_1", paste("mode", z, sep = "_"))
+                  x.eot <- list(x.eot, tmp.x.eot)
+                  names(x.eot) <- c("mode_1", paste("mode", z, sep = "_"))
                 } else {
-                  tmp.names <- names(pred.eot)
-                  pred.eot <- append(pred.eot, list(tmp.pred.eot))
-                  names(pred.eot) <- c(tmp.names, paste("mode", z, sep = "_"))
+                  tmp.names <- names(x.eot)
+                  x.eot <- append(x.eot, list(tmp.x.eot))
+                  names(x.eot) <- c(tmp.names, paste("mode", z, sep = "_"))
                 }
               }
             }
             
-            if (length(pred.eot) == 1) {
-              out <- pred.eot
+            if (length(x.eot) == 1) {
+              out <- x.eot
             } else {
-              out <- new('EotStack', modes = pred.eot)
+              out <- new('EotStack', modes = x.eot)
             }
             return(out)
           }
