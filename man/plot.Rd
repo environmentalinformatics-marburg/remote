@@ -31,6 +31,10 @@ EOT calculation to be shown as the x-axis in the time series plot}
 \item{clr}{an (optional) color palette for displaying of the
 predictor and response fields}
 
+\item{locations}{logical. If x is an EotStack, set this to TRUE to
+produce a map showing the locations of all modes. Ignord if x is an
+EotMode}
+
 \item{...}{further arguments to be passed to \code{\link[raster]{spplot}}}
 }
 \description{

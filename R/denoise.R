@@ -1,4 +1,4 @@
-#' Noise filtering through principal components. 
+#' Noise filtering through principal components
 #' 
 #' Filter noise from a RasterStack by decomposing into principal components 
 #' and subsequent reconstruction using only a subset of components

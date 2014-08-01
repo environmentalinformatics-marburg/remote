@@ -1,4 +1,4 @@
-#' Convert degrees to radians.
+#' Convert degrees to radians
 #' 
 #' @export deg2rad
 #' 

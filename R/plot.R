@@ -23,6 +23,9 @@
 #' "long" format
 #' @param clr an (optional) color palette for displaying of the 
 #' predictor and response fields
+#' @param locations logical. If x is an EotStack, set this to TRUE to 
+#' produce a map showing the locations of all modes. Ignord if x is an
+#' EotMode
 #' @param ... further arguments to be passed to \code{\link[raster]{spplot}}
 #' 
 #' @examples
@@ -63,7 +66,6 @@ if ( !isGeneric('plot') ) {
 
 setMethod('plot', signature(x = 'EotMode'), 
           function(x,
-                   locations = FALSE,
                    pred.prm = "rsq",
                    resp.prm = "r",
                    show.bp = FALSE,
@@ -73,6 +75,7 @@ setMethod('plot', signature(x = 'EotMode'),
                    arrange = c("wide", "long"),
                    clr = colorRampPalette(
                      rev(brewer.pal(9, "Spectral")))(1000),
+                   locations = FALSE,
                    ...) {
             
             library(latticeExtra)
