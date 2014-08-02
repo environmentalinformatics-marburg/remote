@@ -35,3 +35,29 @@ setMethod('predict', signature(object = 'EotStack'),
             return(pred)
           }
 )
+
+
+setMethod('predict', signature(object = 'EotMode'), 
+          function(object, newdata, n, ...) {
+            
+            ### extract identified EOT (@cell_bp) 
+            ts.modes <- sapply(seq(n), function(i) {
+              newdata[object@cell_bp]
+            })
+            
+            ### prediction using claculated intercept, slope and values
+            pred.stck <- lapply(seq(nlayers(newdata)), function(i) {
+              stack(lapply(seq(ncol(ts.modes)), function(k) {
+                object@int_response + 
+                  object@slp_response * ts.modes[i, k]
+              }))
+            })
+            
+            ### summate prediction for each mode at each time step
+            pred <- stack(lapply(seq(nrow(ts.modes)), function(i) {
+              calc(pred.stck[[i]], fun = sum, ...)
+            }))
+            
+            return(pred)
+          }
+)
