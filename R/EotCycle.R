@@ -69,8 +69,8 @@ EotCycle <- function(x,
   if (length(maxxy.all) != 1) {
     if (verbose) {
       cat("WARNING:", "\n",
-          "LOCATION OF EOT AMBIGUOUS! MULTIPLE POSSIBLE LOCATIONS DETECTED, 
-        USING ONLY THE FIRST!\n\n")
+          "LOCATION OF EOT AMBIGUOUS!",  "\n",
+          "MULTIPLE POSSIBLE LOCATIONS DETECTED, USING ONLY THE FIRST!\n\n")
     }
   }
 

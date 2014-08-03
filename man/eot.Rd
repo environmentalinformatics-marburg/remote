@@ -57,7 +57,8 @@ of the the regression equation for each pixel of the predictor domain
 for the predictor domain
 }
 
-All \emph{*_predictor} fields are also returned for the \emph{*_response} domain,
+Apart from \emph{rsq_sums_predictor}, all \emph{*_predictor} fields are
+also returned for the \emph{*_response} domain,
 even if predictor and response domain are equal. This is due to that fact,
 that if not both fields are reduced after the first EOT is found,
 these \emph{RasterLayers} will differ.

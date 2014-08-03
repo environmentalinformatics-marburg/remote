@@ -2,7 +2,45 @@
 \name{predict}
 \alias{predict}
 \title{EOT based spatial prediction}
+\arguments{
+\item{object}{an Eot* object}
+
+\item{newdata}{the data to be used as predictor}
+
+\item{n}{the number of modes to be used for the prediction.
+See \link{nXplain} for calculating the number of modes based
+on their explnatory power.}
+
+\item{...}{further arguments to be passed to \link{calc}}
+}
+\value{
+a \emph{RasterStack} of \code{nlayers(newdata)}
+}
 \description{
-EOT based spatial prediction
+Make spatial predictions using the fited model returned by \code{eot}.
+A (user-defined) set of \emph{n} modes will be used to model the outcome
+using the identified link functions of the respective modes which are
+added together to produce the final prediction.
+}
+\examples{
+### not very useful, but highlights the workflow
+data(pacificSST)
+data(australiaGPCP)
+
+# train data using eot()
+train <- eot(x = pacificSST[[1:10]],
+             y = australiaGPCP[[1:10]],
+             n = 1)
+
+predict using identified model
+pred <- predict(train,
+                newdata = pacificSST[[11:20]],
+                n = 1)
+
+# compare results
+opar <- par(mfrow = c(1,2))
+plot(australiaGPCP[[101]], main = "original", zlim = c(0, 10))
+plot(pred[[1]], main = "predicted", zlim = c(0, 10))
+par(opar)
 }
 

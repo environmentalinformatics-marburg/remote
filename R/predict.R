@@ -1,4 +1,41 @@
 #' EOT based spatial prediction
+#'   
+#' @description
+#' Make spatial predictions using the fited model returned by \code{eot}.
+#' A (user-defined) set of \emph{n} modes will be used to model the outcome 
+#' using the identified link functions of the respective modes which are
+#' added together to produce the final prediction.
+#' 
+#' @param object an Eot* object
+#' @param newdata the data to be used as predictor
+#' @param n the number of modes to be used for the prediction.
+#' See \link{nXplain} for calculating the number of modes based 
+#' on their explnatory power.
+#' @param ... further arguments to be passed to \link{calc}
+#' 
+#' @return
+#' a \emph{RasterStack} of \code{nlayers(newdata)}
+#' 
+#' @examples
+#' ### not very useful, but highlights the workflow
+#' data(pacificSST)
+#' data(australiaGPCP)
+#' 
+#' # train data using eot()
+#' train <- eot(x = pacificSST[[1:10]], 
+#'              y = australiaGPCP[[1:10]], 
+#'              n = 1)
+#' 
+#' predict using identified model
+#' pred <- predict(train, 
+#'                 newdata = pacificSST[[11:20]], 
+#'                 n = 1)
+#' 
+#' # compare results
+#' opar <- par(mfrow = c(1,2))
+#' plot(australiaGPCP[[101]], main = "original", zlim = c(0, 10))
+#' plot(pred[[1]], main = "predicted", zlim = c(0, 10))
+#' par(opar)
 #' 
 #' @name predict
 #' @aliases predict
@@ -12,7 +49,10 @@ if ( !isGeneric('predict') ) {
 }
 
 setMethod('predict', signature(object = 'EotStack'), 
-          function(object, newdata, n, ...) {
+          function(object, 
+                   newdata, 
+                   n = 1, 
+                   ...) {
             
             ### extract identified EOT (@cell_bp) 
             ts.modes <- sapply(seq(n), function(i) {
