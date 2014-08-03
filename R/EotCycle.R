@@ -15,7 +15,7 @@
 #' using \code{path.out}
 #' @param path.out the file path for writing results if \code{write.out} is \code{TRUE}.
 #' Defaults to current working directory
-#' @param names.out optional prefix to be used for naming of results if 
+#' @param prefix optional prefix to be used for naming of results if 
 #' \code{write.out} is \code{TRUE}
 #' @param type the type of the link function. Defaults to \code{'rsq'} as in original
 #' proposed method from \cite{Dool2000}. If set to \code{'ioa'} index of agreement is
@@ -33,7 +33,7 @@ EotCycle <- function(x,
                      orig.var,
                      write.out,
                      path.out,
-                     names.out,
+                     prefix,
                      type,
                      verbose,
                      ...) {
@@ -195,14 +195,14 @@ EotCycle <- function(x,
   }
   
   xy <- xyFromCell(x, maxxy)
-  location.df <- as.data.frame(cbind(xy, paste("EOT", 
+  location.df <- as.data.frame(cbind(xy, paste("mode", 
                                                sprintf("%02.f", n), 
                                                sep = "_"),
                                      cum.expl.var,
                                      if (length(maxxy.all) != 1) 
                                        "ambiguous" else "ok"),
                                stringsAsFactors = FALSE)
-  names(location.df) <- c("x", "y", "EOT", "cum_expl_var", "comment")
+  names(location.df) <- c("x", "y", "mode", "cum_expl_var", "comment")
   mode(location.df$x) <- "numeric"
   mode(location.df$y) <- "numeric"
   mode(location.df$cum_expl_var) <- "numeric"
@@ -232,32 +232,19 @@ EotCycle <- function(x,
   
     # Output storage (optional)
     if (write.out) {
-      out.name <- lapply(c("pred_r", "pred_rsq", "pred_rsq_sums", 
-                           "pred_int", "pred_slp", "pred_p", "pred_resids", 
-                           "resp_r", "resp_rsq", "resp_int", "resp_slp", 
-                           "resp_p", "resp_resids"), 
-                         function(i) {
-                           paste(names.out, "eot", sprintf("%02.f", n), 
-                                 i, sep = "_")
-                         })
+      writeEot(out, path.out = path.out, prefix = prefix, ...)
       
-      df.name <- paste(names.out, "eot_locations.csv", sep = "_")
+      df.name <- paste(prefix, "eot_locations.csv", sep = "_")
       
-      write.table(location.df, col.names = FALSE,
-                  paste(path.out, df.name, sep = "/"), 
-                  row.names = FALSE, append = TRUE, sep = ",")
-      
-      a <- b <- NULL
-      
-      foreach(a = c(rst.x.r, rst.x.rsq, rst.x.rsq.sums, 
-                    rst.x.intercept, rst.x.slp, rst.x.p, 
-                    brck.x.resids, rst.y.r, rst.y.rsq, 
-                    rst.y.intercept, rst.y.slp, rst.y.p, 
-                    brck.y.resids), 
-              b = unlist(out.name)) %do% { 
-                writeRaster(a, paste(path.out, b, sep = "/"), 
-                            format = "raster", overwrite = TRUE, ...)
-              }
+      if (n == 1) {        
+        write.table(location.df, col.names = TRUE, 
+                    paste(path.out, df.name, sep = "/"), 
+                    row.names = FALSE, append = FALSE, sep = ",")
+      } else {
+        write.table(location.df, col.names = FALSE, 
+                    paste(path.out, df.name, sep = "/"), 
+                    row.names = FALSE, append = TRUE, sep = ",")
+      }
       
       rm(list = c("eot.ts",
                   "maxxy",

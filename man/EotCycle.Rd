@@ -4,7 +4,7 @@
 \title{Calculate a single EOT}
 \usage{
 EotCycle(x, y, y.eq.x = F, n = 1, standardised, orig.var, write.out,
-  path.out, names.out, type, verbose, ...)
+  path.out, prefix, type, verbose, ...)
 }
 \arguments{
 \item{x}{a ratser stack used as predictor}
@@ -27,7 +27,7 @@ using \code{path.out}}
 \item{path.out}{the file path for writing results if \code{write.out} is \code{TRUE}.
 Defaults to current working directory}
 
-\item{names.out}{optional prefix to be used for naming of results if
+\item{prefix}{optional prefix to be used for naming of results if
 \code{write.out} is \code{TRUE}}
 
 \item{type}{the type of the link function. Defaults to \code{'rsq'} as in original

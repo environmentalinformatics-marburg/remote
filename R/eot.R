@@ -14,7 +14,7 @@
 #' using \code{path.out}
 #' @param path.out the file path for writing results if \code{write.out} is \code{TRUE}.
 #' Defaults to current working directory
-#' @param names.out optional prefix to be used for naming of results if 
+#' @param prefix optional prefix to be used for naming of results if 
 #' \code{write.out} is \code{TRUE}
 #' @param reduce.both logical. If \code{TRUE} both \code{x} and \code{y} 
 #' are reduced after each iteration. If \code{FALSE} only \code{y} is reduced
@@ -50,7 +50,7 @@
 #' \item \emph{eot} - the EOT (time series) at the identified base point. Note, this is a simple numeric vector
 #' \item \emph{coords_bp} - the coordinates of the identified base point
 #' \item \emph{cell_bp} - the cell number of the indeified base point
-#' \item \emph{explained_variance} - the (cumulative) explained variance of the considered EOT
+#' \item \emph{cum_exp_var} - the (cumulative) explained variance of the considered EOT
 #' \item \emph{r_predictor} - the \emph{RasterLayer} of the correlation coefficients 
 #' between the base point and each pixel of the predictor domain
 #' \item \emph{rsq_predictor} - as above but for the coefficient of determination
@@ -112,7 +112,7 @@ setMethod('eot', signature(x = 'RasterStack'),
                    standardised = TRUE, 
                    write.out = FALSE,
                    path.out = ".", 
-                   names.out = NULL,
+                   prefix = "remote",
                    reduce.both = FALSE, 
                    type = c("rsq", "ioa"),
                    verbose = TRUE,
@@ -146,7 +146,7 @@ setMethod('eot', signature(x = 'RasterStack'),
                                   write.out = write.out,
                                   path.out = path.out, 
                                   verbose = verbose,
-                                  names.out = names.out)
+                                  prefix = prefix)
                 
                 # Use last entry of slot 'residuals' otherwise  
               } else if (z > 1) {
@@ -173,7 +173,7 @@ setMethod('eot', signature(x = 'RasterStack'),
                   write.out = write.out,
                   path.out = path.out,  
                   verbose = verbose,
-                  names.out = names.out)
+                  prefix = prefix)
                 
                 if (z == 2) {
                   x.eot <- list(x.eot, tmp.x.eot)
@@ -202,7 +202,7 @@ setMethod('eot', signature(x = 'RasterBrick'),
                    standardised = TRUE, 
                    write.out = FALSE,
                    path.out = ".", 
-                   names.out = NULL,
+                   prefix = "remote",
                    reduce.both = FALSE, 
                    type = c("rsq", "ioa"),
                    verbose = TRUE,
@@ -236,7 +236,7 @@ setMethod('eot', signature(x = 'RasterBrick'),
                                   write.out = write.out,
                                   path.out = path.out, 
                                   verbose = verbose,
-                                  names.out = names.out)
+                                  prefix = prefix)
                 
                 # Use last entry of slot 'residuals' otherwise  
               } else if (z > 1) {
@@ -263,7 +263,7 @@ setMethod('eot', signature(x = 'RasterBrick'),
                   write.out = write.out,
                   path.out = path.out,  
                   verbose = verbose,
-                  names.out = names.out)
+                  prefix = prefix)
                 
                 if (z == 2) {
                   x.eot <- list(x.eot, tmp.x.eot)

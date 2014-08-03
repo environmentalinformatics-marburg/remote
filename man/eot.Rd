@@ -19,7 +19,7 @@ using \code{path.out}}
 \item{path.out}{the file path for writing results if \code{write.out} is \code{TRUE}.
 Defaults to current working directory}
 
-\item{names.out}{optional prefix to be used for naming of results if
+\item{prefix}{optional prefix to be used for naming of results if
 \code{write.out} is \code{TRUE}}
 
 \item{reduce.both}{logical. If \code{TRUE} both \code{x} and \code{y}
@@ -42,7 +42,7 @@ if n = 1 an \emph{EotMode}, if n > 1 an \emph{EotStack} of \code{n}
 \item \emph{eot} - the EOT (time series) at the identified base point. Note, this is a simple numeric vector
 \item \emph{coords_bp} - the coordinates of the identified base point
 \item \emph{cell_bp} - the cell number of the indeified base point
-\item \emph{explained_variance} - the (cumulative) explained variance of the considered EOT
+\item \emph{cum_exp_var} - the (cumulative) explained variance of the considered EOT
 \item \emph{r_predictor} - the \emph{RasterLayer} of the correlation coefficients
 between the base point and each pixel of the predictor domain
 \item \emph{rsq_predictor} - as above but for the coefficient of determination
