@@ -1,4 +1,10 @@
-#' Plot the results of eot
+if ( !isGeneric('plot') ) {
+  setGeneric('plot', function(x, ...)
+    standardGeneric('plot'))
+}
+
+
+#' Plot an Eot* object
 #' 
 #' @description
 #' This is the standard plotting routine for the results of \code{\link{eot}}.
@@ -53,16 +59,11 @@
 #' # change plot arrangement
 #' plot(nh_modes, mode = 1, show.bp = TRUE, arrange = "long") 
 #' 
+#' @export
 #' @name plot
-#' @aliases plot
-#' @export plot
 #' @rdname plot
 
 # set methods -------------------------------------------------------------
-if ( !isGeneric('plot') ) {
-  setGeneric('plot', function(x, ...)
-    standardGeneric('plot'))
-}
 
 setMethod('plot', signature(x = 'EotMode'), 
           function(x,
@@ -183,6 +184,8 @@ setMethod('plot', signature(x = 'EotMode'),
             
           }
 )
+
+#' @describeIn plot
 
 setMethod('plot', signature(x = 'EotStack'), 
           function(x,

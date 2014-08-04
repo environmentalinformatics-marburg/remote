@@ -5,6 +5,9 @@
 #' to compensate for area distortion of non-projected lat/lon data
 #' 
 #' @param x a Raster* object
+#' @param f a function to be used to the weighting.
+#' Defaults to \code{cos(x)}
+#' @param ... additional arguments to be passed to f
 #' 
 #' @return a weighted Raster* object
 #' 
@@ -19,11 +22,13 @@
 #' plot(vdendool[[1]], main = "original")
 #' plot(wgtd[[1]], main = "weighted")
 #' par(opar)
-geoWeight <- function(x) {
+geoWeight <- function(x, 
+                      f = function(x) cos(x), 
+                      ...) {
   
   x.vals <- x[]
   rads <- deg2rad(coordinates(x)[, 2])
-  x.weightd <- x.vals * cos(rads)
+  x.weightd <- x.vals * f(rads, ...)
   x[] <- x.weightd
   return(x)
   

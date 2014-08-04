@@ -6,9 +6,20 @@
 deg2rad(deg)
 }
 \arguments{
-\item{deg}{vector of degrees to be converted to radians.}
+\item{deg}{vector of degrees to be converted to radians}
 }
 \description{
 Convert degrees to radians
+}
+\examples{
+data(vdendool)
+
+## latitude in degrees
+degrees <- coordinates(vdendool)[, 2]
+head(degrees)
+
+## latitude in radians
+radians <- deg2rad(coordinates(vdendool)[, 2])
+head(radians)
 }
 

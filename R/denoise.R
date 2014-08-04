@@ -5,9 +5,9 @@
 #' 
 #' @param x RasterStack to be filtered
 #' @param k number of components to be kept for reconstruction 
-#' (set this to NULL if you supply \code{expl.var})
+#' (ignored if \code{expl.var} is supplied)
 #' @param expl.var  minimum amount of variance to be kept after reconstruction
-#' (not used if \code{k} is supplied)
+#' (should be set to NULL or omitted if \code{k} is supplied)
 #' @param weighted logical. If \code{TRUE} the covariance matrix will be 
 #' geographically weighted using the cosine of latitude during decomposition 
 #' (only important for lat/lon data)
@@ -30,7 +30,7 @@
 #' par(opar)
 denoise <- function(x,
                     k = NULL,
-                    expl.var = 0.95,
+                    expl.var = NULL,
                     weighted = TRUE,
                     ...) {
 
@@ -46,7 +46,7 @@ denoise <- function(x,
   }
   
   # declare reconstruction characteristics according to supplied values
-  if (is.null(k)) {
+  if (!is.null(expl.var)) {
     k <- which(cumsum(pca$sdev^2 / sum(pca$sdev^2)) >= expl.var)[1]
   } else {
     expl.var <- cumsum(pca$sdev^2 / sum(pca$sdev^2))[k]

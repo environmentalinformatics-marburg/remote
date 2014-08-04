@@ -1,7 +1,13 @@
+# set methods -------------------------------------------------------------
+if ( !isGeneric('predict') ) {
+  setGeneric('predict', function(object, ...)
+    standardGeneric('predict'))
+}
+
 #' EOT based spatial prediction
 #'   
 #' @description
-#' Make spatial predictions using the fited model returned by \code{eot}.
+#' Make spatial predictions using the fitted model returned by \code{eot}.
 #' A (user-defined) set of \emph{n} modes will be used to model the outcome 
 #' using the identified link functions of the respective modes which are
 #' added together to produce the final prediction.
@@ -9,7 +15,7 @@
 #' @param object an Eot* object
 #' @param newdata the data to be used as predictor
 #' @param n the number of modes to be used for the prediction.
-#' See \link{nXplain} for calculating the number of modes based 
+#' See \code{\link{nXplain}} for calculating the number of modes based 
 #' on their explnatory power.
 #' @param ... further arguments to be passed to \link{calc}
 #' 
@@ -21,32 +27,25 @@
 #' data(pacificSST)
 #' data(australiaGPCP)
 #' 
-#' # train data using eot()
+#' ## train data using eot()
 #' train <- eot(x = pacificSST[[1:10]], 
 #'              y = australiaGPCP[[1:10]], 
 #'              n = 1)
 #' 
-#' predict using identified model
+#' ## predict using identified model
 #' pred <- predict(train, 
 #'                 newdata = pacificSST[[11:20]], 
 #'                 n = 1)
 #' 
-#' # compare results
+#' ## compare results
 #' opar <- par(mfrow = c(1,2))
 #' plot(australiaGPCP[[101]], main = "original", zlim = c(0, 10))
 #' plot(pred[[1]], main = "predicted", zlim = c(0, 10))
 #' par(opar)
 #' 
+#' @export
 #' @name predict
-#' @aliases predict
-#' @export predict
 #' @rdname predict
-
-# set methods -------------------------------------------------------------
-if ( !isGeneric('predict') ) {
-  setGeneric('predict', function(object, ...)
-    standardGeneric('predict'))
-}
 
 setMethod('predict', signature(object = 'EotStack'), 
           function(object, 
@@ -76,14 +75,13 @@ setMethod('predict', signature(object = 'EotStack'),
           }
 )
 
+#' @describeIn predict
 
 setMethod('predict', signature(object = 'EotMode'), 
-          function(object, newdata, n, ...) {
+          function(object, newdata, ...) {
             
             ### extract identified EOT (@cell_bp) 
-            ts.modes <- sapply(seq(n), function(i) {
-              newdata[object@cell_bp]
-            })
+            ts.modes <- newdata[object@cell_bp]
             
             ### prediction using claculated intercept, slope and values
             pred.stck <- lapply(seq(nlayers(newdata)), function(i) {

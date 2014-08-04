@@ -3,16 +3,16 @@
 \alias{denoise}
 \title{Noise filtering through principal components}
 \usage{
-denoise(x, k = NULL, expl.var = 0.95, weighted = TRUE, ...)
+denoise(x, k = NULL, expl.var = NULL, weighted = TRUE, ...)
 }
 \arguments{
 \item{x}{RasterStack to be filtered}
 
 \item{k}{number of components to be kept for reconstruction
-(set this to NULL if you supply \code{expl.var})}
+(ignored if \code{expl.var} is supplied)}
 
 \item{expl.var}{minimum amount of variance to be kept after reconstruction
-(not used if \code{k} is supplied)}
+(should be set to NULL or omitted if \code{k} is supplied)}
 
 \item{weighted}{logical. If \code{TRUE} the covariance matrix will be
 geographically weighted using the cosine of latitude during decomposition

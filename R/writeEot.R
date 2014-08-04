@@ -70,7 +70,7 @@ if (!isGeneric('writeEot')) {
 setMethod('writeEot', signature(x = 'EotMode'), 
           function(x, 
                    path.out = ".",
-                   prefix,
+                   prefix = "remote",
                    overwrite = TRUE,
                    ...) { 
             

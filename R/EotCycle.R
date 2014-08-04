@@ -27,7 +27,7 @@
 #' @export EotCycle
 EotCycle <- function(x, 
                      y, 
-                     y.eq.x = F,
+                     y.eq.x = FALSE,
                      n = 1,
                      standardised, 
                      orig.var,

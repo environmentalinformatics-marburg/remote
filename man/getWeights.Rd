@@ -3,10 +3,15 @@
 \alias{getWeights}
 \title{Calculate weights from latitude}
 \usage{
-getWeights(x)
+getWeights(x, f = function(x) cos(x), ...)
 }
 \arguments{
 \item{x}{a Raster* object}
+
+\item{f}{a function to be used to the weighting.
+Defaults to \code{cos(x)}}
+
+\item{...}{additional arguments to be passed to f}
 }
 \value{
 a numeric vector of weights

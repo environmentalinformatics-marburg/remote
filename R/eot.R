@@ -19,7 +19,7 @@
 #' @param reduce.both logical. If \code{TRUE} both \code{x} and \code{y} 
 #' are reduced after each iteration. If \code{FALSE} only \code{y} is reduced
 #' @param type the type of the link function. Defaults to \code{'rsq'} as in original
-#' proposed method from \cite{Dool2000}. If set to \code{'ioa'} index of agreement is
+#' proposed method from \cite{van den Dool 2000}. If set to \code{'ioa'} index of agreement is
 #' used instead
 #' @param verbose logical. If \code{TRUE} some details about the 
 #' calculation process will be output to the console
@@ -38,7 +38,7 @@
 #' for the calculation of the next EOT, thus ensuring orthogonality 
 #' of the identified teleconnections. This procedure is repeated until 
 #' a predefined amount of \emph{n} EOTs is calculated. In general, 
-#' \pkg{Reot} implements a 'brute force' spatial data mining approach to 
+#' \pkg{remote} implements a 'brute force' spatial data mining approach to 
 #' identify locations of enhanced potential to explain spatio-temporal 
 #' variability within the same or another geographic field.
 #' 
@@ -46,8 +46,9 @@
 #' if n = 1 an \emph{EotMode}, if n > 1 an \emph{EotStack} of \code{n} 
 #' \emph{EotMode}s. Each \emph{EotMode} has the following components:
 #' \itemize{
-#' \item \emph{mode} - the number of the identified mode
-#' \item \emph{eot} - the EOT (time series) at the identified base point. Note, this is a simple numeric vector
+#' \item \emph{mode} - the number of the identified mode (1 - n)
+#' \item \emph{eot} - the EOT (time series) at the identified base point. 
+#' Note, this is a simple numeric vector, not of class \code{ts}
 #' \item \emph{coords_bp} - the coordinates of the identified base point
 #' \item \emph{cell_bp} - the cell number of the indeified base point
 #' \item \emph{cum_exp_var} - the (cumulative) explained variance of the considered EOT
@@ -85,11 +86,11 @@
 #' \url{http://www.oup.com/uk/catalogue/?ci=9780199202782}
 #' 
 #' @examples
-#' ### EXAMPLE I:
+#' ### EXAMPLE I
 #' ### a single field
 #' data(vdendool)
 #' 
-#' # claculate 2 leading modes
+#' ## claculate 2 leading modes
 #' nh_modes <- eot(x = vdendool, y = NULL, n = 2, 
 #'                 reduce.both = FALSE, standardised = FALSE, 
 #'                 verbose = TRUE)

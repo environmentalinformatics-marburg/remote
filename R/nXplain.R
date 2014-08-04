@@ -1,3 +1,9 @@
+if (!isGeneric('nXplain')) {
+  setGeneric('nXplain', function(x, ...)
+    standardGeneric('nXplain')) 
+}
+
+
 #' Number of EOTs needed for variance explanation
 #' 
 #' @description 
@@ -14,8 +20,9 @@
 #' 
 #' @return an integer denoting the number of EOTs needed to explain \code{var}
 #' 
-#' @export nXplain
+#' @export 
 #' @name nXplain
+#' @rdname nXplain
 #' 
 #' @examples
 #' data(vdendool)
@@ -26,10 +33,6 @@
 #'              
 #' ### How many modes are needed to explain 40% of variance?              
 #' nXplain(nh_modes, 0.4)
-if (!isGeneric('nXplain')) {
-  setGeneric('nXplain', function(x, ...)
-    standardGeneric('nXplain')) 
-}
 
 setMethod('nXplain', signature(x = 'EotStack'),
           function(x, var = 0.9) {

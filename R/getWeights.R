@@ -4,7 +4,12 @@
 #' distortion of non-projected lat/lon data
 #' 
 #' @param x a Raster* object
+#' @param f a function to be used to the weighting.
+#' Defaults to \code{cos(x)}
+#' @param ... additional arguments to be passed to f
+#' 
 #' @return a numeric vector of weights
+#' 
 #' @examples 
 #' data("australiaGPCP")
 #' wghts <- getWeights(australiaGPCP)
@@ -17,8 +22,10 @@
 #' par(opar)
 #' 
 #' @export getWeights
-getWeights <- function(x) {
+getWeights <- function(x, 
+                       f = function(x) cos(x),
+                       ...) {
   
-  cos(deg2rad(coordinates(x)[, 2][!is.na(x[[1]][])]))
+  f(deg2rad(coordinates(x)[, 2]), ...)
 
 }
