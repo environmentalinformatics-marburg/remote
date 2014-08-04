@@ -6,12 +6,12 @@
 \alias{plot,EotStack,ANY-method}
 \title{Plot an Eot* object}
 \usage{
-\S4method{plot}{EotMode,ANY}(x, y = 1, pred.prm = "rsq", resp.prm = "r",
+\S4method{plot}{EotMode,ANY}(x, y, pred.prm = "rsq", resp.prm = "r",
   show.bp = FALSE, anomalies = TRUE, add.map = TRUE, ts.vec = NULL,
   arrange = c("wide", "long"), clr = colorRampPalette(rev(brewer.pal(9,
   "Spectral")))(1000), locations = FALSE, ...)
 
-\S4method{plot}{EotStack,ANY}(x, y = 1, pred.prm = "rsq", resp.prm = "r",
+\S4method{plot}{EotStack,ANY}(x, y, pred.prm = "rsq", resp.prm = "r",
   show.bp = FALSE, anomalies = TRUE, add.map = TRUE, ts.vec = NULL,
   arrange = c("wide", "long"), clr = colorRampPalette(rev(brewer.pal(9,
   "Spectral")))(1000), locations = FALSE, ...)

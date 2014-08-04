@@ -217,7 +217,8 @@ setMethod('plot', signature(x = 'EotStack',
               library(gridExtra)
               library(mapdata)
               
-              if(missing(y)) y <- 1
+              if (missing(y)) y <- 1 else
+                if (is.character(y)) y <- which(names(x) == y)
               
               p.prm <- paste(pred.prm, "predictor", sep = "_")
               r.prm <- paste(resp.prm, "response", sep = "_")
