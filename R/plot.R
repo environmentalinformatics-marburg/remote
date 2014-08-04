@@ -1,5 +1,5 @@
 if ( !isGeneric('plot') ) {
-  setGeneric('plot', function(x, ...)
+  setGeneric('plot', function(x, y, ...)
     standardGeneric('plot'))
 }
 
@@ -12,7 +12,7 @@ if ( !isGeneric('plot') ) {
 #' domain, iii) the time series at the identified base point
 #' 
 #' @param x either an object of EotMode or EotStack as returned by \code{\link{eot}}
-#' @param mode numeric. if x is an EotStack, the mode to be plotted
+#' @param y integer or character of the mode to be plotted (e.g. 2 or "mode_2")
 #' @param pred.prm the parameter of the predictor to be plotted.\cr
 #' Can be any of "r", "rsq", "rsq.sums", "p", "int" or "slp"
 #' @param resp.prm the parameter of the response to be plotted.\cr
@@ -30,43 +30,49 @@ if ( !isGeneric('plot') ) {
 #' @param clr an (optional) color palette for displaying of the 
 #' predictor and response fields
 #' @param locations logical. If x is an EotStack, set this to TRUE to 
-#' produce a map showing the locations of all modes. Ignord if x is an
+#' produce a map showing the locations of all modes. Ignored if x is an
 #' EotMode
 #' @param ... further arguments to be passed to \code{\link[raster]{spplot}}
 #' 
 #' @examples
 #' data(vdendool)
 #' 
-#' # claculate 2 leading modes
-#' nh_modes <- eot(pred = vdendool, resp = NULL, n = 2, 
+#' ## claculate 2 leading modes
+#' nh_modes <- eot(x = vdendool, y = NULL, n = 2, 
 #'                 reduce.both = FALSE, standardised = FALSE, 
 #'                 verbose = TRUE)
 #'
-#' # default settings 
-#' plot(nh_modes, mode = 1) # is equivalent to
+#' ## default settings 
+#' plot(nh_modes, y = 1) # is equivalent to
 #' plot(nh_modes[[1]]) 
 #' 
-#' plot(nh_modes, mode = 2) # shows variance explained by mode 2 only
+#' plot(nh_modes, y = 2) # shows variance explained by mode 2 only
 #' plot(nh_modes[[2]]) # shows cumulative variance explained by modes 1 & 2
 #' 
-#' # showing the loction of the mode
-#' plot(nh_modes, mode = 1, show.bp = TRUE)
+#' ## showing the loction of the mode
+#' plot(nh_modes, y = 1, show.bp = TRUE)
 #' 
-#' # changing parameters
-#' plot(nh_modes, mode = 1, show.bp = TRUE,
+#' ## changing parameters
+#' plot(nh_modes, y = 1, show.bp = TRUE,
 #'      pred.prm = "r", resp.prm = "p")
 #'         
-#' # change plot arrangement
-#' plot(nh_modes, mode = 1, show.bp = TRUE, arrange = "long") 
+#' ## change plot arrangement
+#' plot(nh_modes, y = 1, show.bp = TRUE, arrange = "long") 
+#' 
+#' ## plot locations of all base points
+#' plot(nh_modes, locations = TRUE)
 #' 
 #' @export
 #' @name plot
 #' @rdname plot
+#' @aliases plot,EotMode,ANY-method
 
 # set methods -------------------------------------------------------------
 
-setMethod('plot', signature(x = 'EotMode'), 
+setMethod('plot', signature(x = 'EotMode',
+                            y = 'ANY'), 
           function(x,
+                   y,
                    pred.prm = "rsq",
                    resp.prm = "r",
                    show.bp = FALSE,
@@ -82,6 +88,8 @@ setMethod('plot', signature(x = 'EotMode'),
             library(latticeExtra)
             library(gridExtra)
             library(mapdata)
+            
+            if (missing(y)) y <- 1
             
             p.prm <- paste(pred.prm, "predictor", sep = "_")
             r.prm <- paste(resp.prm, "response", sep = "_")
@@ -187,9 +195,10 @@ setMethod('plot', signature(x = 'EotMode'),
 
 #' @describeIn plot
 
-setMethod('plot', signature(x = 'EotStack'), 
+setMethod('plot', signature(x = 'EotStack',
+                            y = 'ANY'), 
           function(x,
-                   mode = 1,
+                   y,
                    pred.prm = "rsq",
                    resp.prm = "r",
                    show.bp = FALSE,
@@ -208,17 +217,19 @@ setMethod('plot', signature(x = 'EotStack'),
               library(gridExtra)
               library(mapdata)
               
+              if(missing(y)) y <- 1
+              
               p.prm <- paste(pred.prm, "predictor", sep = "_")
               r.prm <- paste(resp.prm, "response", sep = "_")
               
-              ps <- slot(x[[mode]], p.prm)
-              rs <- slot(x[[mode]], r.prm)
+              ps <- slot(x[[y]], p.prm)
+              rs <- slot(x[[y]], r.prm)
               
               if (is.null(ts.vec)) 
-                ts.vec <- seq(nlayers(x[[mode]]@resid_response))
+                ts.vec <- seq(nlayers(x[[y]]@resid_response))
               
-              xy <- xyFromCell(x[[mode]]@rsq_predictor, 
-                               cell = x[[mode]]@cell_bp)
+              xy <- xyFromCell(x[[y]]@rsq_predictor, 
+                               cell = x[[y]]@cell_bp)
               
               mode.location.p <- xyplot(xy[1, 2] ~ xy[1, 1], cex = 2,
                                         pch = 21, fill = "grey80", col = "black")
@@ -251,7 +262,7 @@ setMethod('plot', signature(x = 'EotStack'),
                                mm = mm.pred, maxpixels = px.pred,
                                colorkey = list(space = "top",
                                                width = 0.7, height = 0.8), 
-                               main = paste(p.prm, "mode", mode, sep = " "), 
+                               main = paste(p.prm, "mode", y, sep = " "), 
                                col.regions = clr, panel = function(..., mm) {
                                  panel.levelplot(...)
                                  if (isTRUE(add.map)) {
@@ -266,7 +277,7 @@ setMethod('plot', signature(x = 'EotStack'),
                                mm = mm.resp, maxpixels = px.resp,
                                colorkey = list(space = "top",
                                                width = 0.7, height = 0.8), 
-                               main = paste(r.prm, "mode", mode, sep = " "), 
+                               main = paste(r.prm, "mode", y, sep = " "), 
                                col.regions = clr, panel = function(..., mm) {
                                  panel.levelplot(...)
                                  if (isTRUE(add.map)) {
@@ -277,18 +288,18 @@ setMethod('plot', signature(x = 'EotStack'),
               
               if (show.bp) resp.p <- resp.p + as.layer(mode.location.p)
               
-              md <- x[[mode]]@mode
+              md <- x[[y]]@mode
               
-              ts.main <- paste("time series eot", x[[mode]]@mode, "\n",
+              ts.main <- paste("time series eot", x[[y]]@mode, "\n",
                                "explained response domain variance:", 
-                               round(if (mode > 1) {
-                                 x[[mode]]@cum_exp_var * 100 -
-                                   x[[mode - 1]]@cum_exp_var * 100
+                               round(if (y > 1) {
+                                 x[[y]]@cum_exp_var * 100 -
+                                   x[[y - 1]]@cum_exp_var * 100
                                } else {
-                                 x[[mode]]@cum_exp_var * 100
+                                 x[[y]]@cum_exp_var * 100
                                }, 2), "%", sep = " ")
               
-              eot.ts <- xyplot(x[[mode]]@eot ~ ts.vec,
+              eot.ts <- xyplot(x[[y]]@eot ~ ts.vec,
                                type = "b", pch = 20, col = "black", 
                                ylab = "", xlab = "",
                                scales = list(tck = c(0.5, 0), x = list(axs = "i")), 

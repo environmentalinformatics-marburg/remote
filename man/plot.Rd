@@ -2,24 +2,24 @@
 \docType{methods}
 \name{plot}
 \alias{plot}
+\alias{plot,EotMode,ANY-method}
 \alias{plot,EotStack,ANY-method}
 \title{Plot an Eot* object}
 \usage{
-\S4method{plot}{EotMode,ANY}(x, pred.prm = "rsq", resp.prm = "r",
+\S4method{plot}{EotMode,ANY}(x, y = 1, pred.prm = "rsq", resp.prm = "r",
   show.bp = FALSE, anomalies = TRUE, add.map = TRUE, ts.vec = NULL,
   arrange = c("wide", "long"), clr = colorRampPalette(rev(brewer.pal(9,
   "Spectral")))(1000), locations = FALSE, ...)
 
-\S4method{plot}{EotStack,ANY}(x, mode = 1, pred.prm = "rsq",
-  resp.prm = "r", show.bp = FALSE, anomalies = TRUE, add.map = TRUE,
-  ts.vec = NULL, arrange = c("wide", "long"),
-  clr = colorRampPalette(rev(brewer.pal(9, "Spectral")))(1000),
-  locations = FALSE, ...)
+\S4method{plot}{EotStack,ANY}(x, y = 1, pred.prm = "rsq", resp.prm = "r",
+  show.bp = FALSE, anomalies = TRUE, add.map = TRUE, ts.vec = NULL,
+  arrange = c("wide", "long"), clr = colorRampPalette(rev(brewer.pal(9,
+  "Spectral")))(1000), locations = FALSE, ...)
 }
 \arguments{
 \item{x}{either an object of EotMode or EotStack as returned by \code{\link{eot}}}
 
-\item{mode}{numeric. if x is an EotStack, the mode to be plotted}
+\item{y}{integer or character of the mode to be plotted (e.g. 2 or "mode_2")}
 
 \item{pred.prm}{the parameter of the predictor to be plotted.\cr
 Can be any of "r", "rsq", "rsq.sums", "p", "int" or "slp"}
@@ -46,7 +46,7 @@ EOT calculation to be shown as the x-axis in the time series plot}
 predictor and response fields}
 
 \item{locations}{logical. If x is an EotStack, set this to TRUE to
-produce a map showing the locations of all modes. Ignord if x is an
+produce a map showing the locations of all modes. Ignored if x is an
 EotMode}
 
 \item{...}{further arguments to be passed to \code{\link[raster]{spplot}}}
@@ -63,26 +63,29 @@ domain, iii) the time series at the identified base point
 \examples{
 data(vdendool)
 
-# claculate 2 leading modes
-nh_modes <- eot(pred = vdendool, resp = NULL, n = 2,
+## claculate 2 leading modes
+nh_modes <- eot(x = vdendool, y = NULL, n = 2,
                 reduce.both = FALSE, standardised = FALSE,
                 verbose = TRUE)
 
-# default settings
-plot(nh_modes, mode = 1) # is equivalent to
+## default settings
+plot(nh_modes, y = 1) # is equivalent to
 plot(nh_modes[[1]])
 
-plot(nh_modes, mode = 2) # shows variance explained by mode 2 only
+plot(nh_modes, y = 2) # shows variance explained by mode 2 only
 plot(nh_modes[[2]]) # shows cumulative variance explained by modes 1 & 2
 
-# showing the loction of the mode
-plot(nh_modes, mode = 1, show.bp = TRUE)
+## showing the loction of the mode
+plot(nh_modes, y = 1, show.bp = TRUE)
 
-# changing parameters
-plot(nh_modes, mode = 1, show.bp = TRUE,
+## changing parameters
+plot(nh_modes, y = 1, show.bp = TRUE,
      pred.prm = "r", resp.prm = "p")
 
-# change plot arrangement
-plot(nh_modes, mode = 1, show.bp = TRUE, arrange = "long")
+## change plot arrangement
+plot(nh_modes, y = 1, show.bp = TRUE, arrange = "long")
+
+## plot locations of all base points
+plot(nh_modes, locations = TRUE)
 }
 

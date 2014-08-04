@@ -23,6 +23,7 @@ if (!isGeneric('nmodes')) {
 #' @export
 #' @name nmodes
 #' @rdname nmodes
+#' @aliases nmodes,EotStack-method
 
 setMethod('nmodes', signature(x = 'EotStack'), 
           function(x) { 

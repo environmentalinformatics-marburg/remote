@@ -3,11 +3,12 @@
 \name{predict}
 \alias{predict}
 \alias{predict,EotMode-method}
+\alias{predict,EotStack-method}
 \title{EOT based spatial prediction}
 \usage{
 \S4method{predict}{EotStack}(object, newdata, n = 1, ...)
 
-\S4method{predict}{EotMode}(object, newdata, ...)
+\S4method{predict}{EotMode}(object, newdata, n = 1, ...)
 }
 \arguments{
 \item{object}{an Eot* object}
@@ -50,8 +51,8 @@ pred <- predict(train,
 
 ## compare results
 opar <- par(mfrow = c(1,2))
-plot(australiaGPCP[[101]], main = "original", zlim = c(0, 10))
-plot(pred[[1]], main = "predicted", zlim = c(0, 10))
+plot(australiaGPCP[[13]], main = "original", zlim = c(0, 10))
+plot(pred[[3]], main = "predicted", zlim = c(0, 10))
 par(opar)
 }
 

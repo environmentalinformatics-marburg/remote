@@ -2,6 +2,7 @@
 \docType{methods}
 \name{nmodes}
 \alias{nmodes}
+\alias{nmodes,EotStack-method}
 \title{Number of modes of an EotStack}
 \usage{
 \S4method{nmodes}{EotStack}(x)

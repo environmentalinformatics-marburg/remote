@@ -39,13 +39,14 @@ if ( !isGeneric('predict') ) {
 #' 
 #' ## compare results
 #' opar <- par(mfrow = c(1,2))
-#' plot(australiaGPCP[[101]], main = "original", zlim = c(0, 10))
-#' plot(pred[[1]], main = "predicted", zlim = c(0, 10))
+#' plot(australiaGPCP[[13]], main = "original", zlim = c(0, 10))
+#' plot(pred[[3]], main = "predicted", zlim = c(0, 10))
 #' par(opar)
 #' 
 #' @export
 #' @name predict
 #' @rdname predict
+#' @aliases predict,EotStack-method
 
 setMethod('predict', signature(object = 'EotStack'), 
           function(object, 
@@ -78,10 +79,15 @@ setMethod('predict', signature(object = 'EotStack'),
 #' @describeIn predict
 
 setMethod('predict', signature(object = 'EotMode'), 
-          function(object, newdata, ...) {
+          function(object, 
+                   newdata, 
+                   n = 1, 
+                   ...) {
             
             ### extract identified EOT (@cell_bp) 
-            ts.modes <- newdata[object@cell_bp]
+            ts.modes <- sapply(seq(n), function(i) {
+              newdata[object@cell_bp]
+            })
             
             ### prediction using claculated intercept, slope and values
             pred.stck <- lapply(seq(nlayers(newdata)), function(i) {

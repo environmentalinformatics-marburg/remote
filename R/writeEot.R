@@ -1,3 +1,8 @@
+if (!isGeneric('writeEot')) {
+  setGeneric('writeEot', function(x, ...)
+    standardGeneric('writeEot')) 
+}
+
 #' Write Eot* objects to disk
 #'  
 #' @description
@@ -55,17 +60,12 @@
 #' ## write only one EotMode
 #' writeEot(nh_modes[[2]], prefix = "vdendool")
 #'
+#' @export 
 #' @name writeEot
-#' @aliases writeEot
 #' @rdname writeEot 
-#' @export writeEot
-
+#' @aliases writeEot,EotMode-method
 
 # set methods -------------------------------------------------------------
-if (!isGeneric('writeEot')) {
-  setGeneric('writeEot', function(x, ...)
-    standardGeneric('writeEot')) 
-}
 
 setMethod('writeEot', signature(x = 'EotMode'), 
           function(x, 
@@ -99,6 +99,7 @@ setMethod('writeEot', signature(x = 'EotMode'),
           }
 )
 
+#' @describeIn writeEot
 
 setMethod('writeEot', signature(x = 'EotStack'), 
           function(x, 

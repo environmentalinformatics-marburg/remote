@@ -2,6 +2,7 @@
 \docType{methods}
 \name{nXplain}
 \alias{nXplain}
+\alias{nXplain,EotStack-method}
 \title{Number of EOTs needed for variance explanation}
 \usage{
 \S4method{nXplain}{EotStack}(x, var = 0.9)

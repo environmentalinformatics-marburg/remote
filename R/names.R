@@ -1,3 +1,8 @@
+if (!isGeneric('names')) {
+  setGeneric('names', function(x)
+    standardGeneric('names')) 
+}
+
 #' Names of Eot* objects
 #' 
 #' @param x a EotMode or EotStack
@@ -20,31 +25,32 @@
 #' ## slot names
 #' names(nh_modes[[2]])
 #' 
-#' @export names
+#' @export
 #' @name names
-#' 
+#' @rdname names
+#' @aliases names,EotStack-method
 
-if (!isGeneric('names')) {
-  setGeneric('names', function(x, ...)
-    standardGeneric('names')) 
-}
 
 setMethod('names', signature(x = 'EotStack'), 
-          function(x) { 
-            ln <- names(x@modes)
+          function(x) {
+            ln <- sapply(seq(nmodes(x)), function(i) {
+              paste("mode_", sprintf("%02.f", x[[i]]@mode), sep = "")
+            })
             return(ln)
           }
 )
 
+#' @export
+#' @name names
+#' @rdname names
+#' @aliases names,EotMode-method
 
 setMethod('names', signature(x = 'EotMode'), 
           function(x) { 
-            ln <- c("mode", "eot", "coords_bp", "cell_bp", "cum_exp_var",
-                    "r_predictor", "rsq_predictor", "rsq_sums_predictor", 
-                    "int_predictor", "slp_predictor", "p_predictor", 
-                    "resid_predictor", "r_response", "rsq_response", 
-                    "int_response", "slp_response", 
-                    "p_response", "resid_response")
+            ln <- slotNames(x)
             return(ln)
           }
 )
+
+
+

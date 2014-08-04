@@ -1,3 +1,8 @@
+if ( !isGeneric('eot') ) {
+  setGeneric('eot', function(x, ...)
+    standardGeneric('eot'))
+}
+
 #' EOT analysis of a predictor and (optionally) a response RasterStack
 #' 
 #' @description
@@ -95,17 +100,15 @@
 #'                 reduce.both = FALSE, standardised = FALSE, 
 #'                 verbose = TRUE)
 #' 
-#' plot(nh_modes, mode = 1, show.bp = TRUE)
-#' plot(nh_modes, mode = 2, show.bp = TRUE)
+#' plot(nh_modes, y = 1, show.bp = TRUE)
+#' plot(nh_modes, y = 2, show.bp = TRUE)
 #' 
-#' @export eot
+#' @export
 #' @name eot
+#' @rdname eot
+#' @aliases eot,RasterStack-method
 
 # set methods -------------------------------------------------------------
-if ( !isGeneric('eot') ) {
-  setGeneric('eot', function(x, ...)
-    standardGeneric('eot'))
-}
 
 setMethod('eot', signature(x = 'RasterStack'), 
           function(x, 
@@ -197,6 +200,8 @@ setMethod('eot', signature(x = 'RasterStack'),
           }
 )
 
+#' @describeIn eot
+
 setMethod('eot', signature(x = 'RasterBrick'), 
           function(x, 
                    y = NULL, 
@@ -286,5 +291,4 @@ setMethod('eot', signature(x = 'RasterBrick'),
             return(out)
           }
 )
-
 
