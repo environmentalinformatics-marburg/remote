@@ -143,7 +143,8 @@ setMethod('plot', signature(x = 'EotMode',
                                }
                              }, ...) 
             
-            if (show.bp) pred.p <- pred.p + as.layer(mode.location.p)
+            if (show.bp) pred.p <- pred.p + 
+              latticeExtra::as.layer(mode.location.p)
             
             resp.p <- spplot(rs, 
                              mm = mm.resp, maxpixels = px.resp,
@@ -158,7 +159,8 @@ setMethod('plot', signature(x = 'EotMode',
                                }
                              }, ...) 
             
-            if (show.bp) resp.p <- resp.p + as.layer(mode.location.p)
+            if (show.bp) resp.p <- resp.p + 
+              latticeExtra::as.layer(mode.location.p)
             
             md <- x@mode
             
@@ -173,8 +175,9 @@ setMethod('plot', signature(x = 'EotMode',
                              main = ts.main)
             
             if (anomalies) {
-              eot.ts <- eot.ts + layer(panel.abline(h = 0, col = "grey40", lty = 3), 
-                                       under = TRUE)
+              eot.ts <- eot.ts + 
+                latticeExtra::layer(panel.abline(h = 0, col = "grey40", lty = 3), 
+                                    under = TRUE)
             }
             
             ### set layout to wide or long
@@ -272,7 +275,8 @@ setMethod('plot', signature(x = 'EotStack',
                                  }
                                }, ...) 
               
-              if (show.bp) pred.p <- pred.p + as.layer(mode.location.p)
+              if (show.bp) pred.p <- pred.p + 
+                latticeExtra::as.layer(mode.location.p)
               
               resp.p <- spplot(rs, 
                                mm = mm.resp, maxpixels = px.resp,
@@ -287,7 +291,8 @@ setMethod('plot', signature(x = 'EotStack',
                                  }
                                }, ...) 
               
-              if (show.bp) resp.p <- resp.p + as.layer(mode.location.p)
+              if (show.bp) resp.p <- resp.p + 
+                latticeExtra::as.layer(mode.location.p)
               
               md <- x[[y]]@mode
               
@@ -307,8 +312,9 @@ setMethod('plot', signature(x = 'EotStack',
                                main = ts.main)
               
               if (anomalies) {
-                eot.ts <- eot.ts + layer(panel.abline(h = 0, col = "grey40", lty = 3), 
-                                         under = TRUE)
+                eot.ts <- eot.ts + 
+                  latticeExtra::layer(panel.abline(h = 0, col = "grey40", lty = 3), 
+                                      under = TRUE)
               }
               
               ### set layout to wide or long
@@ -373,7 +379,7 @@ plotLocations <- function(x, ...) {
                      fill = clrs, pch = 21,
                      cex = 2)
   
-  out <- pred.p + as.layer(points.p)
+  out <- pred.p + latticeExtra::as.layer(points.p)
   
   grid.newpage()
   
