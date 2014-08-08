@@ -212,6 +212,7 @@ EotCycle <- function(x,
     # Output returned by function
   out <- new('EotMode',
              mode = n,
+             name = paste("mode", sprintf("%02.f", n), sep = "_"),
              eot = eot.ts,
              coords_bp = xy,
              cell_bp = maxxy,

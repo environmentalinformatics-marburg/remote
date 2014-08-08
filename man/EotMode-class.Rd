@@ -11,6 +11,8 @@ Class EotMode
 \describe{
 \item{\code{mode}}{the number of the identified mode}
 
+\item{\code{name}}{the name of the mode}
+
 \item{\code{eot}}{the EOT (time series) at the identified base point. Note, this is a simple numeric vector}
 
 \item{\code{coords_bp}}{the coordinates of the identified base point}

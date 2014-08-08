@@ -10,5 +10,7 @@ Class EotStack
 
 \describe{
 \item{\code{modes}}{a list containing the individual 'EotMode's of the 'EotStack'}
+
+\item{\code{names}}{the names of the modes}
 }}
 

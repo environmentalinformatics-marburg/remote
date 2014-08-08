@@ -4,24 +4,31 @@
 \alias{names}
 \alias{names,EotMode-method}
 \alias{names,EotStack-method}
+\alias{names<-}
+\alias{names<-,EotMode-method}
+\alias{names<-,EotStack-method}
 \title{Names of Eot* objects}
 \usage{
 \S4method{names}{EotStack}(x)
 
+\S4method{names}{EotStack}(x) <- value
+
 \S4method{names}{EotMode}(x)
+
+\S4method{names}{EotMode}(x) <- value
 }
 \arguments{
 \item{x}{a EotMode or EotStack}
+
+\item{value}{a character vector of up to the same length as \code{x}, or
+    \code{NULL}.}
 }
 \value{
-if \code{x} is a EotStack, the names of the modes,
-if \code{x} is a EotMode, the names of the slots
+if \code{x} is a EotStack, the names of all mdoes,
+if \code{x} is a EotMode, the name the respective mode
 }
 \description{
-Names of Eot* objects
-}
-\details{
-retrieves the names of Eot* objects
+Get or set names of Eot* objects
 }
 \examples{
 data(vdendool)
@@ -30,8 +37,9 @@ nh_modes <- eot(vdendool, n = 2)
 
 ## mode names
 names(nh_modes)
+names(nh_modes) <- c("vdendool1", "vdendool2")
 
-## slot names
+names(nh_modes)
 names(nh_modes[[2]])
 }
 

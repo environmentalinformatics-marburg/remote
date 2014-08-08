@@ -1,5 +1,5 @@
 if (!isGeneric('names')) {
-  setGeneric('names', function(x)
+  setGeneric('names', function(x, ...)
     standardGeneric('names')) 
 }
 
@@ -7,12 +7,12 @@ if (!isGeneric('names')) {
 #' 
 #' @param x a EotMode or EotStack
 #' 
-#' @details
-#' retrieves the names of Eot* objects
+#' @description
+#' Get or set names of Eot* objects
 #' 
 #' @return
-#' if \code{x} is a EotStack, the names of the modes, 
-#' if \code{x} is a EotMode, the names of the slots
+#' if \code{x} is a EotStack, the names of all mdoes, 
+#' if \code{x} is a EotMode, the name the respective mode
 #' 
 #' @examples
 #' data(vdendool)
@@ -21,8 +21,9 @@ if (!isGeneric('names')) {
 #' 
 #' ## mode names
 #' names(nh_modes)
+#' names(nh_modes) <- c("vdendool1", "vdendool2")
 #' 
-#' ## slot names
+#' names(nh_modes)
 #' names(nh_modes[[2]])
 #' 
 #' @export
@@ -33,10 +34,28 @@ if (!isGeneric('names')) {
 
 setMethod('names', signature(x = 'EotStack'), 
           function(x) {
-            ln <- sapply(seq(nmodes(x)), function(i) {
-              paste("mode_", sprintf("%02.f", x[[i]]@mode), sep = "")
-            })
-            return(ln)
+            x@names
+          }
+)
+
+#' @export
+#' @name names<-
+#' @rdname names
+#' @aliases names<-,EotStack-method
+
+setMethod('names<-', signature(x = 'EotStack'), 
+          function(x, value) {
+            nm <- nmodes(x)
+            if (is.null(value)) {
+              value <- rep('', nm)
+            } else if (length(value) != nm) {
+              stop('incorrect number of mode names')
+            }
+            x@names <- value
+            for (i in seq(x@modes)) {
+              x@modes[[i]]@name <- x@names[i]
+            }
+            return(x)
           }
 )
 
@@ -47,10 +66,18 @@ setMethod('names', signature(x = 'EotStack'),
 
 setMethod('names', signature(x = 'EotMode'), 
           function(x) { 
-            ln <- slotNames(x)
-            return(ln)
+            x@name
           }
 )
 
+#' @export
+#' @name names<-
+#' @rdname names
+#' @aliases names<-,EotMode-method
 
-
+setMethod('names<-', signature(x = 'EotMode'), 
+          function(x, value) {
+            x@name <- value
+            return(x)
+          }
+)

@@ -74,18 +74,14 @@ setMethod('writeEot', signature(x = 'EotMode'),
                    overwrite = TRUE,
                    ...) { 
             
-            out.name <- lapply(c("pred_r", "pred_rsq", "pred_rsq_sums", 
-                                 "pred_int", "pred_slp", "pred_p", 
-                                 "pred_resids", "resp_r", "resp_rsq", 
-                                 "resp_int", "resp_slp", "resp_p", 
-                                 "resp_resids"), 
+            out.name <- lapply(slotNames(x)[7:19], 
                                function(i) {
                                  paste(prefix, "mode", sprintf("%02.f", 
                                                                x@mode), 
                                        i, sep = "_")
                                })
             
-            out.object <- lapply(names(x)[6:18], function(j) {
+            out.object <- lapply(slotNames(x)[7:19], function(j) {
               slot(x, j)
             })
             

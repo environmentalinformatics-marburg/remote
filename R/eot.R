@@ -153,6 +153,9 @@ setMethod('eot', signature(x = 'RasterStack'),
                                   verbose = verbose,
                                   prefix = prefix)
                 
+                names(x.eot) <- paste("mode_", sprintf("%02.f", z), 
+                                      sep = "")
+                
                 # Use last entry of slot 'residuals' otherwise  
               } else if (z > 1) {
                 tmp.x.eot <- EotCycle(
@@ -182,11 +185,16 @@ setMethod('eot', signature(x = 'RasterStack'),
                 
                 if (z == 2) {
                   x.eot <- list(x.eot, tmp.x.eot)
-                  names(x.eot) <- c("mode_1", paste("mode", z, sep = "_"))
+                  names(x.eot) <- c(paste("mode_", sprintf("%02.f", 1), 
+                                          sep = ""), 
+                                    paste("mode", sprintf("%02.f", z, 
+                                                          sep = "_")))
                 } else {
                   tmp.names <- names(x.eot)
                   x.eot <- append(x.eot, list(tmp.x.eot))
-                  names(x.eot) <- c(tmp.names, paste("mode", z, sep = "_"))
+                  names(x.eot) <- c(tmp.names, 
+                                    paste("mode", sprintf("%02.f", z, 
+                                                          sep = "_")))
                 }
               }
             }
@@ -194,7 +202,7 @@ setMethod('eot', signature(x = 'RasterStack'),
             if (length(x.eot) == 1) {
               out <- x.eot
             } else {
-              out <- new('EotStack', modes = x.eot)
+              out <- new('EotStack', modes = x.eot, names = names(x.eot))
             }
             return(out)
           }
@@ -245,6 +253,9 @@ setMethod('eot', signature(x = 'RasterBrick'),
                                   verbose = verbose,
                                   prefix = prefix)
                 
+                names(x.eot) <- paste("mode_", sprintf("%02.f", z), 
+                                      sep = "")
+                
                 # Use last entry of slot 'residuals' otherwise  
               } else if (z > 1) {
                 tmp.x.eot <- EotCycle(
@@ -274,11 +285,16 @@ setMethod('eot', signature(x = 'RasterBrick'),
                 
                 if (z == 2) {
                   x.eot <- list(x.eot, tmp.x.eot)
-                  names(x.eot) <- c("mode_1", paste("mode", z, sep = "_"))
+                  names(x.eot) <- c(paste("mode_", sprintf("%02.f", 1), 
+                                          sep = ""), 
+                                    paste("mode", sprintf("%02.f", z, 
+                                                          sep = "_")))
                 } else {
                   tmp.names <- names(x.eot)
                   x.eot <- append(x.eot, list(tmp.x.eot))
-                  names(x.eot) <- c(tmp.names, paste("mode", z, sep = "_"))
+                  names(x.eot) <- c(tmp.names, 
+                                    paste("mode", sprintf("%02.f", z, 
+                                                          sep = "_")))
                 }
               }
             }
@@ -286,7 +302,7 @@ setMethod('eot', signature(x = 'RasterBrick'),
             if (length(x.eot) == 1) {
               out <- x.eot
             } else {
-              out <- new('EotStack', modes = x.eot)
+              out <- new('EotStack', modes = x.eot, names = names(x.eot))
             }
             return(out)
           }

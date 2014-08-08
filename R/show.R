@@ -4,6 +4,7 @@
 setMethod ('show' , 'EotMode', 
            function(object) {
              cat('class                :', class(object), '\n')
+             cat('name                 :', names(object), '\n')
              cat('base point (x, y)    :', object@coords_bp, '\n')
              cat('cum. expl. variance  :', object@cum_exp_var, '\n')
              cat('dimensions           : ', nrow(object@r_predictor), ', ', 
