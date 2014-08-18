@@ -35,7 +35,7 @@ if ( !isGeneric('eot') ) {
 #' see the References section. In brief, the algorithm works as follows: 
 #' First, the temporal profiles of each pixel \emph{xp} of the predictor domain 
 #' are regressed against the profiles of all pixels \emph{xr} in the 
-#' response domain (in case of only a single field \emph{xr} = \emph{xp} - 1). 
+#' response domain. 
 #' The calculated coefficients of determination are summed up and the pixel 
 #' with the highest sum is identified as the 'base point' of the first/leading mode. 
 #' The temporal profile at this base point is the first/leading EOT. 
@@ -187,14 +187,14 @@ setMethod('eot', signature(x = 'RasterStack'),
                   x.eot <- list(x.eot, tmp.x.eot)
                   names(x.eot) <- c(paste("mode_", sprintf("%02.f", 1), 
                                           sep = ""), 
-                                    paste("mode", sprintf("%02.f", z, 
-                                                          sep = "_")))
+                                    paste("mode", sprintf("%02.f", z), 
+                                          sep = "_"))
                 } else {
                   tmp.names <- names(x.eot)
                   x.eot <- append(x.eot, list(tmp.x.eot))
                   names(x.eot) <- c(tmp.names, 
-                                    paste("mode", sprintf("%02.f", z, 
-                                                          sep = "_")))
+                                    paste("mode", sprintf("%02.f", z), 
+                                          sep = "_"))
                 }
               }
             }
@@ -287,14 +287,14 @@ setMethod('eot', signature(x = 'RasterBrick'),
                   x.eot <- list(x.eot, tmp.x.eot)
                   names(x.eot) <- c(paste("mode_", sprintf("%02.f", 1), 
                                           sep = ""), 
-                                    paste("mode", sprintf("%02.f", z, 
-                                                          sep = "_")))
+                                    paste("mode", sprintf("%02.f", z),
+                                          sep = "_"))
                 } else {
                   tmp.names <- names(x.eot)
                   x.eot <- append(x.eot, list(tmp.x.eot))
                   names(x.eot) <- c(tmp.names, 
-                                    paste("mode", sprintf("%02.f", z, 
-                                                          sep = "_")))
+                                    paste("mode", sprintf("%02.f", z), 
+                                          sep = "_"))
                 }
               }
             }

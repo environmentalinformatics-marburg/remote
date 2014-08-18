@@ -85,7 +85,7 @@ For a detailed description of the EOT algorithm and the mathematics behind it,
 see the References section. In brief, the algorithm works as follows:
 First, the temporal profiles of each pixel \emph{xp} of the predictor domain
 are regressed against the profiles of all pixels \emph{xr} in the
-response domain (in case of only a single field \emph{xr} = \emph{xp} - 1).
+response domain.
 The calculated coefficients of determination are summed up and the pixel
 with the highest sum is identified as the 'base point' of the first/leading mode.
 The temporal profile at this base point is the first/leading EOT.
