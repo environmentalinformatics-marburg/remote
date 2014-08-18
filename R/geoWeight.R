@@ -1,8 +1,10 @@
 #' Geographic weighting
 #' 
 #' @description
-#' The function performs geographic weighting using the cosine of latitude 
-#' to compensate for area distortion of non-projected lat/lon data
+#' The function performs geographic weighting of non-projected long/lat
+#' data. By default it uses the cosine of latitude to compensate for the 
+#' area distortion, though the user can supply other functions via \code{f}.
+#' 
 #' 
 #' @param x a Raster* object
 #' @param f a function to be used to the weighting.
