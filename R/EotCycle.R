@@ -30,6 +30,7 @@ EotCycle <- function(x,
                      y.eq.x = FALSE,
                      n = 1,
                      standardised, 
+                     orthogonality,
                      orig.var,
                      write.out,
                      path.out,
@@ -45,6 +46,15 @@ EotCycle <- function(x,
   y.vals <- getValues(y)
   type <- type[1]
   
+  # Switch between space / time orthogonality
+  x.vals <- switch(orthogonality,
+                   "time" = x.vals,
+                   "space" = t(x.vals))
+  
+  y.vals <- switch(orthogonality,
+                   "time" = y.vals,
+                   "space" = t(y.vals))
+  
   # Calculate and summarize R-squared per pred pixel
   if (verbose) {
     cat("\nCalculating linear model ...", "\n")
@@ -54,10 +64,13 @@ EotCycle <- function(x,
   if (type == "rsq") {
     a <- predRsquaredSum(pred_vals = x.vals, resp_vals = y.vals, 
                          standardised = standardised)
+#     a <- switch(orthogonality,
+#                 "time" = a,
+#                 "space" = t(a))
   } else {
     a <- iodaSumC(pred_vals = x.vals, resp_vals = y.vals)
   }
-  
+  print(a)
   # Identify pred pixel with highest sum of r.squared
   if (verbose) {
     cat("Locating ", n, ". EOT ...", "\n", sep = "")
@@ -84,13 +97,19 @@ EotCycle <- function(x,
   
   # lm(y.vals[i, ] ~ x.vals[maxxy, ]) with T statistics
   y.lm.param.t <- respLmParam(x.vals, y.vals, maxxy - 1) # C++ starts at 0!
+  y.lm.param.t <- switch(orthogonality,
+                         "time" = y.lm.param.t,
+                         "space" = t(y.lm.param.t))
   # Calculate p value from T statistics
   y.lm.param.p <- lapply(y.lm.param.t, function(i) {
     tmp <- i
     tmp[[5]] <- 2 * pt(-abs(tmp[[5]]), df = tmp[[6]])
     
     return(tmp)
-  })  
+  })
+  y.lm.param.p <- switch(orthogonality,
+                         "time" = y.lm.param.p,
+                         "space" = t(y.lm.param.p))
   
   
   ## Rasterize lm parameters
@@ -134,6 +153,9 @@ EotCycle <- function(x,
     
     # lm(x.vals[i, ] ~ x.vals[maxxy, ]) with T statistics
     x.lm.param.t <- respLmParam(x.vals, x.vals, maxxy - 1) # C++ starts at 0!
+  x.lm.param.t <- switch(orthogonality,
+                         "time" = x.lm.param.t,
+                         "space" = t(x.lm.param.t))
     # Calculate p value from T statistics
     x.lm.param.p <- lapply(x.lm.param.t, function(i) {
       tmp <- i
@@ -141,7 +163,9 @@ EotCycle <- function(x,
       
       return(tmp)
     })  
-    
+  x.lm.param.p <- switch(orthogonality,
+                         "time" = x.lm.param.p,
+                         "space" = t(x.lm.param.p))
     
     ## Rasterize lm parameters
     
