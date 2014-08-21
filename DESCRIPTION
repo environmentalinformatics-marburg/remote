@@ -21,6 +21,9 @@ Depends:
     methods
 Suggests:
     maps,
+    lattice,
     latticeExtra,
-    gridExtra
+    grid,
+    gridExtra,
+    sp
 LinkingTo: Rcpp

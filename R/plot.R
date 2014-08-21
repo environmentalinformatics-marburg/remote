@@ -151,44 +151,44 @@ setMethod('plot', signature(x = 'EotMode',
               px.pred <- raster::ncell(ps)
               px.resp <- raster::ncell(rs)
               
-              pred.p <- spplot(ps, 
-                               mm = mm.pred, maxpixels = px.pred,
-                               colorkey = list(space = "top",
-                                               width = 0.7, 
-                                               height = 0.8), 
-                               main = paste(p.prm, "mode", x@mode, 
-                                            sep = " "),
-                               col.regions = clr, 
-                               panel = function(..., mm) {
-                                 lattice::panel.levelplot(...)
-                                 if (isTRUE(add.map)) {
-                                   lattice::panel.polygon(
-                                     mm$x, mm$y, 
-                                     lwd = 0.5, 
-                                     border = "grey20")
-                                 }
-                               }, ...) 
+              pred.p <- sp::spplot(ps, 
+                                   mm = mm.pred, maxpixels = px.pred,
+                                   colorkey = list(space = "top",
+                                                   width = 0.7, 
+                                                   height = 0.8), 
+                                   main = paste(p.prm, "mode", x@mode, 
+                                                sep = " "),
+                                   col.regions = clr, 
+                                   panel = function(..., mm) {
+                                     lattice::panel.levelplot(...)
+                                     if (isTRUE(add.map)) {
+                                       lattice::panel.polygon(
+                                         mm$x, mm$y, 
+                                         lwd = 0.5, 
+                                         border = "grey20")
+                                     }
+                                   }, ...) 
               
               if (show.bp) pred.p <- pred.p + 
                 latticeExtra::as.layer(mode.location.p)
               
-              resp.p <- spplot(rs, 
-                               mm = mm.resp, maxpixels = px.resp,
-                               colorkey = list(space = "top",
-                                               width = 0.7, 
-                                               height = 0.8), 
-                               main = paste(r.prm, "mode", x@mode, 
-                                            sep = " "), 
-                               col.regions = clr, 
-                               panel = function(..., mm) {
-                                 lattice::panel.levelplot(...)
-                                 if (isTRUE(add.map)) {
-                                   lattice::panel.polygon(
-                                     mm$x, mm$y, 
-                                     lwd = 0.5, 
-                                     border = "grey20")
-                                 }
-                               }, ...) 
+              resp.p <- sp::spplot(rs, 
+                                   mm = mm.resp, maxpixels = px.resp,
+                                   colorkey = list(space = "top",
+                                                   width = 0.7, 
+                                                   height = 0.8), 
+                                   main = paste(r.prm, "mode", x@mode, 
+                                                sep = " "), 
+                                   col.regions = clr, 
+                                   panel = function(..., mm) {
+                                     lattice::panel.levelplot(...)
+                                     if (isTRUE(add.map)) {
+                                       lattice::panel.polygon(
+                                         mm$x, mm$y, 
+                                         lwd = 0.5, 
+                                         border = "grey20")
+                                     }
+                                   }, ...) 
               
               if (show.bp) resp.p <- resp.p + 
                 latticeExtra::as.layer(mode.location.p)
@@ -326,44 +326,44 @@ setMethod('plot', signature(x = 'EotStack',
                 px.pred <- raster::ncell(ps)
                 px.resp <- raster::ncell(rs)
                 
-                pred.p <- spplot(ps, 
-                                 mm = mm.pred, maxpixels = px.pred,
-                                 colorkey = list(space = "top",
-                                                 width = 0.7, 
-                                                 height = 0.8), 
-                                 main = paste(p.prm, "mode", y, 
-                                              sep = " "), 
-                                 col.regions = clr, 
-                                 panel = function(..., mm) {
-                                   lattice::panel.levelplot(...)
-                                   if (isTRUE(add.map)) {
-                                     lattice::panel.polygon(
-                                       mm$x, mm$y, 
-                                       lwd = 0.5, 
-                                       border = "grey20")
-                                   }
-                                 }, ...) 
+                pred.p <- sp::spplot(ps, 
+                                     mm = mm.pred, maxpixels = px.pred,
+                                     colorkey = list(space = "top",
+                                                     width = 0.7, 
+                                                     height = 0.8), 
+                                     main = paste(p.prm, "mode", y, 
+                                                  sep = " "), 
+                                     col.regions = clr, 
+                                     panel = function(..., mm) {
+                                       lattice::panel.levelplot(...)
+                                       if (isTRUE(add.map)) {
+                                         lattice::panel.polygon(
+                                           mm$x, mm$y, 
+                                           lwd = 0.5, 
+                                           border = "grey20")
+                                       }
+                                     }, ...) 
                 
                 if (show.bp) pred.p <- pred.p + 
                   latticeExtra::as.layer(mode.location.p)
                 
-                resp.p <- spplot(rs, 
-                                 mm = mm.resp, maxpixels = px.resp,
-                                 colorkey = list(space = "top",
-                                                 width = 0.7, 
-                                                 height = 0.8), 
-                                 main = paste(r.prm, "mode", y, 
-                                              sep = " "), 
-                                 col.regions = clr, 
-                                 panel = function(..., mm) {
-                                   lattice::panel.levelplot(...)
-                                   if (isTRUE(add.map)) {
-                                     lattice::panel.polygon(
-                                       mm$x, mm$y, 
-                                       lwd = 0.5, 
-                                       border = "grey20")
-                                   }
-                                 }, ...) 
+                resp.p <- sp::spplot(rs, 
+                                     mm = mm.resp, maxpixels = px.resp,
+                                     colorkey = list(space = "top",
+                                                     width = 0.7, 
+                                                     height = 0.8), 
+                                     main = paste(r.prm, "mode", y, 
+                                                  sep = " "), 
+                                     col.regions = clr, 
+                                     panel = function(..., mm) {
+                                       lattice::panel.levelplot(...)
+                                       if (isTRUE(add.map)) {
+                                         lattice::panel.polygon(
+                                           mm$x, mm$y, 
+                                           lwd = 0.5, 
+                                           border = "grey20")
+                                       }
+                                     }, ...) 
                 
                 if (show.bp) resp.p <- resp.p + 
                   latticeExtra::as.layer(mode.location.p)
@@ -452,17 +452,17 @@ plotLocations <- function(x, ...) {
     mm <- maps::map("world", plot = FALSE, fill = TRUE)
     px.pred <- raster::ncell(x[[1]]@r_predictor)
     
-    pred.p <- spplot(x[[1]]@rsq_predictor, 
-                     mm = mm, maxpixels = px.pred,
-                     colorkey = FALSE, 
-                     col.regions = "grey50", 
-                     panel = function(..., mm) {
-                       lattice::panel.levelplot(...)
-                       lattice::panel.polygon(
-                         mm$x, mm$y, lwd = 0.5, 
-                         border = "grey20", 
-                         col = "grey70")
-                     }, ...) 
+    pred.p <- sp::spplot(x[[1]]@rsq_predictor, 
+                         mm = mm, maxpixels = px.pred,
+                         colorkey = FALSE, 
+                         col.regions = "grey50", 
+                         panel = function(..., mm) {
+                           lattice::panel.levelplot(...)
+                           lattice::panel.polygon(
+                             mm$x, mm$y, lwd = 0.5, 
+                             border = "grey20", 
+                             col = "grey70")
+                         }, ...) 
     
     clrs.hcl <- function(n) {
       hcl(h = seq(270, 0, length.out = n), 
