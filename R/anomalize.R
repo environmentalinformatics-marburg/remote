@@ -31,7 +31,7 @@ anomalize <- function(x,
                       ...) {
   
   if (is.null(reference)) {
-    mn <- calc(x, fun = mean, ...)
+    mn <- raster::calc(x, fun = mean, ...)
   } else {
     mn <- reference
   }

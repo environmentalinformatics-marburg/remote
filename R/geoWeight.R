@@ -29,7 +29,7 @@ geoWeight <- function(x,
                       ...) {
   
   x.vals <- x[]
-  rads <- deg2rad(coordinates(x)[, 2])
+  rads <- deg2rad(sp::coordinates(x)[, 2])
   x.weightd <- x.vals * f(rads, ...)
   x[] <- x.weightd
   return(x)

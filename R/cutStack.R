@@ -32,10 +32,10 @@ cutStack <- function(x,
   } else {
     # Supplied RasterStack is predictor:
     if (tail) {
-      return(x[[1:(nlayers(x)-n)]])
+      return(x[[1:(raster::nlayers(x)-n)]])
     # Supplied RasterStack is response:  
     } else {
-      return(x[[(n+1):nlayers(x)]])
+      return(x[[(n+1):raster::nlayers(x)]])
     }
   }
   

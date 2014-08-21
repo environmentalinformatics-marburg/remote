@@ -41,8 +41,8 @@ EotCycle <- function(x,
     ### Identification of the most explanatory pred pixel
   
   # Extract pixel entries from RasterStack objects
-  x.vals <- getValues(x)
-  y.vals <- getValues(y)
+  x.vals <- raster::getValues(x)
+  y.vals <- raster::getValues(y)
   type <- type[1]
   
   # Calculate and summarize R-squared per pred pixel
@@ -75,7 +75,7 @@ EotCycle <- function(x,
   }
 
   if (verbose) {
-    cat("Location:", xyFromCell(x, maxxy), "\n", sep = " ")
+    cat("Location:", raster::xyFromCell(x, maxxy), "\n", sep = " ")
   }
   
   ### Regression of most explanatory pred pixel with resp pixels
@@ -96,18 +96,24 @@ EotCycle <- function(x,
   ## Rasterize lm parameters
   
   # RasterLayer template for R-squared, slope and p value
-  rst.y.template <- raster(nrows = nrow(y), ncols = ncol(y), 
-                         xmn = xmin(y), xmx = xmax(y), 
-                         ymn = ymin(y), ymx = ymax(y))
+  rst.y.template <- raster::raster(nrows = raster::nrow(y), 
+                                   ncols = raster::ncol(y), 
+                                   xmn = raster::xmin(y), 
+                                   xmx = raster::xmax(y), 
+                                   ymn = raster::ymin(y), 
+                                   ymx = raster::ymax(y))
   
   rst.y.r <- rst.y.rsq <- rst.y.intercept <- 
     rst.y.slp <- rst.y.p <- rst.y.template
 
   # RasterBrick template for residuals
-  brck.y.resids <- brick(nrows = nrow(y), ncols = ncol(y), 
-                            xmn = xmin(y), xmx = xmax(y), 
-                            ymn = ymin(y), ymx = ymax(y), 
-                            nl = nlayers(y))
+  brck.y.resids <- raster::brick(nrows = raster::nrow(y), 
+                                 ncols = raster::ncol(y), 
+                                 xmn = raster::xmin(y), 
+                                 xmx = raster::xmax(y), 
+                                 ymn = raster::ymin(y), 
+                                 ymx = raster::ymax(y), 
+                                 nl = raster::nlayers(y))
   
   # R
   rst.y.r[] <- sapply(y.lm.param.p, "[[", 1)
@@ -121,7 +127,7 @@ EotCycle <- function(x,
   rst.y.p[] <- sapply(y.lm.param.p, "[[", 5)
   # Residuals
   brck.y.resids[] <- matrix(sapply(y.lm.param.p, "[[", 4), 
-                               ncol = nlayers(x), byrow = TRUE)
+                            ncol = raster::nlayers(x), byrow = TRUE)
   # EOT over time
   eot.ts <- as.numeric(raster::extract(x, maxxy)[1, ])
   
@@ -146,19 +152,25 @@ EotCycle <- function(x,
     ## Rasterize lm parameters
     
     # RasterLayer template for R-squared, slope and p value
-    rst.x.template <- raster(nrows = nrow(x), ncols = ncol(x), 
-                                xmn = xmin(x), xmx = xmax(x), 
-                                ymn = ymin(x), ymx = ymax(x))
+  rst.x.template <- raster::raster(nrows = raster::nrow(x), 
+                                   ncols = raster::ncol(x), 
+                                   xmn = raster::xmin(x), 
+                                   xmx = raster::xmax(x), 
+                                   ymn = raster::ymin(x), 
+                                   ymx = raster::ymax(x))
     
     rst.x.r <- rst.x.rsq <- rst.x.rsq.sums <- rst.x.intercept <- 
       rst.x.slp <- rst.x.p <- rst.x.template
     
     # RasterBrick template for residuals
-    brck.x.resids <- brick(nrows = nrow(x), ncols = ncol(x), 
-                              xmn = xmin(x), xmx = xmax(x), 
-                              ymn = ymin(x), ymx = ymax(x), 
-                              nl = nlayers(x))
-    
+  brck.x.resids <- raster::brick(nrows = raster::nrow(x), 
+                                 ncols = raster::ncol(x), 
+                                 xmn = raster::xmin(x), 
+                                 xmx = raster::xmax(x), 
+                                 ymn = raster::ymin(x), 
+                                 ymx = raster::ymax(x), 
+                                 nl = raster::nlayers(x))
+  
     # R
     rst.x.r[] <- sapply(x.lm.param.p, "[[", 1)
     # R-squared
@@ -173,7 +185,7 @@ EotCycle <- function(x,
     rst.x.p[] <- sapply(x.lm.param.p, "[[", 5)
     # Residuals
     brck.x.resids[] <- matrix(sapply(x.lm.param.p, "[[", 4), 
-                                 ncol = nlayers(x), byrow = TRUE)
+                              ncol = raster::nlayers(x), byrow = TRUE)
   
 #     #expl.var <- x[maxxy] / orig.var
 #   if (!standardised) {
@@ -194,7 +206,7 @@ EotCycle <- function(x,
     cat("Cum. expl. variance (%):", cum.expl.var * 100, "\n", sep = " ")
   }
   
-  xy <- xyFromCell(x, maxxy)
+  xy <- raster::xyFromCell(x, maxxy)
   location.df <- as.data.frame(cbind(xy, paste("mode", 
                                                sprintf("%02.f", n), 
                                                sep = "_"),

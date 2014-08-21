@@ -8,13 +8,11 @@
 \usage{
 \S4method{plot}{EotMode,ANY}(x, y, pred.prm = "rsq", resp.prm = "r",
   show.bp = FALSE, anomalies = TRUE, add.map = TRUE, ts.vec = NULL,
-  arrange = c("wide", "long"), clr = colorRampPalette(rev(brewer.pal(9,
-  "Spectral")))(1000), locations = FALSE, ...)
+  arrange = c("wide", "long"), clr = NULL, locations = FALSE, ...)
 
 \S4method{plot}{EotStack,ANY}(x, y, pred.prm = "rsq", resp.prm = "r",
   show.bp = FALSE, anomalies = TRUE, add.map = TRUE, ts.vec = NULL,
-  arrange = c("wide", "long"), clr = colorRampPalette(rev(brewer.pal(9,
-  "Spectral")))(1000), locations = FALSE, ...)
+  arrange = c("wide", "long"), clr = NULL, locations = FALSE, ...)
 }
 \arguments{
 \item{x}{either an object of EotMode or EotStack as returned by \code{\link{eot}}}

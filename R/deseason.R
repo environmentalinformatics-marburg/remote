@@ -30,9 +30,9 @@ deseason <- function(x,
                      ...) {
   
   # Calculate layer averages based on supplied seasonal window
-  x.mv <- stack(rep(lapply(1:cycle.window, function(i) {
-    calc(x[[seq(i, nlayers(x), cycle.window)]], fun = mean)
-  }), nlayers(x) / cycle.window))
+  x.mv <- raster::stack(rep(lapply(1:cycle.window, function(i) {
+    raster::calc(x[[seq(i, raster::nlayers(x), cycle.window)]], fun = mean)
+  }), raster::nlayers(x) / cycle.window))
   
   # Subtract monthly averages from actually measured values
   x.dsn <- x - x.mv

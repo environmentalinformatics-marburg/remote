@@ -60,16 +60,16 @@ setMethod('predict', signature(object = 'EotStack'),
             })
             
             ### prediction using claculated intercept, slope and values
-            pred.stck <- lapply(seq(nlayers(newdata)), function(i) {
-              stack(lapply(seq(ncol(ts.modes)), function(k) {
+            pred.stck <- lapply(seq(raster::nlayers(newdata)), function(i) {
+              raster::stack(lapply(seq(ncol(ts.modes)), function(k) {
                 object[[k]]@int_response + 
                   object[[k]]@slp_response * ts.modes[i, k]
               }))
             })
             
             ### summate prediction for each mode at each time step
-            pred <- stack(lapply(seq(nrow(ts.modes)), function(i) {
-              calc(pred.stck[[i]], fun = sum, ...)
+            pred <- raster::stack(lapply(seq(nrow(ts.modes)), function(i) {
+              raster::calc(pred.stck[[i]], fun = sum, ...)
             }))
             
             return(pred)
@@ -90,8 +90,8 @@ setMethod('predict', signature(object = 'EotMode'),
             })
             
             ### prediction using claculated intercept, slope and values
-            pred.stck <- lapply(seq(nlayers(newdata)), function(i) {
-              stack(lapply(seq(ncol(ts.modes)), function(k) {
+            pred.stck <- lapply(seq(raster::nlayers(newdata)), function(i) {
+              raster::stack(lapply(seq(ncol(ts.modes)), function(k) {
                 object@int_response + 
                   object@slp_response * ts.modes[i, k]
               }))
@@ -99,7 +99,7 @@ setMethod('predict', signature(object = 'EotMode'),
             
             ### summate prediction for each mode at each time step
             pred <- stack(lapply(seq(nrow(ts.modes)), function(i) {
-              calc(pred.stck[[i]], fun = sum, ...)
+              raster::calc(pred.stck[[i]], fun = sum, ...)
             }))
             
             return(pred)

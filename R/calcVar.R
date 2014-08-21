@@ -19,11 +19,13 @@
 calcVar <- function(x, standardised = FALSE, ...) {
   
   if (!standardised) {
-    t <- mean(apply(getValues(x), 1, var, na.rm = TRUE), na.rm = TRUE)
-    s <- mean(apply(getValues(x), 2, var, na.rm = TRUE), na.rm = TRUE)
+    t <- mean(apply(raster::getValues(x), 1, var, na.rm = TRUE), 
+              na.rm = TRUE)
+    s <- mean(apply(raster::getValues(x), 2, var, na.rm = TRUE), 
+              na.rm = TRUE)
     vrnc <- t + s
   } else {
-    vrnc <- var(as.vector(getValues(x)), na.rm = TRUE)
+    vrnc <- var(as.vector(raster::getValues(x)), na.rm = TRUE)
   }
   
   return(vrnc)

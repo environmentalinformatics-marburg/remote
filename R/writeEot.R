@@ -89,8 +89,8 @@ setMethod('writeEot', signature(x = 'EotMode'),
             
             foreach(a = unlist(out.object), 
                     b = unlist(out.name)) %do% { 
-                      writeRaster(a, paste(path.out, b, sep = "/"), 
-                                  overwrite = overwrite, ...)
+                      raster::writeRaster(a, paste(path.out, b, sep = "/"), 
+                                          overwrite = overwrite, ...)
                     }
           }
 )

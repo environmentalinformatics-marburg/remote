@@ -26,6 +26,6 @@ getWeights <- function(x,
                        f = function(x) cos(x),
                        ...) {
   
-  f(deg2rad(coordinates(x)[, 2]), ...)
+  f(deg2rad(sp::coordinates(x)[, 2]), ...)
 
 }

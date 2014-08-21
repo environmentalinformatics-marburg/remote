@@ -34,12 +34,13 @@ denoise <- function(x,
                     weighted = TRUE,
                     ...) {
 
-  x.vals <- x[]
+  x.vals <- raster::getValues(x)
   #x.vals[is.na(x.vals)] <- 0
   
   # PCA
   if (weighted) { 
-    pca <- princomp(~ x.vals, covmat = covWeight(x.vals, getWeights(x)), 
+    pca <- princomp(~ x.vals, covmat = covWeight(x.vals, 
+                                                 remote::getWeights(x)), 
                     scores = TRUE, na.action = na.exclude, ...)
   } else {
     pca <- princomp(~ x.vals, scores = TRUE, na.action = na.exclude, ...)
@@ -56,7 +57,7 @@ denoise <- function(x,
       "Using the first ",
       k,
       " components (of ",
-      nlayers(x),
+      raster::nlayers(x),
       ") to reconstruct series...\n",
       " these account for ",
       expl.var,
@@ -70,7 +71,7 @@ denoise <- function(x,
   })
   
   # Insert reconstructed values in original data set 
-  x.tmp <- brick(lapply(seq(recons), function(i) {
+  x.tmp <- raster::brick(lapply(seq(recons), function(i) {
     tmp.x <- x[[i]]
     tmp.x[] <- recons[[i]]
     return(tmp.x)

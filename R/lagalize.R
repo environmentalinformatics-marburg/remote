@@ -38,11 +38,11 @@ lagalize <- function(x,
     
     # Lagalize predictor stack
     x.lag <- cutStack(x = x, tail = TRUE, n = lag)
-    x.lag.adj <- x.lag[[1:(nlayers(x.lag) - rest)]]
+    x.lag.adj <- x.lag[[1:(raster::nlayers(x.lag) - rest)]]
     
     # Lagalize response stack
     y.lag <- cutStack(x = y, tail = FALSE, n = lag)
-    y.lag.adj <- y.lag[[1:(nlayers(y.lag) - rest)]]
+    y.lag.adj <- y.lag[[1:(raster::nlayers(y.lag) - rest)]]
     
     # Return list of lagalized stacks
     return(list(x.lag, y.lag))
