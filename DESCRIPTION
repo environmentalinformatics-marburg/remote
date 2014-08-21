@@ -18,7 +18,8 @@ Depends:
     Rcpp (>= 0.10.3),
     raster,
     foreach,
-    methods,
+    methods
+Suggests:
     maps,
     latticeExtra,
     gridExtra
