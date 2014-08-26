@@ -3,19 +3,19 @@
 \alias{cutStack}
 \title{Shorten a RasterStack}
 \usage{
-cutStack(data, tail = TRUE, lag = NULL)
+cutStack(x, tail = TRUE, n = NULL)
 }
 \arguments{
-\item{data}{a RasterStack}
+\item{x}{a RasterStack}
 
-\item{tail}{logical. If \code{TRUE} the layers will be taken away from
-the end of the stack. If \code{FALSE} layers will be taken away from
+\item{tail}{logical. If \code{TRUE} the layers will be taken off
+the end of the stack. If \code{FALSE} layers will be taken off
 the beginning.}
 
-\item{lag}{the number of layers to take away.}
+\item{n}{the number of layers to take away.}
 }
 \value{
-a RasterStack shortened by \code{lag} either from the
+a RasterStack shortened by \code{n} layers either from the
 beginning or the end, depending on the specification of \code{tail}
 }
 \description{
@@ -26,8 +26,8 @@ order to create lagged RasterStacks.
 data(australiaGPCP)
 
 # 6 layers from the beginning
-cutStack(australiaGPCP, tail = FALSE, lag = 6)
+cutStack(australiaGPCP, tail = FALSE, n = 6)
 # 8 layers from the end
-cutStack(australiaGPCP, tail = TRUE, lag = 8)
+cutStack(australiaGPCP, tail = TRUE, n = 8)
 }
 

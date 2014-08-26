@@ -3,17 +3,23 @@
 \alias{geoWeight}
 \title{Geographic weighting}
 \usage{
-geoWeight(x)
+geoWeight(x, f = function(x) cos(x), ...)
 }
 \arguments{
 \item{x}{a Raster* object}
+
+\item{f}{a function to be used to the weighting.
+Defaults to \code{cos(x)}}
+
+\item{...}{additional arguments to be passed to f}
 }
 \value{
 a weighted Raster* object
 }
 \description{
-The function performs geographic weighting using the cosine of latitude
-to compensate for area distortion of non-projected lat/lon data
+The function performs geographic weighting of non-projected long/lat
+data. By default it uses the cosine of latitude to compensate for the
+area distortion, though the user can supply other functions via \code{f}.
 }
 \examples{
 data(vdendool)

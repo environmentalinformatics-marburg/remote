@@ -3,14 +3,14 @@
 \alias{lagalize}
 \title{Create lagged RasterStacks}
 \usage{
-lagalize(data.pred, data.resp, lag = NULL, freq = 12, ...)
+lagalize(x, y, lag = NULL, freq = 12, ...)
 }
 \arguments{
-\item{data.pred}{a RasterStack (to be cut from tail)}
+\item{x}{a RasterStack (to be cut from tail)}
 
-\item{data.resp}{a RasterStack (to be cut from beginning)}
+\item{y}{a RasterStack (to be cut from beginning)}
 
-\item{lag}{the desired lag (in the native frequency of the stacks)}
+\item{lag}{the desired lag (in the native frequency of the RasterStack)}
 
 \item{freq}{the frequency of the RasterStacks}
 
@@ -20,7 +20,7 @@ lagalize(data.pred, data.resp, lag = NULL, freq = 12, ...)
 a list with the two RasterStacks lagged by \code{lag}
 }
 \description{
-The function is used to produce lagged RasterStacks. The second is cut
+The function is used to produce two lagged RasterStacks. The second is cut
 from the beginning, the first from the tail to ensure equal output lengths
 (provided that input lengths were equal).
 }

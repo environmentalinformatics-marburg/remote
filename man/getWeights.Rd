@@ -3,10 +3,15 @@
 \alias{getWeights}
 \title{Calculate weights from latitude}
 \usage{
-getWeights(x)
+getWeights(x, f = function(x) cos(x), ...)
 }
 \arguments{
 \item{x}{a Raster* object}
+
+\item{f}{a function to be used to the weighting.
+Defaults to \code{cos(x)}}
+
+\item{...}{additional arguments to be passed to f}
 }
 \value{
 a numeric vector of weights
@@ -18,12 +23,12 @@ distortion of non-projected lat/lon data
 \examples{
 data("australiaGPCP")
 wghts <- getWeights(australiaGPCP)
-wghts.rst <- australiaGPCP[[1]]
-wghts.rst[] <- wghts
+wghts_rst <- australiaGPCP[[1]]
+wghts_rst[] <- wghts
 
 opar <- par(mfrow = c(1,2))
 plot(australiaGPCP[[1]], main = "data")
-plot(wghts.rst, main = "weights")
+plot(wghts_rst, main = "weights")
 par(opar)
 }
 

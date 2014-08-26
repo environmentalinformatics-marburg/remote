@@ -3,10 +3,10 @@
 \alias{covWeight}
 \title{Create a weighted covariance matrix}
 \usage{
-covWeight(y, weights, ...)
+covWeight(m, weights, ...)
 }
 \arguments{
-\item{y}{a matrix (e.g. as returned by \code{\link{getValues}})}
+\item{m}{a matrix (e.g. as returned by \code{\link{getValues}})}
 
 \item{weights}{a numeric vector of weights. For lat/lon data this
 can be produced with \code{\link{getWeights}}}

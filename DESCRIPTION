@@ -1,20 +1,31 @@
 Package: remote
 Type: Package
 Title: Empirical Orthogonal Teleconnections in R
-Version: 0.1.0
-Date: 2014-02-04
+Version: 0.3.0
+Date: 2014-08-25
 Author: Tim Appelhans, Florian Detsch, Thomas Nauss
 Maintainer: Tim Appelhans <tim.appelhans@gmail.com>
-Description: A collection of functions to facilitate empirical orthogonal
-    teleconnection analysis.
-License: GPL (>= 3)
+Description: 
+    'remote' is short for "R(-based) EMpirical Orthogonal TEleconnections".
+    It implements a collection of functions to facilitate empirical 
+    orthogonal teleconnection analysis. Empirical Orthogonal Teleconnections 
+    (EOTs) denote a regression based approach to decompose spatio-temporal 
+    fields into a set of independent orthogonal patterns. They are quite 
+    similar to Empirical Orthogonal Functions (EOFs) with EOTs producing 
+    less abstract results. In contrast to EOFs, which are orthogonal in both 
+    space and time, EOT analysis produces patterns that are orthogonal in 
+    either space or time.
+License: GPL (>= 3) | file LICENSE
 Depends:
     Rcpp (>= 0.10.3),
     raster,
-    foreach
+    foreach,
+    methods
+Suggests:
+    maps,
+    lattice,
+    latticeExtra,
+    grid,
+    gridExtra,
+    sp
 LinkingTo: Rcpp
-Suggests: 
-  latticeExtra,
-  gridExtra,
-  mapdata,
-  scales

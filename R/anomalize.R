@@ -20,18 +20,18 @@
 #' @examples
 #' data(australiaGPCP)
 #' 
-#' aus.anom <- anomalize(australiaGPCP)
+#' aus_anom <- anomalize(australiaGPCP)
 #' 
 #' opar <- par(mfrow = c(1,2))
-#' plot(australiaGPCP[[1]], main = "original")
-#' plot(aus.anom[[1]], main = "anomalized")
+#' plot(australiaGPCP[[10]], main = "original")
+#' plot(aus_anom[[10]], main = "anomalized")
 #' par(opar)
 anomalize <- function(x, 
                       reference = NULL, 
                       ...) {
   
   if (is.null(reference)) {
-    mn <- calc(x, fun = mean, ...)
+    mn <- raster::calc(x, fun = mean, ...)
   } else {
     mn <- reference
   }
