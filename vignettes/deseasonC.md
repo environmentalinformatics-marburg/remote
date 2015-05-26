@@ -6,17 +6,6 @@ output: html_document
 ---
 
 
-```
-## 
-## 
-## processing file: deseasonC.Rmd
-```
-
-```
-## Error in parse_block(g[-1], g[1], params.src): duplicate label 'set-options'
-```
-
-
 
 The [`deseason`](https://github.com/environmentalinformatics-marburg/remote/blob/master/R/deseason.R) function included in the [R **remote** package](https://github.com/environmentalinformatics-marburg/remote) has recently been [reimplemented in **Rcpp**](https://github.com/environmentalinformatics-marburg/remote/blob/develop/R/deseasonC.R), resulting in a performance speed more than 15 times faster as compared to the initial, solely R-based version.   
 
@@ -50,8 +39,8 @@ microbenchmark(
 
 ```
 ## Unit: milliseconds
-##                     expr     min      lq     mean   median      uq     max neval
-##  deseason(australiaGPCP) 525.516 539.505 550.9109 551.1757 555.346 622.959    20
+##                     expr      min       lq     mean   median       uq      max neval
+##  deseason(australiaGPCP) 521.6178 536.1171 545.9737 547.5532 555.6528 568.9154    20
 ```
 
 #### **Rcpp**-based deseasoning
@@ -65,8 +54,8 @@ microbenchmark(
 
 ```
 ## Unit: milliseconds
-##                      expr     min       lq     mean   median       uq      max neval
-##  deseasonC(australiaGPCP) 22.0234 22.31132 29.60885 22.79637 26.26797 133.0466    20
+##                      expr      min       lq   mean   median       uq      max neval
+##  deseasonC(australiaGPCP) 23.14732 25.58579 32.428 27.83234 28.88849 132.3756    20
 ```
 
 
@@ -83,8 +72,8 @@ lineprof(deseason(x = australiaGPCP))
 
 ```
 ##    time   alloc release  dups                          ref                  src
-## 1 0.126 194.523 164.674 76898 c("deseason", "<Anonymous>") deseason/<Anonymous>
-## 2 0.008   7.151   0.000  3150           c("deseason", "-") deseason/-
+## 1 0.150 192.626 163.368 76415 c("deseason", "<Anonymous>") deseason/<Anonymous>
+## 2 0.011   9.402   0.000  4029           c("deseason", "-") deseason/-
 ```
 
 #### **Rcpp**-based deseasoning
@@ -96,6 +85,7 @@ lineprof(deseasonC(x = australiaGPCP))
 
 ```
 ##    time alloc release dups                             ref                     src
-## 1 0.001 1.248       0   63 c("deseasonC", "monthlyMeansC") deseasonC/monthlyMeansC
-## 2 0.004 2.479       0 1608             c("deseasonC", "-") deseasonC/-
+## 1 0.002 2.654       0   63 c("deseasonC", "monthlyMeansC") deseasonC/monthlyMeansC
+## 2 0.001 0.699       0  125     c("deseasonC", "setValues") deseasonC/setValues    
+## 3 0.006 2.594       0 1381             c("deseasonC", "-") deseasonC/-
 ```
