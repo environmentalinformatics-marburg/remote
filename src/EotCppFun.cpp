@@ -157,3 +157,89 @@ NumericVector iodaSumC(NumericMatrix pred_vals, NumericMatrix resp_vals) {
 
   return ioda_sum;
 }
+
+///////////////// deseasoning functions ////////////////////////////
+// [[Rcpp::export]]
+NumericVector seqC(double start, double end, double by) {
+  
+  // Check for remainder (output vector expansion required if other than zero) 
+  // and initialize output vector containing the sequence
+  int nRemainder = fmod(end, by);
+  int nExpand;
+  if (nRemainder > 0)
+    nExpand += 1; 
+      
+  NumericVector index((end / by) + nExpand);
+    
+  // Count iterations
+  int i = 0;
+  // Create sequence from start to end by increment value
+  for (double j = start; j < (end + 1); j = j + by) {
+    index[i] = j;
+    i += 1;
+  }
+  
+  // Return sequence
+  return index;
+}
+
+//// R call
+///*** R
+//  seqC(1, 120, 12) # no remainder
+//  seqC(1, 121, 12) # remainder
+//*/
+
+// [[Rcpp::export]]
+NumericVector indexC(NumericVector x, IntegerVector index, bool withinC = false) {  
+  // Length of the index vector
+  int n = index.size();
+  // Initialize output vector
+  NumericVector out(n);
+
+  // Subtract 1 from index as C++ starts to count at 0 (skip if function is 
+  // called by another C++ function)
+  if (!withinC)
+    index = index - 1; 
+  // Loop through index vector and extract values of x at the given positions
+  for (int i = 0; i < n; i++) {
+    out[i] = x[index[i]];
+  }
+
+  // Return output
+  return out;
+}
+
+//// R call
+///*** R
+//  set.seed(10)
+//  indexC(runif(10), c(1, 3, 8))
+//*/
+
+// [[Rcpp::export]]
+NumericMatrix monthlyMeansC(NumericMatrix x, int nCycleWindow) {
+  // input matrix: number of rows and columns
+  int nRows = x.nrow(), nCols = x.ncol();  
+
+  // temporary arrays: monthly indexes and referring values
+  IntegerVector aiSameMonthInd;
+  NumericVector adSameMonthVal;
+  
+  // output matrix: setup
+  NumericMatrix mdMonthlyMeans(nRows, nCycleWindow);
+  
+  // loop over rows
+  for (int i = 0; i < nRows; i++) {
+    // per row, loop over months 
+    for (int j = 0; j < nCycleWindow; j++) {
+      // indexes (e.g. 0, 12, 24, ... for January)
+      aiSameMonthInd = seqC(j, nCols, nCycleWindow);
+      // referring values
+      adSameMonthVal = indexC(x(i, _), aiSameMonthInd, true);
+      // output matrix: insert mean monthly values
+      mdMonthlyMeans(i, j) = mean(adSameMonthVal);
+    }
+  }
+  
+  return mdMonthlyMeans;
+}
+
