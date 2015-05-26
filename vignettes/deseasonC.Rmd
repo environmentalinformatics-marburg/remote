@@ -1,0 +1,63 @@
+---
+title: "Enhanced `deseason()`-ing with **Rcpp**"
+author: "Florian Detsch"
+date: "26.05.2015"
+output: html_document
+---
+
+```{r set-options, echo=FALSE, cache=FALSE}
+options(width = 120)
+```
+
+The [`deseason`](https://github.com/environmentalinformatics-marburg/remote/blob/master/R/deseason.R) function included in the [R **remote** package](https://github.com/environmentalinformatics-marburg/remote) has recently been [reimplemented in **Rcpp**](https://github.com/environmentalinformatics-marburg/remote/blob/develop/R/deseasonC.R), resulting in a performance speed more than 15 times faster as compared to the initial, solely R-based version.   
+
+### Speed test
+
+#### Prerequisites
+
+```{r, message=FALSE}
+## required packages
+# devtools::install_github("environmentalinformatics-marburg/remote", 
+#                          ref = "develop")
+library(remote)
+library(microbenchmark)
+
+# devtools::install_github("hadley/lineprof")
+library(lineprof)
+
+## data
+data("australiaGPCP")
+```
+
+#### Base-R deseasoning
+
+```{r dsn_r}
+microbenchmark(
+  deseason(australiaGPCP)
+, times = 20L)
+```
+
+#### **Rcpp**-based deseasoning
+
+```{r dsn_cpp}
+microbenchmark(
+  deseasonC(australiaGPCP)
+, times = 20L)
+```
+
+
+### Line profiling
+
+While the initial approach using `lapply` along with `raster::calc` generated a considerable overhead, calculation efforts could now be minimized by the use of a) base-C++ `for` loops and b) a set of custom *.cpp functions analogous to base-R `seq` and vector indexing.
+
+#### Base-R deseasoning
+
+```{r lineprof_r, message=FALSE}
+lineprof(deseason(x = australiaGPCP))
+```
+
+#### **Rcpp**-based deseasoning
+
+```{r lineprof_cpp, message=FALSE}
+lineprof(deseasonC(x = australiaGPCP))
+```
