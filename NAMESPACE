@@ -15,6 +15,7 @@ export(deseason)
 export(geoWeight)
 export(getWeights)
 export(lagalize)
+export(deseasonC)
 useDynLib(remote)
 #exportPattern("^[[:alpha:]]+")
 
