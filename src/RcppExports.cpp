@@ -128,3 +128,15 @@ BEGIN_RCPP
     return __result;
 END_RCPP
 }
+// insertReconsC
+NumericMatrix insertReconsC(List lRecons, NumericMatrix mdTemplate);
+RcppExport SEXP remote_insertReconsC(SEXP lReconsSEXP, SEXP mdTemplateSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject __result;
+    Rcpp::RNGScope __rngScope;
+    Rcpp::traits::input_parameter< List >::type lRecons(lReconsSEXP);
+    Rcpp::traits::input_parameter< NumericMatrix >::type mdTemplate(mdTemplateSEXP);
+    __result = Rcpp::wrap(insertReconsC(lRecons, mdTemplate));
+    return __result;
+END_RCPP
+}

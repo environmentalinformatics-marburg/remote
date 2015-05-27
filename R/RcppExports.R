@@ -41,3 +41,7 @@ monthlyMeansC <- function(x, nCycleWindow) {
     .Call('remote_monthlyMeansC', PACKAGE = 'remote', x, nCycleWindow)
 }
 
+insertReconsC <- function(lRecons, mdTemplate) {
+    .Call('remote_insertReconsC', PACKAGE = 'remote', lRecons, mdTemplate)
+}
+

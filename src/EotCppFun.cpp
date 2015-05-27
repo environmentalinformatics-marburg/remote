@@ -243,3 +243,22 @@ NumericMatrix monthlyMeansC(NumericMatrix x, int nCycleWindow) {
   return mdMonthlyMeans;
 }
 
+///////////////// denoise functions ////////////////////////////
+// [[Rcpp::export]]
+NumericMatrix insertReconsC(List lRecons, NumericMatrix mdTemplate) {
+  
+  int nListLength = lRecons.size();
+  // std::cout << nListLength;
+  
+  NumericVector dListSlot;
+  for (int i = 0; i < nListLength; i++) {
+    // current slot entries
+    dListSlot = lRecons[i];
+    // std::cout << dListSlot[30] << "\n";
+    
+    // insert values into matrix
+    mdTemplate(_, i) = dListSlot;
+  }
+  
+  return mdTemplate;
+}
