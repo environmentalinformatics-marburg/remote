@@ -44,7 +44,7 @@ system.time(
 
 ```
 ##    user  system elapsed 
-##   2.839   0.000   2.832
+##   2.842   0.000   2.841
 ```
 
 #### **Rcpp**-based denoising
@@ -64,12 +64,14 @@ system.time(
 
 ```
 ##    user  system elapsed 
-##   0.310   0.000   0.211
+##   0.294   0.003   0.298
 ```
 
 #### Visual inspection
 
-![plot of chunk vis_dns](/media/permanent/programming/r/remote/documentation/figure/vis_dns-1.png) 
+
+
+![vis_dns](http://i.imgur.com/484EQtN.png)
 
 ### Line profiling
 
@@ -90,9 +92,9 @@ lineprof(denoise(x = australiaGPCP, expl.var = .8))
 
 ```
 ##    time   alloc release   dups          ref                 src
-## 1 0.061   4.373   3.656    895 denoise.R#42 denoise/princomp   
-## 2 0.011  12.421   9.074   3272 denoise.R#68 denoise/lapply     
-## 3 0.709 689.088 683.790 281120 denoise.R#74 denoise/<Anonymous>
+## 1 0.036   4.633   3.277    886 denoise.R#42 denoise/princomp   
+## 2 0.011  11.800   9.369   3251 denoise.R#68 denoise/lapply     
+## 3 0.670 686.447 686.339 281341 denoise.R#74 denoise/<Anonymous>
 ```
 
 #### **Rcpp**-based denoising
@@ -110,7 +112,7 @@ lineprof(denoiseC(x = australiaGPCP, expl.var = .8))
 
 ```
 ##    time  alloc release dups           ref                  src
-## 1 0.041  5.469   3.457  886 denoiseC.R#42 denoiseC/princomp   
-## 2 0.011 11.156   9.563 3252 denoiseC.R#68 denoiseC/lapply     
-## 3 0.005  0.749   4.108  491 denoiseC.R#74 denoiseC/<Anonymous>
+## 1 0.036  4.882   3.277  886 denoiseC.R#42 denoiseC/princomp   
+## 2 0.011 11.104   9.288 3259 denoiseC.R#68 denoiseC/lapply     
+## 3 0.004  0.569   2.955  734 denoiseC.R#74 denoiseC/<Anonymous>
 ```

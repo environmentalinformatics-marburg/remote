@@ -40,7 +40,7 @@ microbenchmark(
 ```
 ## Unit: milliseconds
 ##                              expr      min       lq     mean   median       uq      max neval
-##  dsn_r <- deseason(australiaGPCP) 519.2028 536.0497 563.2485 550.9001 563.9413 728.6707    20
+##  dsn_r <- deseason(australiaGPCP) 496.0324 512.0425 519.6378 516.6613 521.6685 601.8646    20
 ```
 
 #### **Rcpp**-based deseasoning
@@ -55,12 +55,14 @@ microbenchmark(
 ```
 ## Unit: milliseconds
 ##                                 expr      min       lq     mean   median       uq      max neval
-##  dsn_cpp <- deseasonC(australiaGPCP) 25.55353 26.32604 28.01438 28.36833 28.69972 31.54996    20
+##  dsn_cpp <- deseasonC(australiaGPCP) 23.18665 25.55828 27.11424 27.70182 28.20635 29.80169    20
 ```
 
 #### Visual inspection
 
-![plot of chunk vis_dsn](/media/permanent/programming/r/remote/documentation/figure/vis_dsn-1.png) 
+
+
+![vis_dsn](http://i.imgur.com/TQGlCDu.png)
 
 ### Line profiling
 
@@ -75,8 +77,8 @@ lineprof(deseason(x = australiaGPCP))
 
 ```
 ##    time   alloc release  dups           ref                  src
-## 1 0.131 191.364  189.28 76256 deseason.R#33 deseason/<Anonymous>
-## 2 0.009   9.498    0.00  4320 deseason.R#38 deseason/-
+## 1 0.144 192.367 190.155 76362 deseason.R#33 deseason/<Anonymous>
+## 2 0.008   8.214   0.000  3630 deseason.R#38 deseason/-
 ```
 
 #### **Rcpp**-based deseasoning
@@ -88,6 +90,6 @@ lineprof(deseasonC(x = australiaGPCP))
 
 ```
 ##    time alloc release dups            ref                     src
-## 1 0.001 1.410   0.000   63 deseasonC.R#37 deseasonC/monthlyMeansC
-## 2 0.005 2.561   5.599 1638 deseasonC.R#41 deseasonC/-
+## 1 0.001 1.687   0.000   63 deseasonC.R#37 deseasonC/monthlyMeansC
+## 2 0.005 2.616   5.574 1492 deseasonC.R#41 deseasonC/-
 ```
