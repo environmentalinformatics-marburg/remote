@@ -32,6 +32,9 @@ plot(australiaGPCP[[1]], main = "original")
 plot(aus_dsnC[[1]], main = "deseasoned")
 par(opar)
 }
+\author{
+Florian Detsch
+}
 \seealso{
 \code{\link{anomalize}}, \code{\link{denoise}}
 }

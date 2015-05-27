@@ -33,14 +33,14 @@ data("australiaGPCP")
 
 ```r
 microbenchmark(
-  deseason(australiaGPCP)
+  dsn_r <- deseason(australiaGPCP)
 , times = 20L)
 ```
 
 ```
 ## Unit: milliseconds
-##                     expr      min       lq     mean   median       uq      max neval
-##  deseason(australiaGPCP) 521.6178 536.1171 545.9737 547.5532 555.6528 568.9154    20
+##                              expr      min       lq     mean   median       uq      max neval
+##  dsn_r <- deseason(australiaGPCP) 497.8515 505.9726 514.5156 510.9539 515.2286 607.0145    20
 ```
 
 #### **Rcpp**-based deseasoning
@@ -48,16 +48,19 @@ microbenchmark(
 
 ```r
 microbenchmark(
-  deseasonC(australiaGPCP)
+  dsn_cpp <- deseasonC(australiaGPCP)
 , times = 20L)
 ```
 
 ```
 ## Unit: milliseconds
-##                      expr      min       lq   mean   median       uq      max neval
-##  deseasonC(australiaGPCP) 23.14732 25.58579 32.428 27.83234 28.88849 132.3756    20
+##                                 expr      min       lq     mean   median       uq      max neval
+##  dsn_cpp <- deseasonC(australiaGPCP) 24.65897 26.45659 31.68348 27.45329 28.15544 117.8348    20
 ```
 
+#### Visual inspection
+
+![plot of chunk vis](figure/vis-1.png) 
 
 ### Line profiling
 
@@ -71,9 +74,9 @@ lineprof(deseason(x = australiaGPCP))
 ```
 
 ```
-##    time   alloc release  dups                          ref                  src
-## 1 0.150 192.626 163.368 76415 c("deseason", "<Anonymous>") deseason/<Anonymous>
-## 2 0.011   9.402   0.000  4029           c("deseason", "-") deseason/-
+##    time   alloc release  dups           ref                  src
+## 1 0.144 194.120 170.868 76349 deseason.R#33 deseason/<Anonymous>
+## 2 0.008   8.208   0.000  3659 deseason.R#38 deseason/-
 ```
 
 #### **Rcpp**-based deseasoning
@@ -84,8 +87,7 @@ lineprof(deseasonC(x = australiaGPCP))
 ```
 
 ```
-##    time alloc release dups                             ref                     src
-## 1 0.002 2.654       0   63 c("deseasonC", "monthlyMeansC") deseasonC/monthlyMeansC
-## 2 0.001 0.699       0  125     c("deseasonC", "setValues") deseasonC/setValues    
-## 3 0.006 2.594       0 1381             c("deseasonC", "-") deseasonC/-
+##    time alloc release dups            ref          src
+## 1 0.001 1.417   0.000   65 deseasonC.R#38 deseasonC/[[
+## 2 0.004 1.318   5.006 1078 deseasonC.R#41 deseasonC/-
 ```

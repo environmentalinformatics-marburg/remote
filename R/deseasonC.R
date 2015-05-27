@@ -12,7 +12,7 @@
 #' 
 #' @return A deseasoned 'RasterStack'.
 #' 
-#' @author Florian Detsch, \link{florian.detsch@staff.uni-marburg.de}
+#' @author Florian Detsch
 #' 
 #' @seealso
 #' \code{\link{anomalize}}, \code{\link{denoise}}
