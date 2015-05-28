@@ -25,7 +25,7 @@ For the stable release version of **remote** use
 
 
 ```S
-install_github("remote", "environmentalinformatics-marburg")
+install.packages("remote")
 ```
 
 
@@ -33,7 +33,7 @@ To install the development version use
 
 
 ```S
-install_github("remote", "environmentalinformatics-marburg", ref = "develop")
+install_github("environmentalinformatics-marburg/"remote", ref = "develop")
 ```
 
 
