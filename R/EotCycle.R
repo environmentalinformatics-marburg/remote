@@ -6,7 +6,6 @@
 #' @param x a ratser stack used as predictor
 #' @param y a RasterStack used as response. If \code{y} is \code{NULL},
 #' \code{x} is used as \code{y}
-#' @param y.eq.x logical. Whether predictor and response stack are the same
 #' @param n the number of EOT modes to calculate
 #' @param standardised logical. If \code{FALSE} the calculated r-squared values 
 #' will be multiplied by the variance
@@ -27,7 +26,6 @@
 #' @export EotCycle
 EotCycle <- function(x, 
                      y, 
-                     y.eq.x = FALSE,
                      n = 1,
                      standardised, 
                      orig.var,
@@ -134,8 +132,7 @@ EotCycle <- function(x,
   ### Regression of most explanatory pred pixel with pred pixels
   
   # Following code is only executed when pred and resp are not equal
-  #if (!y.eq.x) {
-    
+
     ## Fit lm
     
     # lm(x.vals[i, ] ~ x.vals[maxxy, ]) with T statistics
