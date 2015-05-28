@@ -11,6 +11,10 @@
 #' @param weighted logical. If \code{TRUE} the covariance matrix will be 
 #' geographically weighted using the cosine of latitude during decomposition 
 #' (only important for lat/lon data)
+#' @param use.cpp logical. Determines whether to use \strong{Rcpp} 
+#' functionality, defaults to \code{TRUE}.
+#' @param verbose logical. If \code{TRUE} some details about the 
+#' calculation process will be output to the console
 #' @param ... additional arguments passed to \code{\link{princomp}}
 #' 
 #' @return a denoised RasterStack
@@ -32,8 +36,10 @@ denoise <- function(x,
                     k = NULL,
                     expl.var = NULL,
                     weighted = TRUE,
+                    use.cpp = TRUE,
+                    verbose = TRUE,
                     ...) {
-
+  
   x.vals <- raster::getValues(x)
   #x.vals[is.na(x.vals)] <- 0
   
@@ -52,17 +58,19 @@ denoise <- function(x,
   } else {
     expl.var <- cumsum(pca$sdev^2 / sum(pca$sdev^2))[k]
   }
-
-  cat("\n",
-      "Using the first ",
-      k,
-      " components (of ",
-      raster::nlayers(x),
-      ") to reconstruct series...\n",
-      " these account for ",
-      expl.var,
-      " of variance in orig. series\n\n", 
-      sep = "")
+  
+  if (verbose) {
+    cat("\n",
+        "Using the first ",
+        k,
+        " components (of ",
+        raster::nlayers(x),
+        ") to reconstruct series...\n",
+        " these account for ",
+        expl.var,
+        " of variance in orig. series\n\n", 
+        sep = "")
+  }
   
   # Reconstruction
   recons <- lapply(seq(nlayers(x)), function(i) {
@@ -71,13 +79,19 @@ denoise <- function(x,
   })
   
   # Insert reconstructed values in original data set 
-  x.tmp <- raster::brick(lapply(seq(recons), function(i) {
-    tmp.x <- x[[i]]
-    tmp.x[] <- recons[[i]]
-    return(tmp.x)
-  }))
-
+  if (use.cpp) { 
+    mat <- raster::as.matrix(x)
+    jnk <- insertReconsC(recons, mat)
+    rst <- raster::setValues(x, jnk)
+  } else {
+    rst <- raster::brick(lapply(seq(recons), function(i) {
+      tmp_rst <- x[[i]]
+      tmp_rst[] <- recons[[i]]
+      return(tmp_rst)
+    }))
+  }
+  
   # Return denoised data set
-  return(x.tmp)
+  return(rst)
   
 }

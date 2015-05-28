@@ -7,6 +7,8 @@
 #' 
 #' @param x a RasterStack
 #' @param cycle.window the window for the creation of the anomalies
+#' @param use.cpp logical. Determines whether to use \strong{Rcpp} 
+#' functionality, defaults to \code{TRUE}.
 #' @param ... currently not used
 #' 
 #' @return a deseasoned RasterStack
@@ -27,16 +29,27 @@
 #' par(opar)
 deseason <- function(x, 
                      cycle.window = 12,
+                     use.cpp = TRUE,
                      ...) {
   
-  # Calculate layer averages based on supplied seasonal window
-  x.mv <- raster::stack(rep(lapply(1:cycle.window, function(i) {
-    raster::calc(x[[seq(i, raster::nlayers(x), cycle.window)]], fun = mean)
-  }), raster::nlayers(x) / cycle.window))
+  if (use.cpp) {
+    ## raster to matrix
+    mat <- as.matrix(x)
+    
+    ## deseasoning
+    mat_mv <- monthlyMeansC(mat, cycle.window)
+    x_mv <- x[[1:cycle.window]]
+    x_mv <- setValues(x_mv, values = mat_mv)
+  } else {
+    # Calculate layer averages based on supplied seasonal window
+    x_mv <- raster::stack(rep(lapply(1:cycle.window, function(i) {
+      raster::calc(x[[seq(i, raster::nlayers(x), cycle.window)]], fun = mean)
+    }), raster::nlayers(x) / cycle.window))
+  }
   
   # Subtract monthly averages from actually measured values
-  x.dsn <- x - x.mv
-    
+  x_dsn <- x - x_mv
+  
   # Return output
-  return(x.dsn)
+  return(x_dsn)
 }

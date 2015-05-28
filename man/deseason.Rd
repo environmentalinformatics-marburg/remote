@@ -4,12 +4,15 @@
 \alias{deseason}
 \title{Create seasonal anomalies}
 \usage{
-deseason(x, cycle.window = 12, ...)
+deseason(x, cycle.window = 12, use.cpp = TRUE, ...)
 }
 \arguments{
 \item{x}{a RasterStack}
 
 \item{cycle.window}{the window for the creation of the anomalies}
+
+\item{use.cpp}{logical. Determines whether to use \strong{Rcpp}
+functionality, defaults to \code{TRUE}.}
 
 \item{...}{currently not used}
 }
