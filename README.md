@@ -33,7 +33,7 @@ To install the development version use
 
 
 ```S
-install_github("environmentalinformatics-marburg/"remote", ref = "develop")
+install_github("environmentalinformatics-marburg/remote", ref = "develop")
 ```
 
 
