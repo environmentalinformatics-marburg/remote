@@ -221,8 +221,10 @@ NumericMatrix monthlyMeansC(NumericMatrix x, int nCycleWindow) {
   int nRows = x.nrow(), nCols = x.ncol();  
 
   // temporary arrays: monthly indexes and referring values
-  IntegerVector aiSameMonthInd;
-  NumericVector adSameMonthVal;
+  int nLenVec = nCols / nCycleWindow;
+  
+  IntegerVector aiSameMonthInd(nLenVec);
+  NumericVector adSameMonthVal(nLenVec);
   
   // output matrix: setup
   NumericMatrix mdMonthlyMeans(nRows, nCycleWindow);
