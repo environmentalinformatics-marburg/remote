@@ -64,6 +64,7 @@ setMethod('subset', signature(x = 'EotStack'),
 )
 
 #' @describeIn subset
+#' @param i number of EotMode to be subset
 
 setMethod("[[", signature(x = "EotStack"), 
           function(x, i) {

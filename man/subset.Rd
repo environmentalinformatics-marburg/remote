@@ -20,6 +20,8 @@ integer or by their names)}
 \item{drop}{if \code{TRUE} a single mode will be returned as an EotMode}
 
 \item{...}{currently not used}
+
+\item{i}{number of EotMode to be subset}
 }
 \value{
 an Eot* object

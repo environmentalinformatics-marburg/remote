@@ -20,6 +20,8 @@
 }
 \arguments{
 \item{x}{a EotMode or EotStack}
+
+\item{value}{name to be assigned}
 }
 \value{
 if \code{x} is a EotStack, the names of all mdoes,

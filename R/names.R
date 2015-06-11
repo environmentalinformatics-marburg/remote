@@ -74,6 +74,7 @@ setMethod('names', signature(x = 'EotMode'),
 #' @name names<-
 #' @rdname names
 #' @aliases names<-,EotMode-method
+#' @param value name to be assigned
 
 setMethod('names<-', signature(x = 'EotMode'), 
           function(x, value) {
