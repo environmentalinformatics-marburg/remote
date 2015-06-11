@@ -29,7 +29,7 @@
 #' par(opar)
 deseason <- function(x, 
                      cycle.window = 12,
-                     use.cpp = TRUE,
+                     use.cpp = FALSE,
                      ...) {
   
   if (use.cpp) {

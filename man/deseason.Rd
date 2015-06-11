@@ -4,7 +4,7 @@
 \alias{deseason}
 \title{Create seasonal anomalies}
 \usage{
-deseason(x, cycle.window = 12, use.cpp = TRUE, ...)
+deseason(x, cycle.window = 12, use.cpp = FALSE, ...)
 }
 \arguments{
 \item{x}{a RasterStack}
