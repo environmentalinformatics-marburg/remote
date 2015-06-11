@@ -165,7 +165,7 @@ NumericVector seqC(double start, double end, double by) {
   // Check for remainder (output vector expansion required if other than zero) 
   // and initialize output vector containing the sequence
   int nRemainder = fmod(end, by);
-  int nExpand;
+  int nExpand = 0;
   if (nRemainder > 0)
     nExpand += 1; 
       
