@@ -69,6 +69,8 @@ nh_modes <- eot(x = vdendool, y = NULL, n = 2,
 
 ## default settings
 plot(nh_modes, y = 1) # is equivalent to
+
+\dontrun{
 plot(nh_modes[[1]])
 
 plot(nh_modes, y = 2) # shows variance explained by mode 2 only
@@ -86,5 +88,6 @@ plot(nh_modes, y = 1, show.bp = TRUE, arrange = "long")
 
 ## plot locations of all base points
 plot(nh_modes, locations = TRUE)
+}
 }
 

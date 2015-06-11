@@ -23,12 +23,12 @@ if (!isGeneric('nXplain')) {
 #' @examples
 #' data(vdendool)
 #' 
-#' nh_modes <- eot(x = vdendool, y = NULL, n = 5, 
+#' nh_modes <- eot(x = vdendool, y = NULL, n = 3, 
 #'                 reduce.both = FALSE, standardised = FALSE, 
 #'                 verbose = TRUE)
 #'              
 #' ### How many modes are needed to explain 40% of variance?              
-#' nXplain(nh_modes, 0.4)
+#' nXplain(nh_modes, 0.25)
 #' 
 #' @export 
 #' @name nXplain
