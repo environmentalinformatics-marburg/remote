@@ -27,7 +27,7 @@ if (!isGeneric('nXplain')) {
 #'                 reduce.both = FALSE, standardised = FALSE, 
 #'                 verbose = TRUE)
 #'              
-#' ### How many modes are needed to explain 40% of variance?              
+#' ### How many modes are needed to explain 25% of variance?              
 #' nXplain(nh_modes, 0.25)
 #' 
 #' @export 
