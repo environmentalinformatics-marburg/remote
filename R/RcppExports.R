@@ -29,3 +29,11 @@ iodaSumC <- function(pred_vals, resp_vals) {
     .Call('remote_iodaSumC', PACKAGE = 'remote', pred_vals, resp_vals)
 }
 
+monthlyMeansC <- function(x, nCycleWindow) {
+    .Call('remote_monthlyMeansC', PACKAGE = 'remote', x, nCycleWindow)
+}
+
+insertReconsC <- function(lRecons, mdTemplate) {
+    .Call('remote_insertReconsC', PACKAGE = 'remote', lRecons, mdTemplate)
+}
+

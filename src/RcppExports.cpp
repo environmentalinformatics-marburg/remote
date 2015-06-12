@@ -9,112 +9,108 @@ using namespace Rcpp;
 double corC(NumericVector x, NumericVector y);
 RcppExport SEXP remote_corC(SEXP xSEXP, SEXP ySEXP) {
 BEGIN_RCPP
-    SEXP __sexp_result;
-    {
-        Rcpp::RNGScope __rngScope;
-        Rcpp::traits::input_parameter< NumericVector >::type x(xSEXP );
-        Rcpp::traits::input_parameter< NumericVector >::type y(ySEXP );
-        double __result = corC(x, y);
-        PROTECT(__sexp_result = Rcpp::wrap(__result));
-    }
-    UNPROTECT(1);
-    return __sexp_result;
+    Rcpp::RObject __result;
+    Rcpp::RNGScope __rngScope;
+    Rcpp::traits::input_parameter< NumericVector >::type x(xSEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type y(ySEXP);
+    __result = Rcpp::wrap(corC(x, y));
+    return __result;
 END_RCPP
 }
 // lmC
 List lmC(NumericVector x, NumericVector y);
 RcppExport SEXP remote_lmC(SEXP xSEXP, SEXP ySEXP) {
 BEGIN_RCPP
-    SEXP __sexp_result;
-    {
-        Rcpp::RNGScope __rngScope;
-        Rcpp::traits::input_parameter< NumericVector >::type x(xSEXP );
-        Rcpp::traits::input_parameter< NumericVector >::type y(ySEXP );
-        List __result = lmC(x, y);
-        PROTECT(__sexp_result = Rcpp::wrap(__result));
-    }
-    UNPROTECT(1);
-    return __sexp_result;
+    Rcpp::RObject __result;
+    Rcpp::RNGScope __rngScope;
+    Rcpp::traits::input_parameter< NumericVector >::type x(xSEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type y(ySEXP);
+    __result = Rcpp::wrap(lmC(x, y));
+    return __result;
 END_RCPP
 }
 // predRsquaredSum
 NumericVector predRsquaredSum(NumericMatrix pred_vals, NumericMatrix resp_vals, bool standardised);
 RcppExport SEXP remote_predRsquaredSum(SEXP pred_valsSEXP, SEXP resp_valsSEXP, SEXP standardisedSEXP) {
 BEGIN_RCPP
-    SEXP __sexp_result;
-    {
-        Rcpp::RNGScope __rngScope;
-        Rcpp::traits::input_parameter< NumericMatrix >::type pred_vals(pred_valsSEXP );
-        Rcpp::traits::input_parameter< NumericMatrix >::type resp_vals(resp_valsSEXP );
-        Rcpp::traits::input_parameter< bool >::type standardised(standardisedSEXP );
-        NumericVector __result = predRsquaredSum(pred_vals, resp_vals, standardised);
-        PROTECT(__sexp_result = Rcpp::wrap(__result));
-    }
-    UNPROTECT(1);
-    return __sexp_result;
+    Rcpp::RObject __result;
+    Rcpp::RNGScope __rngScope;
+    Rcpp::traits::input_parameter< NumericMatrix >::type pred_vals(pred_valsSEXP);
+    Rcpp::traits::input_parameter< NumericMatrix >::type resp_vals(resp_valsSEXP);
+    Rcpp::traits::input_parameter< bool >::type standardised(standardisedSEXP);
+    __result = Rcpp::wrap(predRsquaredSum(pred_vals, resp_vals, standardised));
+    return __result;
 END_RCPP
 }
 // respLmParam
 List respLmParam(NumericMatrix x, NumericMatrix y, int cell);
 RcppExport SEXP remote_respLmParam(SEXP xSEXP, SEXP ySEXP, SEXP cellSEXP) {
 BEGIN_RCPP
-    SEXP __sexp_result;
-    {
-        Rcpp::RNGScope __rngScope;
-        Rcpp::traits::input_parameter< NumericMatrix >::type x(xSEXP );
-        Rcpp::traits::input_parameter< NumericMatrix >::type y(ySEXP );
-        Rcpp::traits::input_parameter< int >::type cell(cellSEXP );
-        List __result = respLmParam(x, y, cell);
-        PROTECT(__sexp_result = Rcpp::wrap(__result));
-    }
-    UNPROTECT(1);
-    return __sexp_result;
+    Rcpp::RObject __result;
+    Rcpp::RNGScope __rngScope;
+    Rcpp::traits::input_parameter< NumericMatrix >::type x(xSEXP);
+    Rcpp::traits::input_parameter< NumericMatrix >::type y(ySEXP);
+    Rcpp::traits::input_parameter< int >::type cell(cellSEXP);
+    __result = Rcpp::wrap(respLmParam(x, y, cell));
+    return __result;
 END_RCPP
 }
 // findudC
 NumericVector findudC(NumericVector x);
 RcppExport SEXP remote_findudC(SEXP xSEXP) {
 BEGIN_RCPP
-    SEXP __sexp_result;
-    {
-        Rcpp::RNGScope __rngScope;
-        Rcpp::traits::input_parameter< NumericVector >::type x(xSEXP );
-        NumericVector __result = findudC(x);
-        PROTECT(__sexp_result = Rcpp::wrap(__result));
-    }
-    UNPROTECT(1);
-    return __sexp_result;
+    Rcpp::RObject __result;
+    Rcpp::RNGScope __rngScope;
+    Rcpp::traits::input_parameter< NumericVector >::type x(xSEXP);
+    __result = Rcpp::wrap(findudC(x));
+    return __result;
 END_RCPP
 }
 // iodaC
 double iodaC(NumericVector x, NumericVector y);
 RcppExport SEXP remote_iodaC(SEXP xSEXP, SEXP ySEXP) {
 BEGIN_RCPP
-    SEXP __sexp_result;
-    {
-        Rcpp::RNGScope __rngScope;
-        Rcpp::traits::input_parameter< NumericVector >::type x(xSEXP );
-        Rcpp::traits::input_parameter< NumericVector >::type y(ySEXP );
-        double __result = iodaC(x, y);
-        PROTECT(__sexp_result = Rcpp::wrap(__result));
-    }
-    UNPROTECT(1);
-    return __sexp_result;
+    Rcpp::RObject __result;
+    Rcpp::RNGScope __rngScope;
+    Rcpp::traits::input_parameter< NumericVector >::type x(xSEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type y(ySEXP);
+    __result = Rcpp::wrap(iodaC(x, y));
+    return __result;
 END_RCPP
 }
 // iodaSumC
 NumericVector iodaSumC(NumericMatrix pred_vals, NumericMatrix resp_vals);
 RcppExport SEXP remote_iodaSumC(SEXP pred_valsSEXP, SEXP resp_valsSEXP) {
 BEGIN_RCPP
-    SEXP __sexp_result;
-    {
-        Rcpp::RNGScope __rngScope;
-        Rcpp::traits::input_parameter< NumericMatrix >::type pred_vals(pred_valsSEXP );
-        Rcpp::traits::input_parameter< NumericMatrix >::type resp_vals(resp_valsSEXP );
-        NumericVector __result = iodaSumC(pred_vals, resp_vals);
-        PROTECT(__sexp_result = Rcpp::wrap(__result));
-    }
-    UNPROTECT(1);
-    return __sexp_result;
+    Rcpp::RObject __result;
+    Rcpp::RNGScope __rngScope;
+    Rcpp::traits::input_parameter< NumericMatrix >::type pred_vals(pred_valsSEXP);
+    Rcpp::traits::input_parameter< NumericMatrix >::type resp_vals(resp_valsSEXP);
+    __result = Rcpp::wrap(iodaSumC(pred_vals, resp_vals));
+    return __result;
+END_RCPP
+}
+// monthlyMeansC
+NumericMatrix monthlyMeansC(NumericMatrix x, int nCycleWindow);
+RcppExport SEXP remote_monthlyMeansC(SEXP xSEXP, SEXP nCycleWindowSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject __result;
+    Rcpp::RNGScope __rngScope;
+    Rcpp::traits::input_parameter< NumericMatrix >::type x(xSEXP);
+    Rcpp::traits::input_parameter< int >::type nCycleWindow(nCycleWindowSEXP);
+    __result = Rcpp::wrap(monthlyMeansC(x, nCycleWindow));
+    return __result;
+END_RCPP
+}
+// insertReconsC
+NumericMatrix insertReconsC(List lRecons, NumericMatrix mdTemplate);
+RcppExport SEXP remote_insertReconsC(SEXP lReconsSEXP, SEXP mdTemplateSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject __result;
+    Rcpp::RNGScope __rngScope;
+    Rcpp::traits::input_parameter< List >::type lRecons(lReconsSEXP);
+    Rcpp::traits::input_parameter< NumericMatrix >::type mdTemplate(mdTemplateSEXP);
+    __result = Rcpp::wrap(insertReconsC(lRecons, mdTemplate));
+    return __result;
 END_RCPP
 }

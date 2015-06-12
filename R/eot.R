@@ -126,9 +126,6 @@ setMethod('eot', signature(x = 'RasterStack'),
             # Duplicate predictor set in case predictor and response are identical
             if (is.null(y)) {
               y <- x  
-              y.eq.x <- TRUE
-            } else {
-              y.eq.x <- FALSE
             }
             
             orig.var <- calcVar(y, standardised = standardised)
@@ -136,14 +133,13 @@ setMethod('eot', signature(x = 'RasterStack'),
             ### EOT
             
             # Loop through number of desired EOTs
-            for (z in seq(n)) {
+            for (z in 1:n) {
               
               # Use initial response data set in case of first iteration
               if (z == 1) {
                 
                 x.eot <- EotCycle(x = x, 
                                   y = y,
-                                  y.eq.x = y.eq.x,
                                   n = z, 
                                   type = type,
                                   standardised = standardised, 

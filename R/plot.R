@@ -44,6 +44,8 @@ if ( !isGeneric('plot') ) {
 #'
 #' ## default settings 
 #' plot(nh_modes, y = 1) # is equivalent to
+#'
+#' \dontrun{
 #' plot(nh_modes[[1]]) 
 #' 
 #' plot(nh_modes, y = 2) # shows variance explained by mode 2 only
@@ -61,6 +63,7 @@ if ( !isGeneric('plot') ) {
 #' 
 #' ## plot locations of all base points
 #' plot(nh_modes, locations = TRUE)
+#' }
 #' 
 #' @export
 #' @name plot
