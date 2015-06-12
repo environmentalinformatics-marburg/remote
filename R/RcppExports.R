@@ -29,14 +29,6 @@ iodaSumC <- function(pred_vals, resp_vals) {
     .Call('remote_iodaSumC', PACKAGE = 'remote', pred_vals, resp_vals)
 }
 
-seqC <- function(start, end, by) {
-    .Call('remote_seqC', PACKAGE = 'remote', start, end, by)
-}
-
-indexC <- function(x, index, withinC = FALSE) {
-    .Call('remote_indexC', PACKAGE = 'remote', x, index, withinC)
-}
-
 monthlyMeansC <- function(x, nCycleWindow) {
     .Call('remote_monthlyMeansC', PACKAGE = 'remote', x, nCycleWindow)
 }

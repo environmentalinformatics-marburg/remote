@@ -90,32 +90,6 @@ BEGIN_RCPP
     return __result;
 END_RCPP
 }
-// seqC
-NumericVector seqC(double start, double end, double by);
-RcppExport SEXP remote_seqC(SEXP startSEXP, SEXP endSEXP, SEXP bySEXP) {
-BEGIN_RCPP
-    Rcpp::RObject __result;
-    Rcpp::RNGScope __rngScope;
-    Rcpp::traits::input_parameter< double >::type start(startSEXP);
-    Rcpp::traits::input_parameter< double >::type end(endSEXP);
-    Rcpp::traits::input_parameter< double >::type by(bySEXP);
-    __result = Rcpp::wrap(seqC(start, end, by));
-    return __result;
-END_RCPP
-}
-// indexC
-NumericVector indexC(NumericVector x, IntegerVector index, bool withinC);
-RcppExport SEXP remote_indexC(SEXP xSEXP, SEXP indexSEXP, SEXP withinCSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject __result;
-    Rcpp::RNGScope __rngScope;
-    Rcpp::traits::input_parameter< NumericVector >::type x(xSEXP);
-    Rcpp::traits::input_parameter< IntegerVector >::type index(indexSEXP);
-    Rcpp::traits::input_parameter< bool >::type withinC(withinCSEXP);
-    __result = Rcpp::wrap(indexC(x, index, withinC));
-    return __result;
-END_RCPP
-}
 // monthlyMeansC
 NumericMatrix monthlyMeansC(NumericMatrix x, int nCycleWindow);
 RcppExport SEXP remote_monthlyMeansC(SEXP xSEXP, SEXP nCycleWindowSEXP) {
