@@ -1,3 +1,5 @@
+![downloads](http://cranlogs.r-pkg.org/badges/remote)
+
 remote
 ====
 
