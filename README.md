@@ -1,4 +1,10 @@
-![downloads](http://cranlogs.r-pkg.org/badges/remote)
+#### Package downloads from the [RStudio CRAN Mirror](http://cran-logs.rstudio.com/)</b>
+
+This month      | In total
+--------------- | -----------
+![month](http://cranlogs.r-pkg.org/badges/remote) | ![total](http://cranlogs.r-pkg.org/badges/grand-total/remote)
+
+<hr>
 
 remote
 ====
