@@ -22,11 +22,14 @@ Depends:
     raster,
     foreach,
     methods
+Imports:
+    gridExtra, 
+    latticeExtra, 
+    mapdata, 
+    scales
 Suggests:
     maps,
     lattice,
-    latticeExtra,
     grid,
-    gridExtra,
     sp
 LinkingTo: Rcpp
