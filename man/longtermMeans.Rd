@@ -24,7 +24,7 @@ layers, \code{cycle.window} should be a multiple of 12.
 \examples{
 data("australiaGPCP")
 
-longtermMeans(australiaGpCP)
+longtermMeans(australiaGPCP)
 }
 \author{
 Florian Detsch

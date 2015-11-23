@@ -22,7 +22,7 @@
 #' @examples 
 #' data("australiaGPCP")
 #' 
-#' longtermMeans(australiaGpCP)
+#' longtermMeans(australiaGPCP)
 #' 
 #' @export longtermMeans
 #' @name longtermMeans
