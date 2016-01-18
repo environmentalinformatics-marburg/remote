@@ -33,12 +33,13 @@ if (!isGeneric('subset')) {
 #' subs <- subset(nh_modes, 2, drop = TRUE)
 #' class(subs)
 #' 
-#' @export
+#' @export subset
 #' @name subset
+
+################################################################################
+### function using 'EotStack' ##################################################
 #' @rdname subset
 #' @aliases subset,EotStack-method
-#' @aliases subset,ANY-method
-
 setMethod('subset', signature(x = 'EotStack'), 
           function(x, subset, drop = FALSE, ...) {
             if (is.character(subset)) {
@@ -63,7 +64,7 @@ setMethod('subset', signature(x = 'EotStack'),
           }
 )
 
-#' @describeIn subset
+#' @rdname subset
 #' @param i number of EotMode to be subset
 
 setMethod("[[", signature(x = "EotStack"), 
