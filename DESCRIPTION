@@ -1,8 +1,8 @@
 Package: remote
 Type: Package
 Title: Empirical Orthogonal Teleconnections in R
-Version: 1.1.0
-Date: 2015-11-23
+Version: 1.1.1
+Date: 2016-02-10
 Author: Tim Appelhans, Florian Detsch, Thomas Nauss
 Maintainer: Tim Appelhans <tim.appelhans@gmail.com>
 Description: Empirical orthogonal teleconnections in R.
