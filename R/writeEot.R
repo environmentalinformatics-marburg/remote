@@ -63,7 +63,7 @@ if (!isGeneric('writeEot')) {
 #' @export 
 #' @name writeEot
 #' @rdname writeEot 
-#' @aliases writeEot,EotMode-method
+#' @aliases writeEot,EotStack-mode,EotMode-method
 
 # set methods -------------------------------------------------------------
 
@@ -95,7 +95,7 @@ setMethod('writeEot', signature(x = 'EotMode'),
           }
 )
 
-#' @describeIn writeEot
+#' @describeIn writeEot EotStack
 
 setMethod('writeEot', signature(x = 'EotStack'), 
           function(x, 

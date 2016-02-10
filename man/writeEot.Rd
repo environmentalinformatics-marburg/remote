@@ -3,11 +3,14 @@
 \docType{methods}
 \name{writeEot}
 \alias{writeEot}
-\alias{writeEot,EotMode-method}
+\alias{writeEot,EotStack-method}
+\alias{writeEot,EotStack-mode,EotMode-method}
 \title{Write Eot* objects to disk}
 \usage{
 \S4method{writeEot}{EotMode}(x, path.out = ".", prefix = "remote",
   overwrite = TRUE, ...)
+
+\S4method{writeEot}{EotStack}(x, path.out = ".", prefix, ...)
 }
 \arguments{
 \item{x}{an Eot* object}
@@ -54,6 +57,10 @@ look like, e.g.:
 for the \emph{RasterLayer} of the predictor correlation coefficient 
 of mode n using the standard \emph{raster} file type (.grd).
 }
+\section{Methods (by class)}{
+\itemize{
+\item \code{EotStack}: EotStack
+}}
 \examples{
 data(vdendool)
 

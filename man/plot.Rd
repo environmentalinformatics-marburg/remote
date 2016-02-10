@@ -3,10 +3,15 @@
 \docType{methods}
 \name{plot}
 \alias{plot}
-\alias{plot,EotMode,ANY-method}
+\alias{plot,EotMode-method,EotStack-method,ANY-method}
+\alias{plot,EotStack,ANY-method}
 \title{Plot an Eot* object}
 \usage{
 \S4method{plot}{EotMode,ANY}(x, y, pred.prm = "rsq", resp.prm = "r",
+  show.bp = FALSE, anomalies = TRUE, add.map = TRUE, ts.vec = NULL,
+  arrange = c("wide", "long"), clr = NULL, locations = FALSE, ...)
+
+\S4method{plot}{EotStack,ANY}(x, y, pred.prm = "rsq", resp.prm = "r",
   show.bp = FALSE, anomalies = TRUE, add.map = TRUE, ts.vec = NULL,
   arrange = c("wide", "long"), clr = NULL, locations = FALSE, ...)
 }
@@ -50,6 +55,10 @@ This is the standard plotting routine for the results of \code{\link{eot}}.
 Three panels will be drawn i) the predictor domain, ii) the response 
 domain, iii) the time series at the identified base point
 }
+\section{Methods (by class)}{
+\itemize{
+\item \code{x = EotStack,y = ANY}: EotStack
+}}
 \examples{
 data(vdendool)
 

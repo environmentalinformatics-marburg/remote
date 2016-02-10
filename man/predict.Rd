@@ -3,10 +3,13 @@
 \docType{methods}
 \name{predict}
 \alias{predict}
-\alias{predict,EotStack-method}
+\alias{predict,EotMode-method}
+\alias{predict,EotMode-method,EotStack-method}
 \title{EOT based spatial prediction}
 \usage{
 \S4method{predict}{EotStack}(object, newdata, n = 1, ...)
+
+\S4method{predict}{EotMode}(object, newdata, n = 1, ...)
 }
 \arguments{
 \item{object}{an Eot* object}
@@ -28,6 +31,10 @@ A (user-defined) set of \emph{n} modes will be used to model the outcome
 using the identified link functions of the respective modes which are
 added together to produce the final prediction.
 }
+\section{Methods (by class)}{
+\itemize{
+\item \code{EotMode}: EotMode
+}}
 \examples{
 ### not very useful, but highlights the workflow
 data(pacificSST)

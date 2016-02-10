@@ -3,10 +3,10 @@
 \docType{methods}
 \name{eot}
 \alias{eot}
-\alias{eot,RasterStack-method}
+\alias{eot,RasterStackBrick-method}
 \title{EOT analysis of a predictor and (optionally) a response RasterStack}
 \usage{
-\S4method{eot}{RasterStack}(x, y = NULL, n = 1, standardised = TRUE,
+\S4method{eot}{RasterStackBrick}(x, y = NULL, n = 1, standardised = TRUE,
   write.out = FALSE, path.out = ".", prefix = "remote",
   reduce.both = FALSE, type = c("rsq", "ioa"), verbose = TRUE, ...)
 }

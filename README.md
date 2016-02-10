@@ -19,7 +19,7 @@ Oxford University Press, Oxford, New York (2007)
 
 ### Installation
 
-install and load the [devtools](http://cran.r-project.org/web/packages/devtools/index.html) package.
+install and load the [devtools](https://cran.r-project.org/web/packages/devtools/index.html) package.
 
 For the stable release version of **remote** use
 
