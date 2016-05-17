@@ -33,7 +33,7 @@ Extract a set of modes from an EotStack
 data(vdendool)
 
 nh_modes <- eot(x = vdendool, y = NULL, n = 3, 
-                reduce.both = FALSE, standardised = FALSE, 
+                standardised = FALSE, 
                 verbose = TRUE)
                 
 subs <- subset(nh_modes, 2:3) # is the same as

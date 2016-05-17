@@ -24,7 +24,7 @@ if (!isGeneric('nXplain')) {
 #' data(vdendool)
 #' 
 #' nh_modes <- eot(x = vdendool, y = NULL, n = 3, 
-#'                 reduce.both = FALSE, standardised = FALSE, 
+#'                 standardised = FALSE, 
 #'                 verbose = TRUE)
 #'              
 #' ### How many modes are needed to explain 25% of variance?              

@@ -51,7 +51,7 @@ if (!isGeneric('writeEot')) {
 #' data(vdendool)
 #' 
 #' nh_modes <- eot(x = vdendool, y = NULL, n = 2, 
-#'                 reduce.both = FALSE, standardised = FALSE, 
+#'                 standardised = FALSE, 
 #'                 verbose = TRUE)
 #' 
 #' ## write the complete EotStack
