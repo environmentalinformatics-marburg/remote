@@ -10,12 +10,12 @@ citEntry(entry = "Article",
   volume       = "65",
   number       = "10",
   pages        = "1--19",
-  url          = "http://www.jstatsoft.org/v65/i10/",
+  url          = "https://www.jstatsoft.org/article/view/v065i10",
 
   textVersion  =
   paste("Tim Appelhans, Florian Detsch, Thomas Nauss (2015).",
         "remote: Empirical Orthogonal Teleconnections in R.",
         "Journal of Statistical Software, 65(10), 1-19.",
-        "URL http://www.jstatsoft.org/v65/i10/.")
+        "URL https://www.jstatsoft.org/article/view/v065i10.")
 )
 
