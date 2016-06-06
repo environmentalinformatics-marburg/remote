@@ -15,7 +15,9 @@ if ( !isGeneric("deseason") ) {
 #' @param use.cpp Logical. Determines whether or not to use \strong{Rcpp} 
 #' functionality, defaults to \code{TRUE}. Only applies if \code{x} is a 
 #' 'RasterStack' (or 'RasterBrick') object.
-#' @param ... Currently not used
+#' @param filename \code{character}. Output filename (optional).
+#' @param ... Additional arguments passed on to \code{\link{writeRaster}}, only 
+#' considered if \code{filename} is specified.
 #' 
 #' @return If \code{x} is a 'RasterStack' (or 'RasterBrick') object, a 
 #' deseasoned 'RasterStack'; else a deseasoned 'numeric' vector.
@@ -46,6 +48,7 @@ setMethod("deseason",
           function(x, 
                    cycle.window = 12L,
                    use.cpp = FALSE,
+                   filename = "", 
                    ...) {
             
             if (use.cpp) {
@@ -66,6 +69,10 @@ setMethod("deseason",
             # Subtract monthly averages from actually measured values
             x_dsn <- x - x_mv
             
+            # Write to file (optional)
+            if (filename != "")
+              x_dsn <- raster::writeRaster(x_dsn, filename = filename, ...)
+            
             # Return output
             return(x_dsn)
           })
@@ -78,8 +85,7 @@ setMethod("deseason",
 setMethod("deseason",
           signature(x = "numeric"),
           function(x, 
-                   cycle.window = 12,
-                   ...) {
+                   cycle.window = 12L) {
             
             ## calculate long-term mean values
             x_mv <- sapply(1:cycle.window, function(i) {

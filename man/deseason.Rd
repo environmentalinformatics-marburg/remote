@@ -8,9 +8,9 @@
 \title{Create seasonal anomalies}
 \usage{
 \S4method{deseason}{RasterStackBrick}(x, cycle.window = 12L,
-  use.cpp = FALSE, ...)
+  use.cpp = FALSE, filename = "", ...)
 
-\S4method{deseason}{numeric}(x, cycle.window = 12, ...)
+\S4method{deseason}{numeric}(x, cycle.window = 12L)
 }
 \arguments{
 \item{x}{An object of class 'RasterStack' (or 'RasterBrick') or, 
@@ -22,7 +22,10 @@ alternatively, a 'numeric' time series.}
 functionality, defaults to \code{TRUE}. Only applies if \code{x} is a 
 'RasterStack' (or 'RasterBrick') object.}
 
-\item{...}{Currently not used}
+\item{filename}{\code{character}. Output filename (optional).}
+
+\item{...}{Additional arguments passed on to \code{\link{writeRaster}}, only 
+considered if \code{filename} is specified.}
 }
 \value{
 If \code{x} is a 'RasterStack' (or 'RasterBrick') object, a 
