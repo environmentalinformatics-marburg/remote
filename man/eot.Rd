@@ -116,6 +116,6 @@ Journal of Climate, Volume 13, Issue 8, pp. 1421-1435\cr
 \bold{Empirical methods in short-term climate prediction}\cr
 H. M. van den Dool (2007)\cr
 Oxford University Press, Oxford, New York\cr
-\url{http://www.oup.com/uk/catalogue/?ci=9780199202782}
+\url{https://global.oup.com/academic/product/empirical-methods-in-short-term-climate-prediction-9780199202782?cc=de&lang=en&}
 }
 
