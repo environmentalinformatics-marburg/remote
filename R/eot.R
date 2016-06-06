@@ -21,7 +21,7 @@ if ( !isGeneric('eot') ) {
 #' Defaults to current working directory
 #' @param prefix optional prefix to be used for naming of results if 
 #' \code{write.out} is \code{TRUE}
-#' #@param reduce.both logical. If \code{TRUE} both \code{x} and \code{y} 
+#' @param reduce.both logical. If \code{TRUE} both \code{x} and \code{y} 
 #' are reduced after each iteration. If \code{FALSE} only \code{y} is reduced
 #' @param type the type of the link function. Defaults to \code{'rsq'} as in original
 #' proposed method from \cite{van den Dool 2000}. If set to \code{'ioa'} index of agreement is
@@ -118,7 +118,7 @@ setMethod('eot', signature(x = 'RasterStackBrick'),
                    write.out = FALSE,
                    path.out = ".", 
                    prefix = "remote",
-                   #reduce.both = FALSE, 
+                   reduce.both = FALSE, 
                    type = c("rsq", "ioa"),
                    verbose = TRUE,
                    ...) {
@@ -155,16 +155,15 @@ setMethod('eot', signature(x = 'RasterStackBrick'),
                 # Use last entry of slot 'residuals' otherwise  
               } else if (z > 1) {
                 tmp.x.eot <- EotCycle(
-                  x = 
-                  #   if (!reduce.both) {
-                  #   x
-                  # } else {
+                  x = if (!reduce.both) {
+                    x
+                  } else {
                     if (z == 2) {
                       x.eot@resid_predictor
                     } else {
                       x.eot[[z-1]]@resid_predictor
-                    },
-                  #}, 
+                    }
+                  }, 
                   y = if (z == 2) {
                     x.eot@resid_response 
                   } else {

@@ -7,8 +7,8 @@
 \title{EOT analysis of a predictor and (optionally) a response RasterStack}
 \usage{
 \S4method{eot}{RasterStackBrick}(x, y = NULL, n = 1, standardised = TRUE,
-  write.out = FALSE, path.out = ".", prefix = "remote", type = c("rsq",
-  "ioa"), verbose = TRUE, ...)
+  write.out = FALSE, path.out = ".", prefix = "remote",
+  reduce.both = FALSE, type = c("rsq", "ioa"), verbose = TRUE, ...)
 }
 \arguments{
 \item{x}{a RasterStack used as predictor}
@@ -28,8 +28,9 @@ using \code{path.out}}
 Defaults to current working directory}
 
 \item{prefix}{optional prefix to be used for naming of results if 
-\code{write.out} is \code{TRUE}
-#@param reduce.both logical. If \code{TRUE} both \code{x} and \code{y} 
+\code{write.out} is \code{TRUE}}
+
+\item{reduce.both}{logical. If \code{TRUE} both \code{x} and \code{y} 
 are reduced after each iteration. If \code{FALSE} only \code{y} is reduced}
 
 \item{type}{the type of the link function. Defaults to \code{'rsq'} as in original
