@@ -85,13 +85,13 @@ setMethod('writeEot', signature(x = 'EotMode'),
               slot(x, j)
             })
             
-            a <- b <- NULL
+            a <- unlist(out.object)
+            b <- unlist(out.name)
             
-            foreach(a = unlist(out.object), 
-                    b = unlist(out.name)) %do% { 
-                      raster::writeRaster(a, paste(path.out, b, sep = "/"), 
-                                          overwrite = overwrite, ...)
-                    }
+            lapply(1:length(a), function(i) {
+              raster::writeRaster(a[[i]], paste(path.out, b[i], sep = "/"), 
+                                  overwrite = overwrite, ...)
+            })
           }
 )
 
