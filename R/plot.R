@@ -68,7 +68,7 @@ if ( !isGeneric('plot') ) {
 #' @export
 #' @name plot
 #' @rdname plot
-#' @aliases plot,EotMode-method,EotStack-method,ANY-method
+#' @aliases plot,EotMode,ANY-method
 
 # set methods -------------------------------------------------------------
 
@@ -244,6 +244,7 @@ setMethod('plot', signature(x = 'EotMode',
 )
 
 #' @describeIn plot EotStack
+#' @aliases plot,EotStack,ANY-method
 
 setMethod('plot', signature(x = 'EotStack',
                             y = 'ANY'), 

@@ -4,7 +4,7 @@
 \name{predict}
 \alias{predict}
 \alias{predict,EotMode-method}
-\alias{predict,EotMode-method,EotStack-method}
+\alias{predict,EotStack-method}
 \title{EOT based spatial prediction}
 \usage{
 \S4method{predict}{EotStack}(object, newdata, n = 1, ...)

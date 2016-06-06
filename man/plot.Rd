@@ -3,7 +3,7 @@
 \docType{methods}
 \name{plot}
 \alias{plot}
-\alias{plot,EotMode-method,EotStack-method,ANY-method}
+\alias{plot,EotMode,ANY-method}
 \alias{plot,EotStack,ANY-method}
 \title{Plot an Eot* object}
 \usage{

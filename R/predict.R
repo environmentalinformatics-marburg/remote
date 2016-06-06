@@ -46,7 +46,7 @@ if ( !isGeneric('predict') ) {
 #' @export
 #' @name predict
 #' @rdname predict
-#' @aliases predict,EotMode-method,EotStack-method
+#' @aliases predict,EotStack-method
 
 setMethod('predict', signature(object = 'EotStack'), 
           function(object, 
@@ -77,7 +77,8 @@ setMethod('predict', signature(object = 'EotStack'),
 )
 
 #' @describeIn predict EotMode
- 
+#' @aliases predict,EotMode-method
+
 setMethod('predict', signature(object = 'EotMode'), 
           function(object, 
                    newdata, 

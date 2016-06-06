@@ -3,8 +3,8 @@
 \docType{methods}
 \name{writeEot}
 \alias{writeEot}
+\alias{writeEot,EotMode-method}
 \alias{writeEot,EotStack-method}
-\alias{writeEot,EotStack-mode,EotMode-method}
 \title{Write Eot* objects to disk}
 \usage{
 \S4method{writeEot}{EotMode}(x, path.out = ".", prefix = "remote",
