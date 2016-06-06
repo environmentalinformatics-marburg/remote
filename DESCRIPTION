@@ -22,10 +22,13 @@ Depends:
     foreach,
     methods
 Imports:
+    grDevices,
     gridExtra,
     latticeExtra,
     mapdata,
-    scales
+    scales, 
+    stats, 
+    utils
 Suggests:
     maps,
     lattice,
