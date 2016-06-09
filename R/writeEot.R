@@ -51,7 +51,7 @@ if (!isGeneric('writeEot')) {
 #' data(vdendool)
 #' 
 #' nh_modes <- eot(x = vdendool, y = NULL, n = 2, 
-#'                 reduce.both = FALSE, standardised = FALSE, 
+#'                 standardised = FALSE, 
 #'                 verbose = TRUE)
 #' 
 #' ## write the complete EotStack
@@ -85,17 +85,18 @@ setMethod('writeEot', signature(x = 'EotMode'),
               slot(x, j)
             })
             
-            a <- b <- NULL
+            a <- unlist(out.object)
+            b <- unlist(out.name)
             
-            foreach(a = unlist(out.object), 
-                    b = unlist(out.name)) %do% { 
-                      raster::writeRaster(a, paste(path.out, b, sep = "/"), 
-                                          overwrite = overwrite, ...)
-                    }
+            lapply(1:length(a), function(i) {
+              raster::writeRaster(a[[i]], paste(path.out, b[i], sep = "/"), 
+                                  overwrite = overwrite, ...)
+            })
           }
 )
 
-#' @describeIn writeEot
+#' @describeIn writeEot EotStack
+#' @aliases writeEot,EotStack-method
 
 setMethod('writeEot', signature(x = 'EotStack'), 
           function(x, 

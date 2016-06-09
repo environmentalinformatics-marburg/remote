@@ -7,8 +7,8 @@
 #' 
 #' @param x a RasterStack
 #' @param reference an optional RasterLayer to be used as the reference 
-#' @param ... additional arguments passed to \code{\link{calc}} 
-#' which is used under the hood
+#' @param ... additional arguments passed to \code{\link{calc}} (and, in turn, 
+#' \code{\link{writeRaster}}) which is used under the hood
 #' 
 #' @return an anomaly RasterStack
 #' 

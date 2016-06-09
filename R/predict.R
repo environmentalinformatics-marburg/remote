@@ -76,7 +76,8 @@ setMethod('predict', signature(object = 'EotStack'),
           }
 )
 
-#' @describeIn predict
+#' @describeIn predict EotMode
+#' @aliases predict,EotMode-method
 
 setMethod('predict', signature(object = 'EotMode'), 
           function(object, 

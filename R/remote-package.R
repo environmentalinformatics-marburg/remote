@@ -23,7 +23,11 @@
 #' Oxford University Press, Oxford, New York (2007)\cr
 #' @seealso \pkg{remote} is built upon Raster* classes from the \code{\link{raster-package}}.
 #' Please see their documentation for data preparation etc.
-#' @import Rcpp raster foreach gridExtra latticeExtra mapdata scales
+#' @import Rcpp raster gridExtra latticeExtra mapdata scales methods
+#' @importFrom grDevices colorRampPalette hcl 
+#' @importFrom stats pt var cov.wt na.exclude princomp na.omit
+#' @importFrom utils write.table
+#' @useDynLib remote
 #' 
 NULL
 #' 
