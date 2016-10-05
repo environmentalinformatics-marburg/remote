@@ -10,7 +10,8 @@ readEot(x, prefix = "remote", suffix = "grd")
 \item{x}{\code{character}, search path for \code{Eot}* related files passed 
 to \code{\link{list.files}}.}
 
-\item{prefix}{\code{character}, see \code{\link{writeEot}} for details.}
+\item{prefix}{\code{character}, see \code{\link{writeEot}} for details. 
+Should be the same as previously supplied to \code{\link{eot}}.}
 
 \item{suffix}{\code{character}, file extension depending on the output file 
 type of locally stored \code{Eot}* files, see \code{\link{writeRaster}}.}
@@ -20,7 +21,7 @@ An \code{Eot}* object.
 }
 \description{
 Read \code{Eot}* related files from disk, e.g. for further use with 
-\code{\link[remote]{predict}}.
+\code{\link[remote]{predict}} or \code{\link[remote]{plot}}.
 }
 \examples{
 \dontrun{
