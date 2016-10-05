@@ -14,7 +14,7 @@ Some handy functions for preprocessing, such as deseasoning, denoising, lagging
 are readily available for ease of usage.
 }
 \author{
-Tim Appelhans, Florian Detsch\cr
+Tim Appelhans, Florian Detsch, Thomas Nauss\cr
 \cr
 \emph{Maintainer:} Tim Appelhans \email{tim.appelhans@gmail.com}
 }

@@ -8,7 +8,7 @@
 #' @aliases remote
 #' @docType package
 #' @title R EMpirical Orthogonal TEleconnections
-#' @author Tim Appelhans, Florian Detsch\cr
+#' @author Tim Appelhans, Florian Detsch, Thomas Nauss\cr
 #' \cr
 #' \emph{Maintainer:} Tim Appelhans \email{tim.appelhans@@gmail.com}
 #' 
@@ -26,7 +26,7 @@
 #' @import Rcpp raster gridExtra latticeExtra mapdata scales methods
 #' @importFrom grDevices colorRampPalette hcl 
 #' @importFrom stats pt var cov.wt na.exclude princomp na.omit
-#' @importFrom utils write.table
+#' @importFrom utils read.csv write.table
 #' @useDynLib remote
 #' 
 NULL
