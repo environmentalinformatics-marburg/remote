@@ -1,0 +1,11 @@
+remote 1.3.0
+--------------------------------------------------------------------------------
+
+new features:
+  * readEot: import previously created EOT* files back into R. For that purpose, 
+    file 'remote_eot_locations.csv' (created from functions eot() or writeEot()) 
+    now includes pixel IDs of all leading modes.
+
+bugfixes:
+  * fixed warning message related to missing 'expl.var' object. 
+  * minor documentation updates. 
