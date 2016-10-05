@@ -7,20 +7,26 @@ if ( !isGeneric('predict') ) {
 #' EOT based spatial prediction
 #'   
 #' @description
-#' Make spatial predictions using the fitted model returned by \code{eot}.
-#' A (user-defined) set of \emph{n} modes will be used to model the outcome 
-#' using the identified link functions of the respective modes which are
-#' added together to produce the final prediction.
+#' Make spatial predictions using the fitted model returned by 
+#' \code{\link{eot}}. A (user-defined) set of \emph{n} modes will be used to 
+#' model the outcome using the identified link functions of the respective modes 
+#' which are added together to produce the final prediction.
 #' 
 #' @param object an Eot* object
 #' @param newdata the data to be used as predictor
 #' @param n the number of modes to be used for the prediction.
 #' See \code{\link{nXplain}} for calculating the number of modes based 
-#' on their explnatory power.
-#' @param ... further arguments to be passed to \link{calc}
+#' on their explanatory power.
+#' @param filename \code{character}, output filenames (optional). If specified, 
+#' this must be of the same length as \code{nlayers(newdata)}. 
+#' @param ... further arguments passed to \code{\link{calc}}, and hence, 
+#' \code{\link{writeRaster}}. 
 #' 
 #' @return
 #' a \emph{RasterStack} of \code{nlayers(newdata)}
+#' 
+#' @seealso 
+#' \code{\link{calc}}, \code{\link{writeRaster}}.
 #' 
 #' @examples
 #' ### not very useful, but highlights the workflow
@@ -52,6 +58,7 @@ setMethod('predict', signature(object = 'EotStack'),
           function(object, 
                    newdata, 
                    n = 1, 
+                   filename = '',
                    ...) {
             
             ### extract identified EOT (@cell_bp) 
@@ -59,7 +66,7 @@ setMethod('predict', signature(object = 'EotStack'),
               newdata[object[[i]]@cell_bp]
             })
             
-            ### prediction using claculated intercept, slope and values
+            ### prediction using calculated intercept, slope and values
             pred.stck <- lapply(seq(raster::nlayers(newdata)), function(i) {
               raster::stack(lapply(seq(ncol(ts.modes)), function(k) {
                 object[[k]]@int_response + 
@@ -68,21 +75,23 @@ setMethod('predict', signature(object = 'EotStack'),
             })
             
             ### summate prediction for each mode at each time step
+            vld <- length(filename) == raster::nlayers(newdata)
             pred <- raster::stack(lapply(seq(nrow(ts.modes)), function(i) {
-              raster::calc(pred.stck[[i]], fun = sum, ...)
+              raster::calc(pred.stck[[i]], fun = sum, 
+                           filename = ifelse(vld, filename[i], ""), ...)
             }))
             
             return(pred)
           }
 )
 
-#' @describeIn predict EotMode
 #' @aliases predict,EotMode-method
-
+#' @rdname predict
 setMethod('predict', signature(object = 'EotMode'), 
           function(object, 
                    newdata, 
                    n = 1, 
+                   filename = '',
                    ...) {
             
             ### extract identified EOT (@cell_bp) 
@@ -99,8 +108,10 @@ setMethod('predict', signature(object = 'EotMode'),
             })
             
             ### summate prediction for each mode at each time step
+            vld <- length(filename) == raster::nlayers(newdata)
             pred <- stack(lapply(seq(nrow(ts.modes)), function(i) {
-              raster::calc(pred.stck[[i]], fun = sum, ...)
+              raster::calc(pred.stck[[i]], fun = sum, 
+                           filename = ifelse(vld, filename[i], ""), ...)
             }))
             
             return(pred)

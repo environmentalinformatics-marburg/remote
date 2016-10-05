@@ -7,9 +7,9 @@
 \alias{predict,EotStack-method}
 \title{EOT based spatial prediction}
 \usage{
-\S4method{predict}{EotStack}(object, newdata, n = 1, ...)
+\S4method{predict}{EotStack}(object, newdata, n = 1, filename = "", ...)
 
-\S4method{predict}{EotMode}(object, newdata, n = 1, ...)
+\S4method{predict}{EotMode}(object, newdata, n = 1, filename = "", ...)
 }
 \arguments{
 \item{object}{an Eot* object}
@@ -18,23 +18,23 @@
 
 \item{n}{the number of modes to be used for the prediction.
 See \code{\link{nXplain}} for calculating the number of modes based 
-on their explnatory power.}
+on their explanatory power.}
 
-\item{...}{further arguments to be passed to \link{calc}}
+\item{filename}{\code{character}, output filenames (optional). If specified, 
+this must be of the same length as \code{nlayers(newdata)}.}
+
+\item{...}{further arguments passed to \code{\link{calc}}, and hence, 
+\code{\link{writeRaster}}.}
 }
 \value{
 a \emph{RasterStack} of \code{nlayers(newdata)}
 }
 \description{
-Make spatial predictions using the fitted model returned by \code{eot}.
-A (user-defined) set of \emph{n} modes will be used to model the outcome 
-using the identified link functions of the respective modes which are
-added together to produce the final prediction.
+Make spatial predictions using the fitted model returned by 
+\code{\link{eot}}. A (user-defined) set of \emph{n} modes will be used to 
+model the outcome using the identified link functions of the respective modes 
+which are added together to produce the final prediction.
 }
-\section{Methods (by class)}{
-\itemize{
-\item \code{EotMode}: EotMode
-}}
 \examples{
 ### not very useful, but highlights the workflow
 data(pacificSST)
@@ -56,5 +56,8 @@ plot(australiaGPCP[[13]], main = "original", zlim = c(0, 10))
 plot(pred[[3]], main = "predicted", zlim = c(0, 10))
 par(opar)
 
+}
+\seealso{
+\code{\link{calc}}, \code{\link{writeRaster}}.
 }
 
