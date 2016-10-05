@@ -21,7 +21,8 @@
 #' used instead
 #' @param verbose logical. If \code{TRUE} some details about the 
 #' calculation process will be output to the console
-#' @param ... not used at the moment
+#' @param ... If \code{write.out = TRUE}, further arguments passed to 
+#' \code{\link{writeEot}}.
 #' 
 #' @export EotCycle
 EotCycle <- function(x, 
@@ -209,13 +210,15 @@ EotCycle <- function(x,
                                                sep = "_"),
                                      cum.expl.var,
                                      if (length(maxxy.all) != 1) 
-                                       "ambiguous" else "ok"),
+                                       "ambiguous" else "ok", 
+                                     maxxy),
                                stringsAsFactors = FALSE)
-  names(location.df) <- c("x", "y", "mode", "cum_expl_var", "comment")
+  names(location.df) <- c("x", "y", "mode", "cum_expl_var", "comment", "cell_bp")
   mode(location.df$x) <- "numeric"
   mode(location.df$y) <- "numeric"
   mode(location.df$cum_expl_var) <- "numeric"
-    
+  mode(location.df$cell_bp) <- "integer"
+  
     ### Output
     
     # Output returned by function
@@ -259,7 +262,7 @@ EotCycle <- function(x,
       rm(list = c("eot.ts",
                   "maxxy",
                   "location.df",
-                  "expl.var",
+                  # "expl.var",
                   "rst.x.r",
                   "rst.x.rsq",
                   "rst.x.rsq.sums",
