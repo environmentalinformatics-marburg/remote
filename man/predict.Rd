@@ -7,32 +7,36 @@
 \alias{predict,EotStack-method}
 \title{EOT based spatial prediction}
 \usage{
-\S4method{predict}{EotStack}(object, newdata, n = 1, filename = "", ...)
+\S4method{predict}{EotStack}(object, newdata, n = 1, cores = 1L,
+  filename = "", ...)
 
-\S4method{predict}{EotMode}(object, newdata, n = 1, filename = "", ...)
+\S4method{predict}{EotMode}(object, newdata, n = 1, cores = 1L,
+  filename = "", ...)
 }
 \arguments{
-\item{object}{an Eot* object}
+\item{object}{an \code{Eot*} object}
 
 \item{newdata}{the data to be used as predictor}
 
 \item{n}{the number of modes to be used for the prediction.
-See \code{\link{nXplain}} for calculating the number of modes based 
+See \code{\link{nXplain}} for calculating the number of modes based
 on their explanatory power.}
 
-\item{filename}{\code{character}, output filenames (optional). If specified, 
+\item{cores}{\code{integer}. Number of cores for parallel processing.}
+
+\item{filename}{\code{character}, output filenames (optional). If specified,
 this must be of the same length as \code{nlayers(newdata)}.}
 
-\item{...}{further arguments passed to \code{\link{calc}}, and hence, 
+\item{...}{further arguments passed to \code{\link{calc}}, and hence,
 \code{\link{writeRaster}}.}
 }
 \value{
 a \emph{RasterStack} of \code{nlayers(newdata)}
 }
 \description{
-Make spatial predictions using the fitted model returned by 
-\code{\link{eot}}. A (user-defined) set of \emph{n} modes will be used to 
-model the outcome using the identified link functions of the respective modes 
+Make spatial predictions using the fitted model returned by
+\code{\link{eot}}. A (user-defined) set of \emph{n} modes will be used to
+model the outcome using the identified link functions of the respective modes
 which are added together to produce the final prediction.
 }
 \examples{
@@ -41,13 +45,13 @@ data(pacificSST)
 data(australiaGPCP)
 
 ## train data using eot()
-train <- eot(x = pacificSST[[1:10]], 
-             y = australiaGPCP[[1:10]], 
+train <- eot(x = pacificSST[[1:10]],
+             y = australiaGPCP[[1:10]],
              n = 1)
 
 ## predict using identified model
-pred <- predict(train, 
-                newdata = pacificSST[[11:20]], 
+pred <- predict(train,
+                newdata = pacificSST[[11:20]],
                 n = 1)
 
 ## compare results
