@@ -9,9 +9,9 @@ if ( !isGeneric('eot') ) {
 #' Calculate a given number of EOT modes either internally or between 
 #' RasterStacks.
 #' 
-#' @param x a RasterStack used as predictor
-#' @param y a RasterStack used as response. If \code{y} is \code{NULL},
-#' \code{x} is used as \code{y}
+#' @param x a \code{Raster*} object used as predictor
+#' @param y a \code{Raster*} object used as response. If \code{y} is 
+#' \code{NULL}, \code{x} is used as \code{y}
 #' @param n the number of EOT modes to calculate
 #' @param standardised logical. If \code{FALSE} the calculated r-squared values 
 #' will be multiplied by the variance
