@@ -49,7 +49,7 @@ readEot <- function(x, prefix = "remote", suffix = "grd") {
   lst_eot <- lapply(mds, function(n) {
     
     # track and reorder files related to current mode
-    fls <- fls_mds[grep(n, fls_mds)]
+    fls <- fls_mds[grep(paste0("mode_", n), basename(fls_mds))]
     ids <- sapply(eotLayerNames(), function(j) grep(j, fls))
     fls <- fls[ids]
     
