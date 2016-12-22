@@ -62,7 +62,8 @@ setMethod("deseason",
             } else {
               # Calculate layer averages based on supplied seasonal window
               x_mv <- raster::stack(rep(lapply(1:cycle.window, function(i) {
-                raster::calc(x[[seq(i, raster::nlayers(x), cycle.window)]], fun = mean)
+                raster::calc(x[[seq(i, raster::nlayers(x), cycle.window)]], 
+                             fun = mean, na.rm = TRUE)
               }), raster::nlayers(x) / cycle.window))
             }
             
