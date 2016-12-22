@@ -67,37 +67,33 @@ setMethod('predict', signature(object = 'EotStack'),
             bps <- sapply(seq(n), function(i) object[[i]]@cell_bp)
             ts.modes <- t(raster::extract(newdata, bps))
 
-            ### prediction using calculated intercept, slope and values
-            cl <- parallel::makePSOCKcluster(cores)
-            parallel::clusterExport(cl, c("ts.modes", "object"),
-                                    envir = environment())
-
-            pred.stck <- parallel::parLapply(cl, seq(nrow(ts.modes)), function(i) {
-              raster::stack(lapply(seq(ncol(ts.modes)), function(k) {
-                object[[k]]@int_response +
-                  object[[k]]@slp_response * ts.modes[i, k]
-              }))
-            })
-
-            ### summate prediction for each mode at each time step
+            ### target files and parallelization
             vld <- length(filename) == raster::nlayers(newdata)
             filename <- if (vld) filename else rep("", nrow(ts.modes))
-
+            
             dots <- list(...)
-            parallel::clusterExport(cl, c("pred.stck", "filename", "dots"),
-                                    envir = environment())
+            
+            cl <- parallel::makePSOCKcluster(cores)
+            on.exit(parallel::stopCluster(cl))
+            parallel::clusterExport(cl, c("ts.modes", "object", "filename", 
+                                          "dots"), envir = environment())
 
-            pred <- raster::stack(parallel::parLapply(cl, seq(nrow(ts.modes)), function(i) {
-              dots_sub <- list(x = pred.stck[[i]], fun = sum,
-                               filename = filename[i])
-              dots_sub <- append(dots, dots_sub)
+            ### prediction using calculated intercept, slope and values
+            raster::stack(
+              parallel::parLapply(cl, seq(nrow(ts.modes)), function(i) {
 
-              do.call(raster::calc, args = dots_sub)
-            }))
-
-            ## deregister parallel backend
-            parallel::stopCluster(cl)
-            return(pred)
+                rst <- raster::stack(lapply(seq(ncol(ts.modes)), function(k) {
+                  object[[k]]@int_response +
+                    object[[k]]@slp_response * ts.modes[i, k]
+                }))
+                
+                ### summate prediction for each mode at each time step
+                dots_sub <- list(x = rst, fun = sum, filename = filename[i])
+                dots_sub <- append(dots, dots_sub)
+                
+                do.call(raster::calc, args = dots_sub)
+              })
+            )
           }
 )
 
@@ -114,37 +110,31 @@ setMethod('predict', signature(object = 'EotMode'),
             ### extract identified EOT (@cell_bp)
             bps <- object@cell_bp
             ts.modes <- t(raster::extract(newdata, bps))
-
-            ### prediction using claculated intercept, slope and values
-            cl <- parallel::makePSOCKcluster(cores)
-            parallel::clusterExport(cl, c("ts.modes", "object"),
-                                    envir = environment())
-
-            pred.stck <- parallel::parLapply(cl, seq(nrow(ts.modes)), function(i) {
-              raster::stack(lapply(seq(ncol(ts.modes)), function(k) {
-                object@int_response +
-                  object@slp_response * ts.modes[i, k]
-              }))
-            })
-
-            ### summate prediction for each mode at each time step
+            
+            ### target files and parallelization
             vld <- length(filename) == raster::nlayers(newdata)
             filename <- if (vld) filename else rep("", nrow(ts.modes))
-
+            
             dots <- list(...)
-            parallel::clusterExport(cl, c("pred.stck", "filename", "dots"),
-                                    envir = environment())
 
-            pred <- stack(lapply(seq(nrow(ts.modes)), function(i) {
-              dots_sub <- list(x = pred.stck[[i]], fun = sum,
-                               filename = filename[i])
-              dots_sub <- append(dots, dots_sub)
+            cl <- parallel::makePSOCKcluster(cores)
+            on.exit(parallel::stopCluster(cl))
+            parallel::clusterExport(cl, c("ts.modes", "object", "filename", 
+                                          "dots"), envir = environment())
 
-              do.call(raster::calc, args = dots_sub)
-            }))
+            ### prediction using claculated intercept, slope and values
+            raster::stack(
+              parallel::parLapply(cl, seq(nrow(ts.modes)), function(i) {
+                
+                rst <- raster::overlay(object@int_response, object@slp_response, 
+                                       fun = function(x, y) x + y * ts.modes[i, ])
 
-            ## deregister parallel backend
-            parallel::stopCluster(cl)
-            return(pred)
+                ### summate prediction for each mode at each time step
+                dots_sub <- list(x = rst, fun = sum, filename = filename[i])
+                dots_sub <- append(dots, dots_sub)
+                
+                do.call(raster::calc, args = dots_sub)
+              })
+            )
           }
 )
