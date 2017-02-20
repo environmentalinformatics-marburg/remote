@@ -25,4 +25,3 @@ data("pacificSST")
 
 calcVar(pacificSST)
 }
-

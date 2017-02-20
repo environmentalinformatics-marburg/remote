@@ -33,4 +33,3 @@ plot(wghts_rst, main = "weights")
 par(opar)
 
 }
-

@@ -2,8 +2,8 @@
 % Please edit documentation in R/remote-package.R
 \docType{package}
 \name{remote-package}
-\alias{remote}
 \alias{remote-package}
+\alias{remote}
 \title{R EMpirical Orthogonal TEleconnections}
 \description{
 R EMpirical Orthogonal TEleconnections
@@ -12,11 +12,6 @@ R EMpirical Orthogonal TEleconnections
 A collection of functions to facilitate empirical orthogonal teleconnection analysis. 
 Some handy functions for preprocessing, such as deseasoning, denoising, lagging 
 are readily available for ease of usage.
-}
-\author{
-Tim Appelhans, Florian Detsch, Thomas Nauss\cr
-\cr
-\emph{Maintainer:} Tim Appelhans \email{tim.appelhans@gmail.com}
 }
 \references{
 Empirical Orthogonal Teleconnections\cr
@@ -31,5 +26,9 @@ Oxford University Press, Oxford, New York (2007)\cr
 \pkg{remote} is built upon Raster* classes from the \code{\link{raster-package}}.
 Please see their documentation for data preparation etc.
 }
+\author{
+Tim Appelhans, Florian Detsch, Thomas Nauss\cr
+\cr
+\emph{Maintainer:} Tim Appelhans \email{tim.appelhans@gmail.com}
+}
 \keyword{package}
-

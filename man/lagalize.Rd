@@ -35,4 +35,3 @@ lagged[[1]][[1]] #check names to see date of layer
 lagged[[2]][[1]] #check names to see date of layer
 
 }
-

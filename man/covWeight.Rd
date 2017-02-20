@@ -23,4 +23,3 @@ Create a weighted covariance matrix
 \seealso{
 \code{\link{cov.wt}}
 }
-

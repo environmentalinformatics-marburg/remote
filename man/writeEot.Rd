@@ -61,6 +61,7 @@ of mode n using the standard \emph{raster} file type (.grd).
 \itemize{
 \item \code{EotStack}: EotStack
 }}
+
 \examples{
 data(vdendool)
 
@@ -78,4 +79,3 @@ writeEot(nh_modes[[2]], prefix = "vdendool")
 \seealso{
 \link{writeRaster}
 }
-

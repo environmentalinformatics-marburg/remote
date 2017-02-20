@@ -59,6 +59,7 @@ domain, iii) the time series at the identified base point
 \itemize{
 \item \code{x = EotStack,y = ANY}: EotStack
 }}
+
 \examples{
 data(vdendool)
 
@@ -91,4 +92,3 @@ plot(nh_modes, locations = TRUE)
 }
 
 }
-

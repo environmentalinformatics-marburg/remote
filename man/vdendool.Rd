@@ -27,4 +27,3 @@ Bulletin of the American Meteorological Society, Volume 77, Issue 3, pp 437 - 47
 \url{http://journals.ametsoc.org/doi/abs/10.1175/1520-0477(1996)077%3C0437%3ATNYRP%3E2.0.CO%3B2
 }
 }
-

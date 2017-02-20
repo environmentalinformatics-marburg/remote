@@ -2,9 +2,9 @@
 % Please edit documentation in R/subset.R
 \docType{methods}
 \name{subset}
-\alias{[[,EotStack,ANY,ANY-method}
 \alias{subset}
 \alias{subset,EotStack-method}
+\alias{[[,EotStack,ANY,ANY-method}
 \title{Subset modes in EotStacks}
 \usage{
 \S4method{subset}{EotStack}(x, subset, drop = FALSE, ...)
@@ -46,4 +46,3 @@ subs <- subset(nh_modes, 2, drop = TRUE)
 class(subs)
 
 }
-

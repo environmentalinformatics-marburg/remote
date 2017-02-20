@@ -24,4 +24,3 @@ Adler et al. (2003)\cr
 Journal of Hydrometeorology, Volume 4, Issue 6, pp. 1147 - 1167\cr
 \url{http://dx.doi.org/10.1175/1525-7541(2003)004<1147:TVGPCP>2.0.CO;2}
 }
-

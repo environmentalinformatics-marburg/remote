@@ -28,4 +28,3 @@ nh_modes <- eot(vdendool, n = 2)
 nmodes(nh_modes)
 
 }
-

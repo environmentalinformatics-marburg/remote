@@ -3,8 +3,8 @@
 \docType{methods}
 \name{predict}
 \alias{predict}
-\alias{predict,EotMode-method}
 \alias{predict,EotStack-method}
+\alias{predict,EotMode-method}
 \title{EOT based spatial prediction}
 \usage{
 \S4method{predict}{EotStack}(object, newdata, n = 1, cores = 1L,
@@ -64,4 +64,3 @@ par(opar)
 \seealso{
 \code{\link{calc}}, \code{\link{writeRaster}}.
 }
-

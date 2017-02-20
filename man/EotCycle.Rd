@@ -42,4 +42,3 @@ calculation process will be output to the console}
 \description{
 EotCycle() calculates a single EOT and is controlled by the main eot() function
 }
-

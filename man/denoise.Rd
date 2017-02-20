@@ -47,4 +47,3 @@ par(opar)
 \seealso{
 \code{\link{anomalize}}, \code{\link{deseason}}
 }
-

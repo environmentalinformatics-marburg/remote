@@ -119,4 +119,3 @@ H. M. van den Dool (2007)\cr
 Oxford University Press, Oxford, New York\cr
 \url{https://global.oup.com/academic/product/empirical-methods-in-short-term-climate-prediction-9780199202782?cc=de&lang=en&}
 }
-

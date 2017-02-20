@@ -27,10 +27,9 @@ data("australiaGPCP")
 longtermMeans(australiaGPCP)
 
 }
-\author{
-Florian Detsch
-}
 \seealso{
 \code{\link{deseason}}.
 }
-
+\author{
+Florian Detsch
+}

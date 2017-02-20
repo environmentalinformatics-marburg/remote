@@ -37,11 +37,10 @@ nh_modes
 }
 
 }
-\author{
-Florian Detsch
-}
 \seealso{
 \code{\link{eot}}, \code{\link{writeEot}}, 
 \code{\link{writeRaster}}.
 }
-
+\author{
+Florian Detsch
+}

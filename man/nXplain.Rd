@@ -37,4 +37,3 @@ nh_modes <- eot(x = vdendool, y = NULL, n = 3,
 nXplain(nh_modes, 0.25)
 
 }
-

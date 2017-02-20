@@ -3,11 +3,13 @@
 \docType{methods}
 \name{names}
 \alias{names}
-\alias{names,EotMode-method}
 \alias{names,EotStack-method}
 \alias{names<-}
-\alias{names<-,EotMode-method}
 \alias{names<-,EotStack-method}
+\alias{names}
+\alias{names,EotMode-method}
+\alias{names<-}
+\alias{names<-,EotMode-method}
 \title{Names of Eot* objects}
 \usage{
 \S4method{names}{EotStack}(x)
@@ -43,4 +45,3 @@ names(nh_modes)
 names(nh_modes[[2]])
 
 }
-

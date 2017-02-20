@@ -35,4 +35,3 @@ par(opar)
 \seealso{
 \code{\link{deseason}}, \code{\link{denoise}}, \code{\link{calc}}
 }
-
