@@ -5,9 +5,14 @@
 
 using namespace Rcpp;
 
+#ifdef RCPP_USE_GLOBAL_ROSTREAM
+Rcpp::Rostream<true>&  Rcpp::Rcout = Rcpp::Rcpp_cout_get();
+Rcpp::Rostream<false>& Rcpp::Rcerr = Rcpp::Rcpp_cerr_get();
+#endif
+
 // corC
 double corC(NumericVector x, NumericVector y);
-RcppExport SEXP remote_corC(SEXP xSEXP, SEXP ySEXP) {
+RcppExport SEXP _remote_corC(SEXP xSEXP, SEXP ySEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -19,7 +24,7 @@ END_RCPP
 }
 // lmC
 List lmC(NumericVector x, NumericVector y);
-RcppExport SEXP remote_lmC(SEXP xSEXP, SEXP ySEXP) {
+RcppExport SEXP _remote_lmC(SEXP xSEXP, SEXP ySEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -31,7 +36,7 @@ END_RCPP
 }
 // predRsquaredSum
 NumericVector predRsquaredSum(NumericMatrix pred_vals, NumericMatrix resp_vals, bool standardised);
-RcppExport SEXP remote_predRsquaredSum(SEXP pred_valsSEXP, SEXP resp_valsSEXP, SEXP standardisedSEXP) {
+RcppExport SEXP _remote_predRsquaredSum(SEXP pred_valsSEXP, SEXP resp_valsSEXP, SEXP standardisedSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -44,7 +49,7 @@ END_RCPP
 }
 // respLmParam
 List respLmParam(NumericMatrix x, NumericMatrix y, int cell);
-RcppExport SEXP remote_respLmParam(SEXP xSEXP, SEXP ySEXP, SEXP cellSEXP) {
+RcppExport SEXP _remote_respLmParam(SEXP xSEXP, SEXP ySEXP, SEXP cellSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -57,7 +62,7 @@ END_RCPP
 }
 // findudC
 NumericVector findudC(NumericVector x);
-RcppExport SEXP remote_findudC(SEXP xSEXP) {
+RcppExport SEXP _remote_findudC(SEXP xSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -68,7 +73,7 @@ END_RCPP
 }
 // iodaC
 double iodaC(NumericVector x, NumericVector y);
-RcppExport SEXP remote_iodaC(SEXP xSEXP, SEXP ySEXP) {
+RcppExport SEXP _remote_iodaC(SEXP xSEXP, SEXP ySEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -80,7 +85,7 @@ END_RCPP
 }
 // iodaSumC
 NumericVector iodaSumC(NumericMatrix pred_vals, NumericMatrix resp_vals);
-RcppExport SEXP remote_iodaSumC(SEXP pred_valsSEXP, SEXP resp_valsSEXP) {
+RcppExport SEXP _remote_iodaSumC(SEXP pred_valsSEXP, SEXP resp_valsSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -92,7 +97,7 @@ END_RCPP
 }
 // monthlyMeansC
 NumericMatrix monthlyMeansC(NumericMatrix x, int nCycleWindow);
-RcppExport SEXP remote_monthlyMeansC(SEXP xSEXP, SEXP nCycleWindowSEXP) {
+RcppExport SEXP _remote_monthlyMeansC(SEXP xSEXP, SEXP nCycleWindowSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -104,7 +109,7 @@ END_RCPP
 }
 // insertReconsC
 NumericMatrix insertReconsC(List lRecons, NumericMatrix mdTemplate);
-RcppExport SEXP remote_insertReconsC(SEXP lReconsSEXP, SEXP mdTemplateSEXP) {
+RcppExport SEXP _remote_insertReconsC(SEXP lReconsSEXP, SEXP mdTemplateSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -113,4 +118,22 @@ BEGIN_RCPP
     rcpp_result_gen = Rcpp::wrap(insertReconsC(lRecons, mdTemplate));
     return rcpp_result_gen;
 END_RCPP
+}
+
+static const R_CallMethodDef CallEntries[] = {
+    {"_remote_corC", (DL_FUNC) &_remote_corC, 2},
+    {"_remote_lmC", (DL_FUNC) &_remote_lmC, 2},
+    {"_remote_predRsquaredSum", (DL_FUNC) &_remote_predRsquaredSum, 3},
+    {"_remote_respLmParam", (DL_FUNC) &_remote_respLmParam, 3},
+    {"_remote_findudC", (DL_FUNC) &_remote_findudC, 1},
+    {"_remote_iodaC", (DL_FUNC) &_remote_iodaC, 2},
+    {"_remote_iodaSumC", (DL_FUNC) &_remote_iodaSumC, 2},
+    {"_remote_monthlyMeansC", (DL_FUNC) &_remote_monthlyMeansC, 2},
+    {"_remote_insertReconsC", (DL_FUNC) &_remote_insertReconsC, 2},
+    {NULL, NULL, 0}
+};
+
+RcppExport void R_init_remote(DllInfo *dll) {
+    R_registerRoutines(dll, NULL, CallEntries, NULL, NULL);
+    R_useDynamicSymbols(dll, FALSE);
 }
