@@ -4,8 +4,19 @@
 \alias{EotCycle}
 \title{Calculate a single EOT}
 \usage{
-EotCycle(x, y, n = 1, standardised, orig.var, write.out, path.out, prefix,
-  type, verbose, ...)
+EotCycle(
+  x,
+  y,
+  n = 1,
+  standardised,
+  orig.var,
+  write.out,
+  path.out,
+  prefix,
+  type,
+  verbose,
+  ...
+)
 }
 \arguments{
 \item{x}{a ratser stack used as predictor}

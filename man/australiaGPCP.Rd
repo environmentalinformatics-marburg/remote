@@ -4,12 +4,14 @@
 \name{australiaGPCP}
 \alias{australiaGPCP}
 \title{Monthly GPCP precipitation data for Australia}
-\format{a RasterBrick with the following attributes\cr
+\format{
+a RasterBrick with the following attributes\cr
 \cr
 dimensions  : 12, 20, 240, 348  (nrow, ncol, ncell, nlayers)\cr
 resolution  : 2.5, 2.5  (x, y)\cr
 extent      : 110, 160, -40, -10  (xmin, xmax, ymin, ymax)\cr
-coord. ref. : +proj=longlat +ellps=WGS84 +towgs84=0,0,0,0,0,0,0 +no_defs\cr}
+coord. ref. : +proj=longlat +ellps=WGS84 +towgs84=0,0,0,0,0,0,0 +no_defs\cr
+}
 \description{
 Monthly Gridded Precipitation Climatology Project precipitation data 
 for Australia from 1982/01 to 2010/12

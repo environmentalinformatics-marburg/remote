@@ -4,12 +4,14 @@
 \name{pacificSST}
 \alias{pacificSST}
 \title{Monthly SSTs for the tropical Pacific Ocean}
-\format{a RasterBrick with the following attributes\cr
+\format{
+a RasterBrick with the following attributes\cr
 \cr
 dimensions  : 30, 140, 4200, 348  (nrow, ncol, ncell, nlayers)\cr
 resolution  : 1, 1  (x, y)\cr
 extent      : 150, 290, -15, 15  (xmin, xmax, ymin, ymax)\cr
-coord. ref. : +proj=longlat +ellps=WGS84 +towgs84=0,0,0,0,0,0,0 +no_defs\cr}
+coord. ref. : +proj=longlat +ellps=WGS84 +towgs84=0,0,0,0,0,0,0 +no_defs\cr
+}
 \description{
 Monthly NOAA sea surface temperatures for the tropical Pacific Ocean from 1982/01 to 2010/12
 }
