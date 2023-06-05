@@ -2,38 +2,38 @@
 # Generator token: 10BE3573-1514-4C36-9D1C-5A225CD40393
 
 corC <- function(x, y) {
-    .Call('remote_corC', PACKAGE = 'remote', x, y)
+    .Call('_remote_corC', PACKAGE = 'remote', x, y)
 }
 
 lmC <- function(x, y) {
-    .Call('remote_lmC', PACKAGE = 'remote', x, y)
+    .Call('_remote_lmC', PACKAGE = 'remote', x, y)
 }
 
 predRsquaredSum <- function(pred_vals, resp_vals, standardised) {
-    .Call('remote_predRsquaredSum', PACKAGE = 'remote', pred_vals, resp_vals, standardised)
+    .Call('_remote_predRsquaredSum', PACKAGE = 'remote', pred_vals, resp_vals, standardised)
 }
 
 respLmParam <- function(x, y, cell) {
-    .Call('remote_respLmParam', PACKAGE = 'remote', x, y, cell)
+    .Call('_remote_respLmParam', PACKAGE = 'remote', x, y, cell)
 }
 
 findudC <- function(x) {
-    .Call('remote_findudC', PACKAGE = 'remote', x)
+    .Call('_remote_findudC', PACKAGE = 'remote', x)
 }
 
 iodaC <- function(x, y) {
-    .Call('remote_iodaC', PACKAGE = 'remote', x, y)
+    .Call('_remote_iodaC', PACKAGE = 'remote', x, y)
 }
 
 iodaSumC <- function(pred_vals, resp_vals) {
-    .Call('remote_iodaSumC', PACKAGE = 'remote', pred_vals, resp_vals)
+    .Call('_remote_iodaSumC', PACKAGE = 'remote', pred_vals, resp_vals)
 }
 
 monthlyMeansC <- function(x, nCycleWindow) {
-    .Call('remote_monthlyMeansC', PACKAGE = 'remote', x, nCycleWindow)
+    .Call('_remote_monthlyMeansC', PACKAGE = 'remote', x, nCycleWindow)
 }
 
 insertReconsC <- function(lRecons, mdTemplate) {
-    .Call('remote_insertReconsC', PACKAGE = 'remote', lRecons, mdTemplate)
+    .Call('_remote_insertReconsC', PACKAGE = 'remote', lRecons, mdTemplate)
 }
 
