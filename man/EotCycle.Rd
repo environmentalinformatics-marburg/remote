@@ -4,8 +4,19 @@
 \alias{EotCycle}
 \title{Calculate a single EOT}
 \usage{
-EotCycle(x, y, n = 1, standardised, orig.var, write.out, path.out, prefix,
-  type, verbose, ...)
+EotCycle(
+  x,
+  y,
+  n = 1,
+  standardised,
+  orig.var,
+  write.out,
+  path.out,
+  prefix,
+  type,
+  verbose,
+  ...
+)
 }
 \arguments{
 \item{x}{a ratser stack used as predictor}
@@ -36,9 +47,9 @@ used instead}
 \item{verbose}{logical. If \code{TRUE} some details about the 
 calculation process will be output to the console}
 
-\item{...}{not used at the moment}
+\item{...}{If \code{write.out = TRUE}, further arguments passed to 
+\code{\link{writeEot}}.}
 }
 \description{
 EotCycle() calculates a single EOT and is controlled by the main eot() function
 }
-

@@ -32,4 +32,3 @@ cutStack(australiaGPCP, tail = FALSE, n = 6)
 cutStack(australiaGPCP, tail = TRUE, n = 8)
 
 }
-

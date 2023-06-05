@@ -32,4 +32,3 @@ plot(vdendool[[1]], main = "original")
 plot(wgtd[[1]], main = "weighted")
 par(opar)
 }
-

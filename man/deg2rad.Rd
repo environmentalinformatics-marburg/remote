@@ -24,4 +24,3 @@ radians <- deg2rad(coordinates(vdendool)[, 2])
 head(radians)
 
 }
-

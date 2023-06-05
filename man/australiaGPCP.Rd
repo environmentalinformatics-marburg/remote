@@ -4,12 +4,14 @@
 \name{australiaGPCP}
 \alias{australiaGPCP}
 \title{Monthly GPCP precipitation data for Australia}
-\format{a RasterBrick with the following attributes\cr
+\format{
+a RasterBrick with the following attributes\cr
 \cr
 dimensions  : 12, 20, 240, 348  (nrow, ncol, ncell, nlayers)\cr
 resolution  : 2.5, 2.5  (x, y)\cr
 extent      : 110, 160, -40, -10  (xmin, xmax, ymin, ymax)\cr
-coord. ref. : +proj=longlat +ellps=WGS84 +towgs84=0,0,0,0,0,0,0 +no_defs\cr}
+coord. ref. : +proj=longlat +ellps=WGS84 +towgs84=0,0,0,0,0,0,0 +no_defs\cr
+}
 \description{
 Monthly Gridded Precipitation Climatology Project precipitation data 
 for Australia from 1982/01 to 2010/12
@@ -22,6 +24,5 @@ for Australia from 1982/01 to 2010/12
 The Version-2 Global Precipitation Climatology Project (GPCP) Monthly Precipitation Analysis (1979 - Present)\cr
 Adler et al. (2003)\cr
 Journal of Hydrometeorology, Volume 4, Issue 6, pp. 1147 - 1167\cr
-\url{http://dx.doi.org/10.1175/1525-7541(2003)004<1147:TVGPCP>2.0.CO;2}
+\doi{10.1175/1525-7541(2003)004<1147:TVGPCP>2.0.CO;2}
 }
-

@@ -4,8 +4,15 @@
 \alias{denoise}
 \title{Noise filtering through principal components}
 \usage{
-denoise(x, k = NULL, expl.var = NULL, weighted = TRUE, use.cpp = TRUE,
-  verbose = TRUE, ...)
+denoise(
+  x,
+  k = NULL,
+  expl.var = NULL,
+  weighted = TRUE,
+  use.cpp = TRUE,
+  verbose = TRUE,
+  ...
+)
 }
 \arguments{
 \item{x}{RasterStack to be filtered}
@@ -47,4 +54,3 @@ par(opar)
 \seealso{
 \code{\link{anomalize}}, \code{\link{deseason}}
 }
-
