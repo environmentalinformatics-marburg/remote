@@ -22,5 +22,5 @@ Monthly NOAA sea surface temperatures for the tropical Pacific Ocean from 1982/0
 Daily High-Resolution-Blended Analyses for Sea Surface Temperature\cr
 Reynolds et al. (2007)\cr
 Journal of Climate, Volume 20, Issue 22, pp. 5473 - 5496\cr
-\url{http://dx.doi.org/10.1175/2007JCLI1824.1}
+\doi{10.1175/2007JCLI1824.1}
 }

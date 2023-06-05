@@ -49,7 +49,7 @@ NULL
 #' \url{http://journals.ametsoc.org/doi/abs/10.1175/1520-0477(1996)077%3C0437%3ATNYRP%3E2.0.CO%3B2
 #' }
 #' @source
-#' \url{http://www.esrl.noaa.gov/psd/data/gridded/data.ncep.reanalysis.derived.pressure.html}\cr
+#' \url{https://psl.noaa.gov/data/gridded/data.ncep.reanalysis.derived.pressure.html}\cr
 #' \emph{Original Source:} NOAA National Center for Environmental Prediction
 NULL
 #' 
@@ -70,7 +70,7 @@ NULL
 #' The Version-2 Global Precipitation Climatology Project (GPCP) Monthly Precipitation Analysis (1979 - Present)\cr
 #' Adler et al. (2003)\cr
 #' Journal of Hydrometeorology, Volume 4, Issue 6, pp. 1147 - 1167\cr
-#' \url{http://dx.doi.org/10.1175/1525-7541(2003)004<1147:TVGPCP>2.0.CO;2}
+#' \doi{10.1175/1525-7541(2003)004<1147:TVGPCP>2.0.CO;2}
 NULL
 #' 
 #' @docType data 
@@ -88,5 +88,5 @@ NULL
 #' Daily High-Resolution-Blended Analyses for Sea Surface Temperature\cr
 #' Reynolds et al. (2007)\cr
 #' Journal of Climate, Volume 20, Issue 22, pp. 5473 - 5496\cr
-#' \url{http://dx.doi.org/10.1175/2007JCLI1824.1}
+#' \doi{10.1175/2007JCLI1824.1}
 NULL

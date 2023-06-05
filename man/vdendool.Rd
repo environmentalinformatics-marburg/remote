@@ -13,7 +13,7 @@ extent      : -180, 180, 20.9589, 90  (xmin, xmax, ymin, ymax)\cr
 coord. ref. : +proj=longlat +datum=WGS84 +ellps=WGS84 +towgs84=0,0,0\cr
 }
 \source{
-\url{http://www.esrl.noaa.gov/psd/data/gridded/data.ncep.reanalysis.derived.pressure.html}\cr
+\url{https://psl.noaa.gov/data/gridded/data.ncep.reanalysis.derived.pressure.html}\cr
 \emph{Original Source:} NOAA National Center for Environmental Prediction
 }
 \description{
