@@ -46,10 +46,9 @@
 #' The NCEP/NCAR 40-year reanalysis project\cr
 #' Kalnay et al. (1996)\cr
 #' Bulletin of the American Meteorological Society, Volume 77, Issue 3, pp 437 - 471\cr
-#' \url{http://journals.ametsoc.org/doi/abs/10.1175/1520-0477(1996)077%3C0437%3ATNYRP%3E2.0.CO%3B2
-#' }
+#' \doi{10.1175/1520-0477(1996)077<0437:TNYRP>2.0.CO;2}
 #' @source
-#' \url{https://psl.noaa.gov/data/gridded/data.ncep.reanalysis.derived.pressure.html}\cr
+#' <https://psl.noaa.gov/data/gridded/data.ncep.reanalysis.derived.pressure.html>\cr
 #' \emph{Original Source:} NOAA National Center for Environmental Prediction
 NULL
 #' 

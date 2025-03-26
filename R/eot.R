@@ -82,13 +82,12 @@ if ( !isGeneric('eot') ) {
 #' \bold{Empirical Orthogonal Teleconnections}\cr
 #' H. M. van den Dool, S. Saha, A. Johansson (2000)\cr
 #' Journal of Climate, Volume 13, Issue 8, pp. 1421-1435\cr
-#' \url{http://journals.ametsoc.org/doi/abs/10.1175/1520-0442%282000%29013%3C1421%3AEOT%3E2.0.CO%3B2
-#' }
+#' \doi{10.1175/1520-0442(2000)013<1421:EOT>2.0.CO;2}
 #'  
 #' \bold{Empirical methods in short-term climate prediction}\cr
 #' H. M. van den Dool (2007)\cr
 #' Oxford University Press, Oxford, New York\cr
-#' \url{https://global.oup.com/academic/product/empirical-methods-in-short-term-climate-prediction-9780199202782?cc=de&lang=en&}
+#' <https://global.oup.com/academic/product/empirical-methods-in-short-term-climate-prediction-9780199202782>
 #' 
 #' @examples
 #' ### EXAMPLE I
