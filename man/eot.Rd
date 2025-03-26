@@ -20,9 +20,9 @@
 )
 }
 \arguments{
-\item{x}{a \code{Raster*} object used as predictor}
+\item{x}{a \verb{Raster*} object used as predictor}
 
-\item{y}{a \code{Raster*} object used as response. If \code{y} is
+\item{y}{a \verb{Raster*} object used as response. If \code{y} is
 \code{NULL}, \code{x} is used as \code{y}}
 
 \item{n}{the number of EOT modes to calculate}

@@ -21,7 +21,7 @@ An \code{Eot}* object.
 }
 \description{
 Read \code{Eot}* related files from disk, e.g. for further use with
-\code{\link[remote]{predict}} or \code{\link[remote]{plot}}.
+\code{\link[=predict]{predict()}} or \code{\link[=plot]{plot()}}.
 }
 \examples{
 \dontrun{

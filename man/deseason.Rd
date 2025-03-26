@@ -11,7 +11,7 @@
 \S4method{deseason}{numeric}(x, cycle.window = 12L)
 }
 \arguments{
-\item{x}{An \code{Raster*} object or, alternatively, a \code{numeric} time
+\item{x}{An \verb{Raster*} object or, alternatively, a \code{numeric} time
 series.}
 
 \item{cycle.window}{\code{integer}, defaults to \code{12}. The window for the
@@ -19,7 +19,7 @@ creation of the anomalies.}
 
 \item{use.cpp}{\code{logical}, defaults to \code{FALSE}. Determines whether
 or not to use \strong{Rcpp} functionality. Only applies if \code{x} is a
-\code{Raster*} object.}
+\verb{Raster*} object.}
 
 \item{filename}{\code{character}. Output filename (optional).}
 
@@ -27,7 +27,7 @@ or not to use \strong{Rcpp} functionality. Only applies if \code{x} is a
 considered if \code{filename} is specified.}
 }
 \value{
-If \code{x} is a \code{Raster*} object, a deseasoned
+If \code{x} is a \verb{Raster*} object, a deseasoned
 \code{RasterStack}; else a deseasoned \code{numeric} vector.
 }
 \description{

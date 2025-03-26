@@ -69,7 +69,7 @@ predictor and response fields}
 produce a map showing the locations of all modes. Ignored if x is an
 EotMode}
 
-\item{...}{further arguments to be passed to \code{\link[raster]{spplot}}}
+\item{...}{further arguments to be passed to \code{\link[raster:spplot]{raster::spplot()}}}
 }
 \description{
 This is the standard plotting routine for the results of \code{\link[=eot]{eot()}}.

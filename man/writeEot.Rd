@@ -17,17 +17,17 @@
 
 \item{prefix}{a prefix to be added to the file names (see Details)}
 
-\item{overwrite}{see \link{writeRaster}.
-Defaults to \code{TRUE} in \code{writeEot}}
+\item{overwrite}{see \code{\link[raster:writeRaster]{raster::writeRaster()}}.
+Defaults to \code{TRUE} in \code{\link[=writeEot]{writeEot()}}}
 
-\item{...}{further arguments passed to \link{writeRaster}}
+\item{...}{further arguments passed to \code{\link[raster:writeRaster]{raster::writeRaster()}}}
 }
 \description{
 Write Eot* objects to disk. This is merely a wrapper around
-\link{writeRaster} so see respective help section for details.
+\code{\link[raster:writeRaster]{raster::writeRaster()}} so see respective help section for details.
 }
 \details{
-\code{writeEot} will write the results of either an EotMode or an EotStack
+\code{\link[=writeEot]{writeEot()}} will write the results of either an EotMode or an EotStack
 to disk. For each mode the following files will be written:
 
 \itemize{
@@ -75,5 +75,5 @@ writeEot(nh_modes[[2]], prefix = "vdendool")
 
 }
 \seealso{
-\link{writeRaster}
+\code{\link[raster:writeRaster]{raster::writeRaster()}}
 }

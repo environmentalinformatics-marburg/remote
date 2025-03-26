@@ -8,12 +8,12 @@
 #' (ignored if \code{expl.var} is supplied)
 #' @param expl.var  minimum amount of variance to be kept after reconstruction
 #' (should be set to NULL or omitted if \code{k} is supplied)
-#' @param weighted logical. If \code{TRUE} the covariance matrix will be 
+#' @param weighted logical. If `TRUE` the covariance matrix will be 
 #' geographically weighted using the cosine of latitude during decomposition 
 #' (only important for lat/lon data)
 #' @param use.cpp logical. Determines whether to use \strong{Rcpp} 
-#' functionality, defaults to \code{TRUE}.
-#' @param verbose logical. If \code{TRUE} some details about the 
+#' functionality, defaults to `TRUE`.
+#' @param verbose logical. If `TRUE` some details about the 
 #' calculation process will be output to the console
 #' @param ... additional arguments passed to [stats::princomp()]
 #' 

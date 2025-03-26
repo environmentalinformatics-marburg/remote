@@ -9,19 +9,19 @@ if ( !isGeneric("deseason") ) {
 #' suitable seasonal window. E. g. to create monthly anomalies of a 
 #' raster stack of 12 layers per year, use \code{cycle.window = 12}.
 #' 
-#' @param x An \code{Raster*} object or, alternatively, a \code{numeric} time 
+#' @param x An `Raster*` object or, alternatively, a `numeric` time 
 #' series.
-#' @param cycle.window \code{integer}, defaults to \code{12}. The window for the 
+#' @param cycle.window `integer`, defaults to \code{12}. The window for the 
 #' creation of the anomalies.
-#' @param use.cpp \code{logical}, defaults to \code{FALSE}. Determines whether 
+#' @param use.cpp `logical`, defaults to `FALSE`. Determines whether 
 #' or not to use \strong{Rcpp} functionality. Only applies if \code{x} is a 
-#' \code{Raster*} object.
-#' @param filename \code{character}. Output filename (optional).
+#' `Raster*` object.
+#' @param filename `character`. Output filename (optional).
 #' @param ... Additional arguments passed on to [raster::writeRaster()], only 
 #' considered if \code{filename} is specified.
 #' 
-#' @return If \code{x} is a \code{Raster*} object, a deseasoned 
-#' \code{RasterStack}; else a deseasoned \code{numeric} vector.
+#' @return If \code{x} is a `Raster*` object, a deseasoned 
+#' \code{RasterStack}; else a deseasoned `numeric` vector.
 #' 
 #' @seealso
 #' [anomalize()], [denoise()]

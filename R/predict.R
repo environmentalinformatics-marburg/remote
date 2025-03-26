@@ -17,9 +17,9 @@ if ( !isGeneric('predict') ) {
 #' @param n the number of modes to be used for the prediction.
 #' See [nXplain()] for calculating the number of modes based
 #' on their explanatory power.
-#' @param filename \code{character}, output filenames (optional). If specified,
+#' @param filename `character`, output filenames (optional). If specified,
 #' this must be of the same length as \code{nlayers(newdata)}.
-#' @param cores \code{integer}. Number of cores for parallel processing.
+#' @param cores `integer`. Number of cores for parallel processing.
 #' @param ... further arguments passed to [raster::calc()], and hence,
 #' [raster::writeRaster()].
 #'

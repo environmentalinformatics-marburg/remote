@@ -9,24 +9,24 @@ if ( !isGeneric('eot') ) {
 #' Calculate a given number of EOT modes either internally or between 
 #' RasterStacks.
 #' 
-#' @param x a \code{Raster*} object used as predictor
-#' @param y a \code{Raster*} object used as response. If \code{y} is 
-#' \code{NULL}, \code{x} is used as \code{y}
+#' @param x a `Raster*` object used as predictor
+#' @param y a `Raster*` object used as response. If \code{y} is 
+#' `NULL`, \code{x} is used as \code{y}
 #' @param n the number of EOT modes to calculate
-#' @param standardised logical. If \code{FALSE} the calculated r-squared values 
+#' @param standardised logical. If `FALSE` the calculated r-squared values 
 #' will be multiplied by the variance
-#' @param write.out logical. If \code{TRUE} results will be written to disk 
+#' @param write.out logical. If `TRUE` results will be written to disk 
 #' using \code{path.out}
-#' @param path.out the file path for writing results if \code{write.out} is \code{TRUE}.
+#' @param path.out the file path for writing results if \code{write.out} is `TRUE`.
 #' Defaults to current working directory
 #' @param prefix optional prefix to be used for naming of results if 
-#' \code{write.out} is \code{TRUE}
-#' @param reduce.both logical. If \code{TRUE} both \code{x} and \code{y} 
-#' are reduced after each iteration. If \code{FALSE} only \code{y} is reduced
+#' \code{write.out} is `TRUE`
+#' @param reduce.both logical. If `TRUE` both \code{x} and \code{y} 
+#' are reduced after each iteration. If `FALSE` only \code{y} is reduced
 #' @param type the type of the link function. Defaults to \code{'rsq'} as in original
 #' proposed method from \cite{van den Dool 2000}. If set to \code{'ioa'} index of agreement is
 #' used instead
-#' @param verbose logical. If \code{TRUE} some details about the 
+#' @param verbose logical. If `TRUE` some details about the 
 #' calculation process will be output to the console
 #' @param ... not used at the moment
 #' 
