@@ -6,7 +6,6 @@
 #' 
 #' @name remote-package
 #' @aliases remote
-#' @docType package
 #' @title R EMpirical Orthogonal TEleconnections
 #' @author Tim Appelhans, Florian Detsch, Thomas Nauss\cr
 #' \cr
@@ -29,7 +28,8 @@
 #' @importFrom utils read.csv write.table
 #' @useDynLib remote
 #' 
-NULL
+"_PACKAGE"
+
 #' 
 #' @docType data 
 #' @name vdendool
