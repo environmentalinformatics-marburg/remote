@@ -71,7 +71,7 @@ if ( !isGeneric('eot') ) {
 #' for the predictor domain
 #' }
 #' 
-#' Apart from \emph{rsq_sums_predictor}, all \emph{*_predictor} fields are 
+#' Apart from *rsq_sums_predictor*, all *&ast;_predictor* fields are 
 #' also returned for the \emph{*_response} domain, 
 #' even if predictor and response domain are equal. This is due to that fact, 
 #' that if not both fields are reduced after the first EOT is found, 
