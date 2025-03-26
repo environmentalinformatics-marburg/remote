@@ -15,12 +15,12 @@
 #' functionality, defaults to \code{TRUE}.
 #' @param verbose logical. If \code{TRUE} some details about the 
 #' calculation process will be output to the console
-#' @param ... additional arguments passed to \code{\link{princomp}}
+#' @param ... additional arguments passed to [stats::princomp()]
 #' 
 #' @return a denoised RasterStack
 #' 
 #' @seealso
-#' \code{\link{anomalize}}, \code{\link{deseason}}
+#' [anomalize()], [deseason()]
 #' 
 #' @export denoise
 #' 

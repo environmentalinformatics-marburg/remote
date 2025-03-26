@@ -22,7 +22,7 @@
 #' @param verbose logical. If \code{TRUE} some details about the 
 #' calculation process will be output to the console
 #' @param ... If \code{write.out = TRUE}, further arguments passed to 
-#' \code{\link{writeEot}}.
+#' [writeEot()].
 #' 
 #' @export EotCycle
 EotCycle <- function(x, 

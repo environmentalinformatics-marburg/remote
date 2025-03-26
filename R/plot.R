@@ -7,11 +7,11 @@ if ( !isGeneric('plot') ) {
 #' Plot an Eot* object
 #' 
 #' @description
-#' This is the standard plotting routine for the results of \code{\link{eot}}.
+#' This is the standard plotting routine for the results of [eot()].
 #' Three panels will be drawn i) the predictor domain, ii) the response 
 #' domain, iii) the time series at the identified base point
 #' 
-#' @param x either an object of EotMode or EotStack as returned by \code{\link{eot}}
+#' @param x either an object of EotMode or EotStack as returned by [eot()]
 #' @param y integer or character of the mode to be plotted (e.g. 2 or "mode_2")
 #' @param pred.prm the parameter of the predictor to be plotted.\cr
 #' Can be any of "r", "rsq", "rsq.sums", "p", "int" or "slp"

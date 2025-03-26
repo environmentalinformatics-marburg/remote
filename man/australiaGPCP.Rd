@@ -13,11 +13,11 @@ extent      : 110, 160, -40, -10  (xmin, xmax, ymin, ymax)\cr
 coord. ref. : +proj=longlat +ellps=WGS84 +towgs84=0,0,0,0,0,0,0 +no_defs\cr
 }
 \description{
-Monthly Gridded Precipitation Climatology Project precipitation data 
+Monthly Gridded Precipitation Climatology Project precipitation data
 for Australia from 1982/01 to 2010/12
 }
 \details{
-Monthly Gridded Precipitation Climatology Project precipitation data 
+Monthly Gridded Precipitation Climatology Project precipitation data
 for Australia from 1982/01 to 2010/12
 }
 \references{

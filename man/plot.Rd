@@ -37,7 +37,7 @@
 )
 }
 \arguments{
-\item{x}{either an object of EotMode or EotStack as returned by \code{\link{eot}}}
+\item{x}{either an object of EotMode or EotStack as returned by \code{\link[=eot]{eot()}}}
 
 \item{y}{integer or character of the mode to be plotted (e.g. 2 or "mode_2")}
 
@@ -47,33 +47,33 @@ Can be any of "r", "rsq", "rsq.sums", "p", "int" or "slp"}
 \item{resp.prm}{the parameter of the response to be plotted.\cr
 Can be any of "r", "rsq", "rsq.sums", "p", "int" or "slp"}
 
-\item{show.bp}{logical. If \code{TRUE} a grey circle will be drawn 
+\item{show.bp}{logical. If \code{TRUE} a grey circle will be drawn
 in the predictor image to indicate the location of the base point}
 
 \item{anomalies}{logical. If \code{TRUE} a reference line will be drawn
 a 0 in the EOT time series}
 
-\item{add.map}{logical. If \code{TRUE} country outlines will be added 
+\item{add.map}{logical. If \code{TRUE} country outlines will be added
 to the predictor and response images}
 
-\item{ts.vec}{an (optional) time series vector of the considered 
+\item{ts.vec}{an (optional) time series vector of the considered
 EOT calculation to be shown as the x-axis in the time series plot}
 
 \item{arrange}{whether the final plot should be arranged in "wide" or
 "long" format}
 
-\item{clr}{an (optional) color palette for displaying of the 
+\item{clr}{an (optional) color palette for displaying of the
 predictor and response fields}
 
-\item{locations}{logical. If x is an EotStack, set this to TRUE to 
+\item{locations}{logical. If x is an EotStack, set this to TRUE to
 produce a map showing the locations of all modes. Ignored if x is an
 EotMode}
 
 \item{...}{further arguments to be passed to \code{\link[raster]{spplot}}}
 }
 \description{
-This is the standard plotting routine for the results of \code{\link{eot}}.
-Three panels will be drawn i) the predictor domain, ii) the response 
+This is the standard plotting routine for the results of \code{\link[=eot]{eot()}}.
+Three panels will be drawn i) the predictor domain, ii) the response
 domain, iii) the time series at the identified base point
 }
 \section{Methods (by class)}{

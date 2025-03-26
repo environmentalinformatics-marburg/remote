@@ -6,6 +6,10 @@
 
 #### 💬 documentation etc
 
+  * Enables {roxygen2} w/ markdown support (see 
+    <https://roxygen2.r-lib.org/articles/markdown.html>) and transforms 
+    `\code{\link{...}}` commands (#9)
+
 #### 🍬 miscellaneous
 
 

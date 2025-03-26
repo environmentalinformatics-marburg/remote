@@ -17,14 +17,14 @@ if ( !isGeneric("deseason") ) {
 #' or not to use \strong{Rcpp} functionality. Only applies if \code{x} is a 
 #' \code{Raster*} object.
 #' @param filename \code{character}. Output filename (optional).
-#' @param ... Additional arguments passed on to \code{\link{writeRaster}}, only 
+#' @param ... Additional arguments passed on to [raster::writeRaster()], only 
 #' considered if \code{filename} is specified.
 #' 
 #' @return If \code{x} is a \code{Raster*} object, a deseasoned 
 #' \code{RasterStack}; else a deseasoned \code{numeric} vector.
 #' 
 #' @seealso
-#' \code{\link{anomalize}}, \code{\link{denoise}}
+#' [anomalize()], [denoise()]
 #' 
 #' @export deseason
 #' @name deseason
