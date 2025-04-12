@@ -92,6 +92,7 @@ if ( !isGeneric('eot') ) {
 #' @examples
 #' ### EXAMPLE I
 #' ### a single field
+#' \donttest{
 #' data(vdendool)
 #' 
 #' ## claculate 2 leading modes
@@ -101,7 +102,7 @@ if ( !isGeneric('eot') ) {
 #' 
 #' plot(nh_modes, y = 1, show.bp = TRUE)
 #' plot(nh_modes, y = 2, show.bp = TRUE)
-#' 
+#' }
 #' @export
 #' @name eot
 #' @rdname eot
