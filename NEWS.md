@@ -1,3 +1,19 @@
+# remote 1.2.2.9004 (2025-04-12)
+
+#### ✨ features and improvements
+
+#### 🐛 bug fixes
+
+#### 💬 documentation etc
+
+  * Enables {roxygen2} w/ markdown support (see 
+    <https://roxygen2.r-lib.org/articles/markdown.html>) and transforms 
+    `\code{\link{...}}` commands (#9)
+  * Fixes invalid URLs in package docs
+
+#### 🍬 miscellaneous
+
+
 # remote 1.2.2 (2023-06-05)
 
 #### ✨ features and improvements

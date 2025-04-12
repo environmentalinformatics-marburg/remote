@@ -7,17 +7,17 @@ if (!isGeneric('writeEot')) {
 #'  
 #' @description
 #' Write Eot* objects to disk. This is merely a wrapper around 
-#' \link{writeRaster} so see respective help section for details.
+#' [raster::writeRaster()] so see respective help section for details.
 #' 
 #' @param x an Eot* object
 #' @param path.out the path to the folder to write the files to
 #' @param prefix a prefix to be added to the file names (see Details)
-#' @param overwrite see \link{writeRaster}. 
-#' Defaults to \code{TRUE} in \code{writeEot} 
-#' @param ... further arguments passed to \link{writeRaster}
+#' @param overwrite see [raster::writeRaster()]. 
+#' Defaults to `TRUE` in [writeEot()] 
+#' @param ... further arguments passed to [raster::writeRaster()]
 #' 
 #' @details 
-#' \code{writeEot} will write the results of either an EotMode or an EotStack
+#' [writeEot()] will write the results of either an EotMode or an EotStack
 #' to disk. For each mode the following files will be written:
 #' 
 #' \itemize{
@@ -45,7 +45,7 @@ if (!isGeneric('writeEot')) {
 #' for the \emph{RasterLayer} of the predictor correlation coefficient 
 #' of mode n using the standard \emph{raster} file type (.grd).
 #' 
-#' @seealso \link{writeRaster}
+#' @seealso [raster::writeRaster()]
 #' 
 #' @examples
 #' data(vdendool)

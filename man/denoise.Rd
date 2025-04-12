@@ -17,29 +17,29 @@ denoise(
 \arguments{
 \item{x}{RasterStack to be filtered}
 
-\item{k}{number of components to be kept for reconstruction 
+\item{k}{number of components to be kept for reconstruction
 (ignored if \code{expl.var} is supplied)}
 
 \item{expl.var}{minimum amount of variance to be kept after reconstruction
 (should be set to NULL or omitted if \code{k} is supplied)}
 
-\item{weighted}{logical. If \code{TRUE} the covariance matrix will be 
-geographically weighted using the cosine of latitude during decomposition 
+\item{weighted}{logical. If \code{TRUE} the covariance matrix will be
+geographically weighted using the cosine of latitude during decomposition
 (only important for lat/lon data)}
 
-\item{use.cpp}{logical. Determines whether to use \strong{Rcpp} 
+\item{use.cpp}{logical. Determines whether to use \strong{Rcpp}
 functionality, defaults to \code{TRUE}.}
 
-\item{verbose}{logical. If \code{TRUE} some details about the 
+\item{verbose}{logical. If \code{TRUE} some details about the
 calculation process will be output to the console}
 
-\item{...}{additional arguments passed to \code{\link{princomp}}}
+\item{...}{additional arguments passed to \code{\link[stats:princomp]{stats::princomp()}}}
 }
 \value{
 a denoised RasterStack
 }
 \description{
-Filter noise from a RasterStack by decomposing into principal components 
+Filter noise from a RasterStack by decomposing into principal components
 and subsequent reconstruction using only a subset of components
 }
 \examples{
@@ -52,5 +52,5 @@ plot(vdd_dns[[1]], main = "denoised")
 par(opar)
 }
 \seealso{
-\code{\link{anomalize}}, \code{\link{deseason}}
+\code{\link[=anomalize]{anomalize()}}, \code{\link[=deseason]{deseason()}}
 }

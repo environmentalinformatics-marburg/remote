@@ -7,21 +7,21 @@
 readEot(x, prefix = "remote", suffix = "grd")
 }
 \arguments{
-\item{x}{\code{character}, search path for \code{Eot}* related files passed 
-to \code{\link{list.files}}.}
+\item{x}{\code{character}, search path for \code{Eot}* related files passed
+to \code{\link[=list.files]{list.files()}}.}
 
-\item{prefix}{\code{character}, see \code{\link{writeEot}} for details. 
-Should be the same as previously supplied to \code{\link{eot}}.}
+\item{prefix}{\code{character}, see \code{\link[=writeEot]{writeEot()}} for details.
+Should be the same as previously supplied to \code{\link[=eot]{eot()}}.}
 
-\item{suffix}{\code{character}, file extension depending on the output file 
-type of locally stored \code{Eot}* files, see \code{\link{writeRaster}}.}
+\item{suffix}{\code{character}, file extension depending on the output file
+type of locally stored \code{Eot}* files, see \code{\link[raster:writeRaster]{raster::writeRaster()}}.}
 }
 \value{
 An \code{Eot}* object.
 }
 \description{
-Read \code{Eot}* related files from disk, e.g. for further use with 
-\code{\link[remote]{predict}} or \code{\link[remote]{plot}}.
+Read \code{Eot}* related files from disk, e.g. for further use with
+\code{\link[=predict]{predict()}} or \code{\link[=plot]{plot()}}.
 }
 \examples{
 \dontrun{
@@ -38,8 +38,8 @@ nh_modes
 
 }
 \seealso{
-\code{\link{eot}}, \code{\link{writeEot}}, 
-\code{\link{writeRaster}}.
+\code{\link[=eot]{eot()}}, \code{\link[=writeEot]{writeEot()}},
+\code{\link[raster:writeRaster]{raster::writeRaster()}}.
 }
 \author{
 Florian Detsch

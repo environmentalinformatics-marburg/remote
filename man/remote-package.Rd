@@ -9,8 +9,8 @@
 R EMpirical Orthogonal TEleconnections
 }
 \details{
-A collection of functions to facilitate empirical orthogonal teleconnection analysis. 
-Some handy functions for preprocessing, such as deseasoning, denoising, lagging 
+A collection of functions to facilitate empirical orthogonal teleconnection analysis.
+Some handy functions for preprocessing, such as deseasoning, denoising, lagging
 are readily available for ease of usage.
 }
 \references{
@@ -23,8 +23,8 @@ H. M. van den Dool (2007)\cr
 Oxford University Press, Oxford, New York (2007)\cr
 }
 \seealso{
-\pkg{remote} is built upon Raster* classes from the \code{\link{raster-package}}.
-Please see their documentation for data preparation etc.
+\pkg{remote} is built upon Raster* classes from the
+\link{raster-package}. Please see their documentation for data preparation etc.
 }
 \author{
 Tim Appelhans, Florian Detsch, Thomas Nauss\cr

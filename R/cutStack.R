@@ -5,8 +5,8 @@
 #' order to create lagged RasterStacks.
 #' 
 #' @param x a RasterStack
-#' @param tail logical. If \code{TRUE} the layers will be taken off
-#' the end of the stack. If \code{FALSE} layers will be taken off
+#' @param tail logical. If `TRUE` the layers will be taken off
+#' the end of the stack. If `FALSE` layers will be taken off
 #' the beginning.
 #' @param n the number of layers to take away.
 #' 

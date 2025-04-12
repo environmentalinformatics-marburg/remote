@@ -7,19 +7,19 @@
 covWeight(m, weights, ...)
 }
 \arguments{
-\item{m}{a matrix (e.g. as returned by \code{\link{getValues}})}
+\item{m}{a matrix (e.g. as returned by \code{\link[raster:getValues]{raster::getValues()}})}
 
-\item{weights}{a numeric vector of weights. For lat/lon data this 
-can be produced with \code{\link{getWeights}}}
+\item{weights}{a numeric vector of weights. For lat/lon data this
+can be produced with \code{\link[=getWeights]{getWeights()}}}
 
-\item{...}{additional arguments passed to \code{\link{cov.wt}}}
+\item{...}{additional arguments passed to \code{\link[stats:cov.wt]{stats::cov.wt()}}}
 }
 \value{
-see \code{\link{cov.wt}}
+see \code{\link[stats:cov.wt]{stats::cov.wt()}}
 }
 \description{
 Create a weighted covariance matrix
 }
 \seealso{
-\code{\link{cov.wt}}
+\code{\link[stats:cov.wt]{stats::cov.wt()}}
 }

@@ -6,7 +6,6 @@
 #' 
 #' @name remote-package
 #' @aliases remote
-#' @docType package
 #' @title R EMpirical Orthogonal TEleconnections
 #' @author Tim Appelhans, Florian Detsch, Thomas Nauss\cr
 #' \cr
@@ -21,15 +20,16 @@
 #' Empirical methods in short-term climate prediction\cr
 #' H. M. van den Dool (2007)\cr
 #' Oxford University Press, Oxford, New York (2007)\cr
-#' @seealso \pkg{remote} is built upon Raster* classes from the \code{\link{raster-package}}.
-#' Please see their documentation for data preparation etc.
+#' @seealso \pkg{remote} is built upon Raster* classes from the 
+#' [raster-package]. Please see their documentation for data preparation etc.
 #' @import Rcpp raster gridExtra latticeExtra mapdata scales methods parallel
 #' @importFrom grDevices colorRampPalette hcl 
 #' @importFrom stats pt var cov.wt na.exclude princomp na.omit
 #' @importFrom utils read.csv write.table
 #' @useDynLib remote
 #' 
-NULL
+"_PACKAGE"
+
 #' 
 #' @docType data 
 #' @name vdendool
@@ -46,10 +46,9 @@ NULL
 #' The NCEP/NCAR 40-year reanalysis project\cr
 #' Kalnay et al. (1996)\cr
 #' Bulletin of the American Meteorological Society, Volume 77, Issue 3, pp 437 - 471\cr
-#' \url{http://journals.ametsoc.org/doi/abs/10.1175/1520-0477(1996)077%3C0437%3ATNYRP%3E2.0.CO%3B2
-#' }
+#' \doi{10.1175/1520-0477(1996)077<0437:TNYRP>2.0.CO;2}
 #' @source
-#' \url{https://psl.noaa.gov/data/gridded/data.ncep.reanalysis.derived.pressure.html}\cr
+#' <https://psl.noaa.gov/data/gridded/data.ncep.reanalysis.derived.pressure.html>\cr
 #' \emph{Original Source:} NOAA National Center for Environmental Prediction
 NULL
 #' 

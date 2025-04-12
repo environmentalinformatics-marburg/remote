@@ -11,28 +11,28 @@
 \S4method{deseason}{numeric}(x, cycle.window = 12L)
 }
 \arguments{
-\item{x}{An \code{Raster*} object or, alternatively, a \code{numeric} time 
+\item{x}{An \verb{Raster*} object or, alternatively, a \code{numeric} time
 series.}
 
-\item{cycle.window}{\code{integer}, defaults to \code{12}. The window for the 
+\item{cycle.window}{\code{integer}, defaults to \code{12}. The window for the
 creation of the anomalies.}
 
-\item{use.cpp}{\code{logical}, defaults to \code{FALSE}. Determines whether 
-or not to use \strong{Rcpp} functionality. Only applies if \code{x} is a 
-\code{Raster*} object.}
+\item{use.cpp}{\code{logical}, defaults to \code{FALSE}. Determines whether
+or not to use \strong{Rcpp} functionality. Only applies if \code{x} is a
+\verb{Raster*} object.}
 
 \item{filename}{\code{character}. Output filename (optional).}
 
-\item{...}{Additional arguments passed on to \code{\link{writeRaster}}, only 
+\item{...}{Additional arguments passed on to \code{\link[raster:writeRaster]{raster::writeRaster()}}, only
 considered if \code{filename} is specified.}
 }
 \value{
-If \code{x} is a \code{Raster*} object, a deseasoned 
+If \code{x} is a \verb{Raster*} object, a deseasoned
 \code{RasterStack}; else a deseasoned \code{numeric} vector.
 }
 \description{
-The function calculates anomalies of a RasterStack by supplying a 
-suitable seasonal window. E. g. to create monthly anomalies of a 
+The function calculates anomalies of a RasterStack by supplying a
+suitable seasonal window. E. g. to create monthly anomalies of a
 raster stack of 12 layers per year, use \code{cycle.window = 12}.
 }
 \examples{
@@ -46,5 +46,5 @@ plot(aus_dsn[[1]], main = "deseasoned")
 par(opar)
 }
 \seealso{
-\code{\link{anomalize}}, \code{\link{denoise}}
+\code{\link[=anomalize]{anomalize()}}, \code{\link[=denoise]{denoise()}}
 }

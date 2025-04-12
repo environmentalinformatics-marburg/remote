@@ -2,19 +2,19 @@
 #' 
 #' @description 
 #' Read \code{Eot}* related files from disk, e.g. for further use with 
-#' \code{\link[remote]{predict}} or \code{\link[remote]{plot}}. 
+#' [remote::predict()] or [remote::plot()]. 
 #' 
-#' @param x \code{character}, search path for \code{Eot}* related files passed 
-#' to \code{\link{list.files}}. 
-#' @param prefix \code{character}, see \code{\link{writeEot}} for details. 
-#' Should be the same as previously supplied to \code{\link{eot}}. 
-#' @param suffix \code{character}, file extension depending on the output file 
-#' type of locally stored \code{Eot}* files, see \code{\link{writeRaster}}.
+#' @param x `character`, search path for \code{Eot}* related files passed 
+#' to [list.files()]. 
+#' @param prefix `character`, see [writeEot()] for details. 
+#' Should be the same as previously supplied to [eot()]. 
+#' @param suffix `character`, file extension depending on the output file 
+#' type of locally stored \code{Eot}* files, see [raster::writeRaster()].
 #' 
 #' @return An \code{Eot}* object.
 #' 
-#' @seealso \code{\link{eot}}, \code{\link{writeEot}}, 
-#' \code{\link{writeRaster}}.
+#' @seealso [eot()], [writeEot()], 
+#' [raster::writeRaster()].
 #' 
 #' @author Florian Detsch
 #' 

@@ -9,16 +9,16 @@ longtermMeans(x, cycle.window = 12L)
 \arguments{
 \item{x}{A 'RasterStack' (or 'RasterBrick') object.}
 
-\item{cycle.window}{'integer'. See \code{\link{deseason}}.}
+\item{cycle.window}{'integer'. See \code{\link[=deseason]{deseason()}}.}
 }
 \value{
-If \code{cycle.window} equals \code{nlayers(x)} (which obviously doesn't make 
+If \code{cycle.window} equals \code{nlayers(x)} (which obviously doesn't make
 much sense), a 'RasterLayer' object; else a 'RasterStack' object.
 }
 \description{
-Calculate long-term means from an input 'RasterStack' (or 'RasterBrick') 
-object. Ideally, the number of input layers should be divisable by the 
-supplied \code{cycle.window}. For instance, if \code{x} consists of monthly 
+Calculate long-term means from an input 'RasterStack' (or 'RasterBrick')
+object. Ideally, the number of input layers should be divisable by the
+supplied \code{cycle.window}. For instance, if \code{x} consists of monthly
 layers, \code{cycle.window} should be a multiple of 12.
 }
 \examples{
@@ -28,7 +28,7 @@ longtermMeans(australiaGPCP)
 
 }
 \seealso{
-\code{\link{deseason}}.
+\code{\link[=deseason]{deseason()}}.
 }
 \author{
 Florian Detsch

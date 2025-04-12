@@ -14,7 +14,7 @@ if (!isGeneric('nXplain')) {
 #' @param var the minimum amount of variance to be explained by the modes
 #' 
 #' @note This is a post-hoc function. It needs an \emph{EotStack} 
-#' created as returned by \code{\link{eot}}. Depending on the potency
+#' created as returned by [eot()]. Depending on the potency
 #' of the identified EOTs, it may be necessary to compute a high number of 
 #' modes in order to be able to explain a large enough part of the variance.
 #' 

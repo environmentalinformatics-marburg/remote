@@ -8,26 +8,26 @@ if ( !isGeneric('predict') ) {
 #'
 #' @description
 #' Make spatial predictions using the fitted model returned by
-#' \code{\link{eot}}. A (user-defined) set of \emph{n} modes will be used to
+#' [eot()]. A (user-defined) set of \emph{n} modes will be used to
 #' model the outcome using the identified link functions of the respective modes
 #' which are added together to produce the final prediction.
 #'
 #' @param object an \code{Eot*} object
 #' @param newdata the data to be used as predictor
 #' @param n the number of modes to be used for the prediction.
-#' See \code{\link{nXplain}} for calculating the number of modes based
+#' See [nXplain()] for calculating the number of modes based
 #' on their explanatory power.
-#' @param filename \code{character}, output filenames (optional). If specified,
+#' @param filename `character`, output filenames (optional). If specified,
 #' this must be of the same length as \code{nlayers(newdata)}.
-#' @param cores \code{integer}. Number of cores for parallel processing.
-#' @param ... further arguments passed to \code{\link{calc}}, and hence,
-#' \code{\link{writeRaster}}.
+#' @param cores `integer`. Number of cores for parallel processing.
+#' @param ... further arguments passed to [raster::calc()], and hence,
+#' [raster::writeRaster()].
 #'
 #' @return
 #' a \emph{RasterStack} of \code{nlayers(newdata)}
 #'
 #' @seealso
-#' \code{\link{calc}}, \code{\link{writeRaster}}.
+#' [raster::calc()], [raster::writeRaster()].
 #'
 #' @examples
 #' ### not very useful, but highlights the workflow

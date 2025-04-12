@@ -16,11 +16,11 @@ the beginning.}
 \item{n}{the number of layers to take away.}
 }
 \value{
-a RasterStack shortened by \code{n} layers either from the 
+a RasterStack shortened by \code{n} layers either from the
 beginning or the end, depending on the specification of \code{tail}
 }
 \description{
-The function cuts a specified number of layers off a RrasterStack in 
+The function cuts a specified number of layers off a RrasterStack in
 order to create lagged RasterStacks.
 }
 \examples{

@@ -9,24 +9,24 @@ if ( !isGeneric('eot') ) {
 #' Calculate a given number of EOT modes either internally or between 
 #' RasterStacks.
 #' 
-#' @param x a \code{Raster*} object used as predictor
-#' @param y a \code{Raster*} object used as response. If \code{y} is 
-#' \code{NULL}, \code{x} is used as \code{y}
+#' @param x a `Raster*` object used as predictor
+#' @param y a `Raster*` object used as response. If \code{y} is 
+#' `NULL`, \code{x} is used as \code{y}
 #' @param n the number of EOT modes to calculate
-#' @param standardised logical. If \code{FALSE} the calculated r-squared values 
+#' @param standardised logical. If `FALSE` the calculated r-squared values 
 #' will be multiplied by the variance
-#' @param write.out logical. If \code{TRUE} results will be written to disk 
+#' @param write.out logical. If `TRUE` results will be written to disk 
 #' using \code{path.out}
-#' @param path.out the file path for writing results if \code{write.out} is \code{TRUE}.
+#' @param path.out the file path for writing results if \code{write.out} is `TRUE`.
 #' Defaults to current working directory
 #' @param prefix optional prefix to be used for naming of results if 
-#' \code{write.out} is \code{TRUE}
-#' @param reduce.both logical. If \code{TRUE} both \code{x} and \code{y} 
-#' are reduced after each iteration. If \code{FALSE} only \code{y} is reduced
+#' \code{write.out} is `TRUE`
+#' @param reduce.both logical. If `TRUE` both \code{x} and \code{y} 
+#' are reduced after each iteration. If `FALSE` only \code{y} is reduced
 #' @param type the type of the link function. Defaults to \code{'rsq'} as in original
 #' proposed method from \cite{van den Dool 2000}. If set to \code{'ioa'} index of agreement is
 #' used instead
-#' @param verbose logical. If \code{TRUE} some details about the 
+#' @param verbose logical. If `TRUE` some details about the 
 #' calculation process will be output to the console
 #' @param ... not used at the moment
 #' 
@@ -71,7 +71,7 @@ if ( !isGeneric('eot') ) {
 #' for the predictor domain
 #' }
 #' 
-#' Apart from \emph{rsq_sums_predictor}, all \emph{*_predictor} fields are 
+#' Apart from *rsq_sums_predictor*, all *&ast;_predictor* fields are 
 #' also returned for the \emph{*_response} domain, 
 #' even if predictor and response domain are equal. This is due to that fact, 
 #' that if not both fields are reduced after the first EOT is found, 
@@ -82,13 +82,12 @@ if ( !isGeneric('eot') ) {
 #' \bold{Empirical Orthogonal Teleconnections}\cr
 #' H. M. van den Dool, S. Saha, A. Johansson (2000)\cr
 #' Journal of Climate, Volume 13, Issue 8, pp. 1421-1435\cr
-#' \url{http://journals.ametsoc.org/doi/abs/10.1175/1520-0442%282000%29013%3C1421%3AEOT%3E2.0.CO%3B2
-#' }
+#' \doi{10.1175/1520-0442(2000)013<1421:EOT>2.0.CO;2}
 #'  
-#' \bold{Empirical methods in short-term climate prediction}\cr
+#' \bold{Empirical Methods in Short-Term Climate Prediction}\cr
 #' H. M. van den Dool (2007)\cr
 #' Oxford University Press, Oxford, New York\cr
-#' \url{https://global.oup.com/academic/product/empirical-methods-in-short-term-climate-prediction-9780199202782?cc=de&lang=en&}
+#' \doi{https://doi.org/10.1093/oso/9780199202782.001.0001}
 #' 
 #' @examples
 #' ### EXAMPLE I

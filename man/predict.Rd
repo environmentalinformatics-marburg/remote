@@ -16,7 +16,7 @@
 \item{newdata}{the data to be used as predictor}
 
 \item{n}{the number of modes to be used for the prediction.
-See \code{\link{nXplain}} for calculating the number of modes based
+See \code{\link[=nXplain]{nXplain()}} for calculating the number of modes based
 on their explanatory power.}
 
 \item{cores}{\code{integer}. Number of cores for parallel processing.}
@@ -24,15 +24,15 @@ on their explanatory power.}
 \item{filename}{\code{character}, output filenames (optional). If specified,
 this must be of the same length as \code{nlayers(newdata)}.}
 
-\item{...}{further arguments passed to \code{\link{calc}}, and hence,
-\code{\link{writeRaster}}.}
+\item{...}{further arguments passed to \code{\link[raster:calc]{raster::calc()}}, and hence,
+\code{\link[raster:writeRaster]{raster::writeRaster()}}.}
 }
 \value{
 a \emph{RasterStack} of \code{nlayers(newdata)}
 }
 \description{
 Make spatial predictions using the fitted model returned by
-\code{\link{eot}}. A (user-defined) set of \emph{n} modes will be used to
+\code{\link[=eot]{eot()}}. A (user-defined) set of \emph{n} modes will be used to
 model the outcome using the identified link functions of the respective modes
 which are added together to produce the final prediction.
 }
@@ -59,5 +59,5 @@ par(opar)
 
 }
 \seealso{
-\code{\link{calc}}, \code{\link{writeRaster}}.
+\code{\link[raster:calc]{raster::calc()}}, \code{\link[raster:writeRaster]{raster::writeRaster()}}.
 }
