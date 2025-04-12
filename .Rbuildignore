@@ -4,3 +4,4 @@
 ^\.Rproj\.user$
 ^\README.Rmd$
 ^dev_history\.R$
+^\.github$
