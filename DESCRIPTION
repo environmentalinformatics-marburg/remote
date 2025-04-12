@@ -1,7 +1,18 @@
 Package: remote
 Title: Empirical Orthogonal Teleconnections in R
 Version: 1.2.2.9008
-Author: Tim Appelhans, Florian Detsch, Thomas Nauss
+Authors@R:
+    c(person(given = "Tim",
+             family = "Appelhans",
+             role = c("cre", "aut"),
+             email = "tim.appelhans@gmail.com"),
+      person(given = "Florian",
+             family = "Detsch",
+             role = "aut",
+             email = "fdetsch@web.de"),
+      person(given = "Thomas",
+             family = "Nauss",
+             role = "ctb"))
 Maintainer: Tim Appelhans <tim.appelhans@gmail.com>
 Description: Empirical orthogonal teleconnections in R.
     'remote' is short for 'R(-based) EMpirical Orthogonal TEleconnections'.
