@@ -122,8 +122,8 @@ H. M. van den Dool, S. Saha, A. Johansson (2000)\cr
 Journal of Climate, Volume 13, Issue 8, pp. 1421-1435\cr
 \doi{10.1175/1520-0442(2000)013<1421:EOT>2.0.CO;2}
 
-\bold{Empirical methods in short-term climate prediction}\cr
+\bold{Empirical Methods in Short-Term Climate Prediction}\cr
 H. M. van den Dool (2007)\cr
 Oxford University Press, Oxford, New York\cr
-\url{https://global.oup.com/academic/product/empirical-methods-in-short-term-climate-prediction-9780199202782}
+\doi{https://doi.org/10.1093/oso/9780199202782.001.0001}
 }
