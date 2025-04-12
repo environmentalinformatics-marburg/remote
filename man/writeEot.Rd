@@ -61,6 +61,7 @@ of mode n using the standard \emph{raster} file type (.grd).
 
 }}
 \examples{
+\dontrun{
 data(vdendool)
 
 nh_modes <- eot(x = vdendool, y = NULL, n = 2, 
@@ -72,7 +73,7 @@ writeEot(nh_modes, prefix = "vdendool")
 
 ## write only one EotMode
 writeEot(nh_modes[[2]], prefix = "vdendool")
-
+}
 }
 \seealso{
 \code{\link[raster:writeRaster]{raster::writeRaster()}}

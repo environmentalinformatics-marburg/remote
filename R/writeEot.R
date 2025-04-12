@@ -48,6 +48,7 @@ if (!isGeneric('writeEot')) {
 #' @seealso [raster::writeRaster()]
 #' 
 #' @examples
+#' \dontrun{
 #' data(vdendool)
 #' 
 #' nh_modes <- eot(x = vdendool, y = NULL, n = 2, 
@@ -59,7 +60,7 @@ if (!isGeneric('writeEot')) {
 #' 
 #' ## write only one EotMode
 #' writeEot(nh_modes[[2]], prefix = "vdendool")
-#'
+#' }
 #' @export 
 #' @name writeEot
 #' @rdname writeEot 

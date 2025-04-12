@@ -38,6 +38,7 @@ which are added together to produce the final prediction.
 }
 \examples{
 ### not very useful, but highlights the workflow
+\donttest{
 data(pacificSST)
 data(australiaGPCP)
 
@@ -56,7 +57,7 @@ opar <- par(mfrow = c(1,2))
 plot(australiaGPCP[[13]], main = "original", zlim = c(0, 10))
 plot(pred[[3]], main = "predicted", zlim = c(0, 10))
 par(opar)
-
+}
 }
 \seealso{
 \code{\link[raster:calc]{raster::calc()}}, \code{\link[raster:writeRaster]{raster::writeRaster()}}.

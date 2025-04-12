@@ -105,6 +105,7 @@ variability within the same or another geographic field.
 \examples{
 ### EXAMPLE I
 ### a single field
+\donttest{
 data(vdendool)
 
 ## claculate 2 leading modes
@@ -114,7 +115,7 @@ nh_modes <- eot(x = vdendool, y = NULL, n = 2,
 
 plot(nh_modes, y = 1, show.bp = TRUE)
 plot(nh_modes, y = 2, show.bp = TRUE)
-
+}
 }
 \references{
 \bold{Empirical Orthogonal Teleconnections}\cr

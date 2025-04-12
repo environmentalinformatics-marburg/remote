@@ -31,6 +31,7 @@ if ( !isGeneric('predict') ) {
 #'
 #' @examples
 #' ### not very useful, but highlights the workflow
+#' \donttest{
 #' data(pacificSST)
 #' data(australiaGPCP)
 #'
@@ -49,7 +50,7 @@ if ( !isGeneric('predict') ) {
 #' plot(australiaGPCP[[13]], main = "original", zlim = c(0, 10))
 #' plot(pred[[3]], main = "predicted", zlim = c(0, 10))
 #' par(opar)
-#'
+#' }
 #' @export
 #' @name predict
 #' @rdname predict
