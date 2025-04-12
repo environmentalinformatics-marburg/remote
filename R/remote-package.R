@@ -21,7 +21,7 @@
 #' H. M. van den Dool (2007)\cr
 #' Oxford University Press, Oxford, New York (2007)\cr
 #' @seealso \pkg{remote} is built upon Raster* classes from the 
-#' [raster-package]. Please see their documentation for data preparation etc.
+#' [raster::raster-package]. Please see their documentation for data preparation etc.
 #' @import Rcpp raster gridExtra latticeExtra mapdata scales methods parallel
 #' @importFrom grDevices colorRampPalette hcl 
 #' @importFrom stats pt var cov.wt na.exclude princomp na.omit

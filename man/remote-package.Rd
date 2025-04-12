@@ -24,7 +24,7 @@ Oxford University Press, Oxford, New York (2007)\cr
 }
 \seealso{
 \pkg{remote} is built upon Raster* classes from the
-\link{raster-package}. Please see their documentation for data preparation etc.
+\link[raster:raster-package]{raster::raster-package}. Please see their documentation for data preparation etc.
 }
 \author{
 Tim Appelhans, Florian Detsch, Thomas Nauss\cr
