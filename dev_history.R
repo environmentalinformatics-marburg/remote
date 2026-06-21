@@ -19,3 +19,18 @@ txt = utils::bibentry(
     , "doi:10.18637/jss.v065.i10 <https://doi.org/10.18637/jss.v065.i10>."
   )
 )
+
+
+# 2026-06-21 ====
+
+## document, check and build package
+devtools::document()
+devtools::check()
+pak::local_install()
+
+## bump version
+remotes::install_git(
+  "https://codeberg.org/tim-salabim/oiseasy.git"
+  , Ncpus = 4L
+)
+oiseasy::bumpDevVersion()
