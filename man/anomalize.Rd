@@ -11,8 +11,8 @@ anomalize(x, reference = NULL, ...)
 
 \item{reference}{an optional RasterLayer to be used as the reference}
 
-\item{...}{additional arguments passed to \code{\link{calc}} (and, in turn, 
-\code{\link{writeRaster}}) which is used under the hood}
+\item{...}{additional arguments passed to \code{\link[raster:calc]{raster::calc()}} (and, in turn,
+\code{\link[raster:writeRaster]{raster::writeRaster()}}) which is used under the hood}
 }
 \value{
 an anomaly RasterStack
@@ -20,7 +20,7 @@ an anomaly RasterStack
 \description{
 The function creates an anomaly RasterStack either based on the
 overall mean of the original stack, or a supplied reference RasterLayer.
-For the creation of seasonal anomalies use \code{\link{deseason}}.
+For the creation of seasonal anomalies use \code{\link[=deseason]{deseason()}}.
 }
 \examples{
 data(australiaGPCP)
@@ -33,5 +33,5 @@ plot(aus_anom[[10]], main = "anomalized")
 par(opar)
 }
 \seealso{
-\code{\link{deseason}}, \code{\link{denoise}}, \code{\link{calc}}
+\code{\link[=deseason]{deseason()}}, \code{\link[=denoise]{denoise()}}, \code{\link[raster:calc]{raster::calc()}}
 }

@@ -3,17 +3,17 @@
 #' @description
 #' The function creates an anomaly RasterStack either based on the
 #' overall mean of the original stack, or a supplied reference RasterLayer.
-#' For the creation of seasonal anomalies use \code{\link{deseason}}.
+#' For the creation of seasonal anomalies use [deseason()].
 #' 
 #' @param x a RasterStack
 #' @param reference an optional RasterLayer to be used as the reference 
-#' @param ... additional arguments passed to \code{\link{calc}} (and, in turn, 
-#' \code{\link{writeRaster}}) which is used under the hood
+#' @param ... additional arguments passed to [raster::calc()] (and, in turn, 
+#' [raster::writeRaster()]) which is used under the hood
 #' 
 #' @return an anomaly RasterStack
 #' 
 #' @seealso
-#' \code{\link{deseason}}, \code{\link{denoise}}, \code{\link{calc}}
+#' [deseason()], [denoise()], [raster::calc()]
 #' 
 #' @export anomalize
 #' 

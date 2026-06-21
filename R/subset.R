@@ -11,7 +11,7 @@ if (!isGeneric('subset')) {
 #' @param x EotStack to be subset
 #' @param subset integer or character. The modes to ectract (either by
 #' integer or by their names)
-#' @param drop if \code{TRUE} a single mode will be returned as an EotMode
+#' @param drop if `TRUE` a single mode will be returned as an EotMode
 #' @param ... currently not used
 #' 
 #' @return

@@ -20,9 +20,9 @@ The function identifies the number of modes needed to explain a certain amount o
 variance within the response field.
 }
 \note{
-This is a post-hoc function. It needs an \emph{EotStack} 
-created as returned by \code{\link{eot}}. Depending on the potency
-of the identified EOTs, it may be necessary to compute a high number of 
+This is a post-hoc function. It needs an \emph{EotStack}
+created as returned by \code{\link[=eot]{eot()}}. Depending on the potency
+of the identified EOTs, it may be necessary to compute a high number of
 modes in order to be able to explain a large enough part of the variance.
 }
 \examples{

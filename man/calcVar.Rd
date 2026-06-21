@@ -17,7 +17,7 @@ calcVar(x, standardised = FALSE, ...)
 the mean (optionally standardised) space-time variance.
 }
 \description{
-The function calculates the (optionally standardised) space-time 
+The function calculates the (optionally standardised) space-time
 variance of a RasterStack or RasterBrick.
 }
 \examples{

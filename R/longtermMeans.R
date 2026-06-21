@@ -7,7 +7,7 @@
 #' layers, \code{cycle.window} should be a multiple of 12.
 #' 
 #' @param x A 'RasterStack' (or 'RasterBrick') object.
-#' @param cycle.window 'integer'. See \code{\link{deseason}}.
+#' @param cycle.window 'integer'. See [deseason()].
 #' 
 #' @return
 #' If \code{cycle.window} equals \code{nlayers(x)} (which obviously doesn't make 
@@ -17,7 +17,7 @@
 #' Florian Detsch
 #' 
 #' @seealso 
-#' \code{\link{deseason}}. 
+#' [deseason()]. 
 #' 
 #' @examples 
 #' data("australiaGPCP")

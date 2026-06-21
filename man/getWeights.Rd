@@ -18,7 +18,7 @@ Defaults to \code{cos(x)}}
 a numeric vector of weights
 }
 \description{
-Calculate weights using the cosine of latitude to compensate for area 
+Calculate weights using the cosine of latitude to compensate for area
 distortion of non-projected lat/lon data
 }
 \examples{

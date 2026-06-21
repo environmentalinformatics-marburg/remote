@@ -23,7 +23,7 @@
 \item{value}{name to be assigned}
 }
 \value{
-if \code{x} is a EotStack, the names of all mdoes, 
+if \code{x} is a EotStack, the names of all mdoes,
 if \code{x} is a EotMode, the name the respective mode
 }
 \description{

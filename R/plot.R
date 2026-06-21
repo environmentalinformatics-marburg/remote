@@ -7,21 +7,21 @@ if ( !isGeneric('plot') ) {
 #' Plot an Eot* object
 #' 
 #' @description
-#' This is the standard plotting routine for the results of \code{\link{eot}}.
+#' This is the standard plotting routine for the results of [eot()].
 #' Three panels will be drawn i) the predictor domain, ii) the response 
 #' domain, iii) the time series at the identified base point
 #' 
-#' @param x either an object of EotMode or EotStack as returned by \code{\link{eot}}
+#' @param x either an object of EotMode or EotStack as returned by [eot()]
 #' @param y integer or character of the mode to be plotted (e.g. 2 or "mode_2")
 #' @param pred.prm the parameter of the predictor to be plotted.\cr
 #' Can be any of "r", "rsq", "rsq.sums", "p", "int" or "slp"
 #' @param resp.prm the parameter of the response to be plotted.\cr
 #' Can be any of "r", "rsq", "rsq.sums", "p", "int" or "slp"
-#' @param show.bp logical. If \code{TRUE} a grey circle will be drawn 
+#' @param show.bp logical. If `TRUE` a grey circle will be drawn 
 #' in the predictor image to indicate the location of the base point
-#' @param anomalies logical. If \code{TRUE} a reference line will be drawn
+#' @param anomalies logical. If `TRUE` a reference line will be drawn
 #' a 0 in the EOT time series
-#' @param add.map logical. If \code{TRUE} country outlines will be added 
+#' @param add.map logical. If `TRUE` country outlines will be added 
 #' to the predictor and response images
 #' @param ts.vec an (optional) time series vector of the considered 
 #' EOT calculation to be shown as the x-axis in the time series plot
@@ -32,7 +32,7 @@ if ( !isGeneric('plot') ) {
 #' @param locations logical. If x is an EotStack, set this to TRUE to 
 #' produce a map showing the locations of all modes. Ignored if x is an
 #' EotMode
-#' @param ... further arguments to be passed to \code{\link[raster]{spplot}}
+#' @param ... further arguments to be passed to [raster::spplot()]
 #' 
 #' @examples
 #' data(vdendool)

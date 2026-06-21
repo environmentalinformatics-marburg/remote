@@ -1,41 +1,42 @@
-remote
-====
-
 ### R EMpirical Orthogonal TEleconnections
 
-for detailed descriptions of the algorithm & methodolgy please have a look at:
+<!-- badges: start -->
+[![R-CMD-check](https://github.com/environmentalinformatics-marburg/remote/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/environmentalinformatics-marburg/remote/actions/workflows/R-CMD-check.yaml)
+[![cranchecks](https://badges.cranchecks.info/worst/remote.svg)](https://cran.r-project.org/web/checks/check_results_remote.html)
+![monthly](https://cranlogs.r-pkg.org/badges/remote)
+![total](https://cranlogs.r-pkg.org/badges/grand-total/remote)
+[![CRAN](https://www.r-pkg.org/badges/version/remote?color=009999)](https://cran.r-project.org/package=remote)
+<!-- badges: end -->
+
+This is the package that accompanies the publication
+
+**remote: Empirical Orthogonal Teleconnections in R**   
+Tim Appelhans, Florian Detsch, Thomas Nauss  
+Journal of Statistical Software, 65(10), 1–19.  
+DOI: https://doi.org/10.18637/jss.v065.i10
+
+For detailed descriptions of the algorithm & methodology please have a look at:
 
 **Empirical Orthogonal Teleconnections**   
 H. M. van den Dool, S. Saha, Å Johansson   
 Journal of Climate, Volume 13, Issue 8 (April 2000) pp. 1421-1435   
-[http://journals.ametsoc.org/doi/abs/10.1175/1520-0442%282000%29013%3C1421%3AEOT%3E2.0.CO%3B2](http://journals.ametsoc.org/doi/abs/10.1175/1520-0442%282000%29013%3C1421%3AEOT%3E2.0.CO%3B2)
+DOI: https://doi.org/10.1175/1520-0442(2000)013%3C1421:EOT%3E2.0.CO;2
 
-**Empirical methods in short-term climate prediction**   
+**Empirical Methods in Short-Term Climate Prediction**   
 H. M. van den Dool   
-Oxford University Press, Oxford, New York (2007)    
-[https://global.oup.com/academic/product/empirical-methods-in-short-term-climate-prediction-9780199202782?cc=de&lang=en&](https://global.oup.com/academic/product/empirical-methods-in-short-term-climate-prediction-9780199202782?cc=de&lang=en&)
+Oxford University Press, Oxford, New York (2007)   
+DOI: https://doi.org/10.1093/oso/9780199202782.001.0001
 
-====
+
 
 ### Installation
-
-install and load the [devtools](https://cran.r-project.org/package=devtools) package.
 
 For the stable release version of **remote** use
 
 
-```S
+```r
 install.packages("remote")
 ```
-
-
-To install the development version use
-
-
-```S
-install_github("environmentalinformatics-marburg/remote", ref = "develop")
-```
-
 
 ### Contact
 
