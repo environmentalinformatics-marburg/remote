@@ -5,18 +5,25 @@
 \alias{pacificSST}
 \title{Monthly SSTs for the tropical Pacific Ocean}
 \format{
-a RasterBrick with the following attributes\cr
-\cr
-dimensions  : 30, 140, 4200, 348  (nrow, ncol, ncell, nlayers)\cr
-resolution  : 1, 1  (x, y)\cr
-extent      : 150, 290, -15, 15  (xmin, xmax, ymin, ymax)\cr
-coord. ref. : +proj=longlat +ellps=WGS84 +towgs84=0,0,0,0,0,0,0 +no_defs\cr
+A \code{PackedSpatRaster} with the following attributes:\cr
+
+\if{html}{\out{<div class="sourceCode sh">}}\preformatted{size        : 30, 140, 348  (nrow, ncol, nlyr)
+resolution  : 1, 1  (x, y)
+extent      : 150, 290, -15, 15  (xmin, xmax, ymin, ymax)
+coord. ref. : +proj=longlat +ellps=WGS84 +towgs84=0,0,0,0,0,0,0 +no_defs
+}\if{html}{\out{</div>}}
+}
+\usage{
+pacificSST
 }
 \description{
 Monthly NOAA sea surface temperatures for the tropical Pacific Ocean from 1982/01 to 2010/12
 }
 \details{
 Monthly NOAA sea surface temperatures for the tropical Pacific Ocean from 1982/01 to 2010/12
+}
+\examples{
+terra::unwrap(pacificSST)
 }
 \references{
 Daily High-Resolution-Blended Analyses for Sea Surface Temperature\cr

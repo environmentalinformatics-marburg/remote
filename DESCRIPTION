@@ -28,7 +28,8 @@ License: GPL (>= 3) | file LICENSE
 Depends:
     Rcpp (>= 0.10.3),
     raster,
-    methods
+    methods,
+    R (>= 3.5)
 Imports:
     grDevices,
     gridExtra,
@@ -36,6 +37,7 @@ Imports:
     mapdata,
     scales, 
     stats, 
+    terra,
     utils
 Suggests:
     maps,
