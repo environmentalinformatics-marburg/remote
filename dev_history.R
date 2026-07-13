@@ -26,11 +26,98 @@ txt = utils::bibentry(
 ## document, check and build package
 devtools::document()
 devtools::check()
-pak::local_install()
+pak::local_install(ask = FALSE)
 
 ## bump version
-remotes::install_git(
-  "https://codeberg.org/tim-salabim/oiseasy.git"
-  , Ncpus = 4L
-)
+if (!requireNamespace("oiseasy", quietly = TRUE)) {
+  remotes::install_git(
+    "https://codeberg.org/tim-salabim/oiseasy.git"
+    , Ncpus = 4L
+  )
+}
+
 oiseasy::bumpDevVersion()
+
+
+# 2026-07-07 ====
+
+## BUILT-IN DATA ====
+
+## if missing, create target folders
+for (i in c("data-raw", "inst/extdata")) {
+  dir.create(i, showWarnings = FALSE)
+}
+
+to_tif = FALSE
+to_rda = TRUE
+
+## process built-in datasets
+for (rdata_name in c("australiaGPCP", "pacificSST", "vdendool")) {
+  
+  # # debug:
+  # rdata_name = "australiaGPCP"
+
+  # construct file names
+  rdata_file = paste0(
+    rdata_name
+    , ".RData"
+  )
+
+  rdata_file_raw = file.path("data-raw", rdata_file)
+  rdata_file_data = file.path("data", rdata_file)
+  
+  # if applicable, move existing `.RData` file to `data-raw/`
+  if (file.exists(rdata_file_data)) {
+    file.rename(
+      rdata_file_data
+      , rdata_file_raw
+    )
+  }
+  
+  # load built-in data into memory
+  load(rdata_file_raw)
+  
+  get(rdata_name) |> 
+    terra::rast() |> 
+    assign(
+      rdata_name
+      , value = _
+    )
+  
+  # write `.tif` to `inst/extdata`
+  if (to_tif) {
+    tif_file_ext = sprintf("inst/extdata/%s.tif", rdata_name)
+    dir.create(dirname(tif_file_ext), showWarnings = FALSE, recursive = TRUE)
+
+    terra::writeRaster(
+      get(rdata_name)
+      , filename = tif_file_ext
+      , overwrite = TRUE
+      , gdal = c("COMPRESS=LZW")
+    )
+  }
+  
+  # write `.rda` to `data/`
+  if (to_rda) {
+    rda_file_data = sprintf("data/%s.rda", rdata_name)
+    dir.create(dirname(rda_file_data), showWarnings = FALSE)
+
+    get(rdata_name) |> 
+      terra::wrap() |> 
+      assign(
+        rdata_name
+        , value = _
+      )
+  
+    save(
+      list = rdata_name
+      , envir = environment()
+      , file = rda_file_data
+      , compress = "bzip2"
+    )
+  }
+}
+
+## verify new built-in data
+load("data/australiaGPCP.rda")
+terra::unwrap(australiaGPCP)
