@@ -3,16 +3,22 @@
 \name{deseason}
 \alias{deseason}
 \alias{deseason,RasterStackBrick-method}
+\alias{deseason,SpatRaster-method}
 \alias{deseason,numeric-method}
 \title{Create seasonal anomalies}
 \usage{
-\S4method{deseason}{RasterStackBrick}(x, cycle.window = 12L, use.cpp = FALSE, filename = "", ...)
+\S4method{deseason}{RasterStackBrick}(x, ...)
+
+\S4method{deseason}{SpatRaster}(x, cycle.window = 12L, use.cpp = FALSE, filename = "", ...)
 
 \S4method{deseason}{numeric}(x, cycle.window = 12L)
 }
 \arguments{
 \item{x}{An \verb{Raster*} object or, alternatively, a \code{numeric} time
 series.}
+
+\item{...}{Additional arguments passed on to \code{\link[raster:writeRaster]{raster::writeRaster()}}, only
+considered if \code{filename} is specified.}
 
 \item{cycle.window}{\code{integer}, defaults to \code{12}. The window for the
 creation of the anomalies.}
@@ -22,9 +28,6 @@ or not to use \strong{Rcpp} functionality. Only applies if \code{x} is a
 \verb{Raster*} object.}
 
 \item{filename}{\code{character}. Output filename (optional).}
-
-\item{...}{Additional arguments passed on to \code{\link[raster:writeRaster]{raster::writeRaster()}}, only
-considered if \code{filename} is specified.}
 }
 \value{
 If \code{x} is a \verb{Raster*} object, a deseasoned
@@ -32,17 +35,16 @@ If \code{x} is a \verb{Raster*} object, a deseasoned
 }
 \description{
 The function calculates anomalies of a RasterStack by supplying a
-suitable seasonal window. E. g. to create monthly anomalies of a
+suitable seasonal window. E.g. to create monthly anomalies of a
 raster stack of 12 layers per year, use \code{cycle.window = 12}.
 }
 \examples{
-data("australiaGPCP")
+pcp = terra::unwrap(australiaGPCP)
+pcp_dsn = deseason(pcp, cycle.window = 12)
 
-aus_dsn <- deseason(australiaGPCP, 12)
-
-opar <- par(mfrow = c(1,2))
-plot(australiaGPCP[[1]], main = "original")
-plot(aus_dsn[[1]], main = "deseasoned")
+opar = par(mfrow = c(1, 2))
+plot(pcp[[1]], main = "original")
+plot(pcp_dsn[[1]], main = "deseasoned")
 par(opar)
 }
 \seealso{
