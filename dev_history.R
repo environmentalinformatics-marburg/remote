@@ -121,3 +121,11 @@ for (rdata_name in c("australiaGPCP", "pacificSST", "vdendool")) {
 ## verify new built-in data
 load("data/australiaGPCP.rda")
 terra::unwrap(australiaGPCP)
+
+
+# 2026-07-13 ====
+
+## {tinytest} SETUP ====
+
+tinytest::setup_tinytest(pkgdir = ".")
+tinytest::run_test_dir()
