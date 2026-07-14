@@ -24,8 +24,13 @@ txt = utils::bibentry(
 # 2026-06-21 ====
 
 ## document, check and build package
-devtools::document()
-devtools::check()
+devtools::check(
+  document = TRUE # `devtools::document()`
+  , build_args = "--resave-data=best"
+  , manual = FALSE
+  , cran = TRUE
+  , run_dont_test = TRUE
+)
 pak::local_install(ask = FALSE)
 
 ## bump version
@@ -129,3 +134,5 @@ terra::unwrap(australiaGPCP)
 
 tinytest::setup_tinytest(pkgdir = ".")
 tinytest::run_test_dir()
+
+covr::report()
