@@ -136,3 +136,42 @@ tinytest::setup_tinytest(pkgdir = ".")
 tinytest::run_test_dir()
 
 covr::report()
+
+
+# 2026-07-14 ====
+
+## `calcVar()` SPEED-UP ====
+
+x = terra::unwrap(pacificSST)
+
+## across time
+microbenchmark::microbenchmark(
+  ref = vls <- mean(apply(terra::values(x), 1, var, na.rm = TRUE))
+  , new = clc <- mean(terra::values(terra::app(x, "sd", na.rm = TRUE)^2)[, 1L])
+  , times = 25L
+)
+# Unit: milliseconds
+#  expr       min        lq      mean    median        uq       max neval
+#   ref 46.488107 53.404365 93.521187 59.092277 62.971696 367.62212    25
+#   new  6.915151  7.785462  8.564513  8.633283  9.261476  10.22619    25
+
+tinytest::expect_equal(
+  clc
+  , target = vls
+)
+
+## across space
+microbenchmark::microbenchmark(
+  ref = vls <- mean(apply(terra::values(x), 2, var, na.rm = TRUE), na.rm = TRUE)
+  , new = glbl <- mean((terra::global(x, fun = "sd", na.rm = TRUE)[, 1L])^2)
+  , times = 25L
+)
+# Unit: milliseconds
+#  expr       min        lq     mean    median        uq      max neval
+#   ref 21.047098 26.973126 67.45445 29.584694 36.766237 345.3942    25
+#   new  5.703815  6.513882  7.13055  7.042239  7.507108  11.4029    25
+
+tinytest::expect_equal(
+  glbl
+  , target = vls
+)
