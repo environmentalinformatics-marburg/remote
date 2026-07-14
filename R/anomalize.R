@@ -1,41 +1,81 @@
-#' Create an anomaly RasterStack 
+methods::setGeneric(
+  "anomalize"
+  , function(x, ...) {
+    standardGeneric("anomalize")
+  }
+)
+
+#' Create an anomaly raster series 
 #' 
-#' @description
-#' The function creates an anomaly RasterStack either based on the
-#' overall mean of the original stack, or a supplied reference RasterLayer.
-#' For the creation of seasonal anomalies use [deseason()].
+#' @description The function creates an anomaly raster series either based on 
+#'   the overall mean of the original series, or a supplied reference raster. 
+#'   For the creation of seasonal anomalies use [deseason()].
 #' 
-#' @param x a RasterStack
-#' @param reference an optional RasterLayer to be used as the reference 
-#' @param ... additional arguments passed to [raster::calc()] (and, in turn, 
-#' [raster::writeRaster()]) which is used under the hood
+#' @param x A `SpatRaster` (or `Raster*`) series.
+#' @param reference An optional `SpatRaster` (or `RasterLayer`) to be used as 
+#'   the reference.
+#' @param ... Additional arguments passed to [terra::app()] when 'reference' is 
+#'   `NULL` (e.g. 'cores', 'filename'), or to the underlying `SpatRaster` method
+#'   for `Raster*` input.
 #' 
-#' @return an anomaly RasterStack
+#' @return An anomaly `SpatRaster` series.
 #' 
 #' @seealso
-#' [deseason()], [denoise()], [raster::calc()]
+#' [deseason()], [denoise()]
 #' 
 #' @export anomalize
+#' @name anomalize
 #' 
 #' @examples
-#' data(australiaGPCP)
+#' pcp = terra::unwrap(australiaGPCP)
+#' pcp_anom = anomalize(pcp)
 #' 
-#' aus_anom <- anomalize(australiaGPCP)
-#' 
-#' opar <- par(mfrow = c(1,2))
-#' plot(australiaGPCP[[10]], main = "original")
-#' plot(aus_anom[[10]], main = "anomalized")
+#' opar = par(mfrow = c(1,2))
+#' plot(pcp[[10]], main = "original")
+#' plot(pcp_anom[[10]], main = "anomalized")
 #' par(opar)
-anomalize <- function(x, 
-                      reference = NULL, 
-                      ...) {
-  
-  if (is.null(reference)) {
-    mn <- raster::calc(x, fun = mean, ...)
-  } else {
-    mn <- reference
+
+
+################################################################################
+### function using 'RasterStackBrick' ##########################################
+#' @aliases anomalize,RasterStackBrick-method
+#' @rdname anomalize
+methods::setMethod(
+  "anomalize"
+  , signature(x = "RasterStackBrick")
+  , function(
+    x
+    , ...
+  ) {
+    anomalize(
+      terra::rast(x)
+      , ...
+    )
   }
-  
-  return(x - mn)
-  
-}
+)
+
+
+################################################################################
+### function using 'SpatRaster' ################################################
+#' @aliases anomalize,SpatRaster-method
+#' @rdname anomalize
+methods::setMethod(
+  "anomalize"
+  , signature(x = "SpatRaster")
+  , function(
+    x
+    , reference = NULL
+    , ...
+  ) {
+    
+    if (is.null(reference)) {
+      reference = terra::app(
+        x
+        , fun = mean
+        , ...
+      )
+    }
+    
+    return(x - reference)
+  }
+)

@@ -2,36 +2,41 @@
 % Please edit documentation in R/anomalize.R
 \name{anomalize}
 \alias{anomalize}
-\title{Create an anomaly RasterStack}
+\alias{anomalize,RasterStackBrick-method}
+\alias{anomalize,SpatRaster-method}
+\title{Create an anomaly raster series}
 \usage{
-anomalize(x, reference = NULL, ...)
+\S4method{anomalize}{RasterStackBrick}(x, ...)
+
+\S4method{anomalize}{SpatRaster}(x, reference = NULL, ...)
 }
 \arguments{
-\item{x}{a RasterStack}
+\item{x}{A \code{SpatRaster} (or \verb{Raster*}) series.}
 
-\item{reference}{an optional RasterLayer to be used as the reference}
+\item{...}{Additional arguments passed to \code{\link[terra:app]{terra::app()}} when 'reference' is
+\code{NULL} (e.g. 'cores', 'filename'), or to the underlying \code{SpatRaster} method
+for \verb{Raster*} input.}
 
-\item{...}{additional arguments passed to \code{\link[raster:calc]{raster::calc()}} (and, in turn,
-\code{\link[raster:writeRaster]{raster::writeRaster()}}) which is used under the hood}
+\item{reference}{An optional \code{SpatRaster} (or \code{RasterLayer}) to be used as
+the reference.}
 }
 \value{
-an anomaly RasterStack
+An anomaly \code{SpatRaster} series.
 }
 \description{
-The function creates an anomaly RasterStack either based on the
-overall mean of the original stack, or a supplied reference RasterLayer.
+The function creates an anomaly raster series either based on
+the overall mean of the original series, or a supplied reference raster.
 For the creation of seasonal anomalies use \code{\link[=deseason]{deseason()}}.
 }
 \examples{
-data(australiaGPCP)
+pcp = terra::unwrap(australiaGPCP)
+pcp_anom = anomalize(pcp)
 
-aus_anom <- anomalize(australiaGPCP)
-
-opar <- par(mfrow = c(1,2))
-plot(australiaGPCP[[10]], main = "original")
-plot(aus_anom[[10]], main = "anomalized")
+opar = par(mfrow = c(1,2))
+plot(pcp[[10]], main = "original")
+plot(pcp_anom[[10]], main = "anomalized")
 par(opar)
 }
 \seealso{
-\code{\link[=deseason]{deseason()}}, \code{\link[=denoise]{denoise()}}, \code{\link[raster:calc]{raster::calc()}}
+\code{\link[=deseason]{deseason()}}, \code{\link[=denoise]{denoise()}}
 }
