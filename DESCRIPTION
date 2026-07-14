@@ -40,9 +40,10 @@ Imports:
     terra,
     utils
 Suggests: 
-    maps,
-    lattice,
+    checkmate,
     grid,
+    lattice,
+    maps,
     sp, 
     tinytest
 LinkingTo: Rcpp
