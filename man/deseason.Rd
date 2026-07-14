@@ -14,28 +14,29 @@
 \S4method{deseason}{numeric}(x, cycle.window = 12L)
 }
 \arguments{
-\item{x}{An \verb{Raster*} object or, alternatively, a \code{numeric} time
-series.}
+\item{x}{A \code{SpatRaster} (or \verb{Raster*}) object or, alternatively, a \code{numeric}
+time series.}
 
-\item{...}{Additional arguments passed on to \code{\link[raster:writeRaster]{raster::writeRaster()}}, only
-considered if \code{filename} is specified.}
+\item{...}{For \code{SpatRaster} input: additional arguments passed to
+\code{\link[terra:writeRaster]{terra::writeRaster()}}, only considered if \code{filename} is specified.
+For \verb{Raster*} input: arguments passed to the underlying \code{SpatRaster}
+method (e.g. \code{cycle.window}, \code{use.cpp}, \code{filename}).}
 
-\item{cycle.window}{\code{integer}, defaults to \code{12}. The window for the
-creation of the anomalies.}
+\item{cycle.window}{\code{integer}, defaults to \code{12}. The window for the creation
+of the anomalies.}
 
-\item{use.cpp}{\code{logical}, defaults to \code{FALSE}. Determines whether
-or not to use \strong{Rcpp} functionality. Only applies if \code{x} is a
-\verb{Raster*} object.}
+\item{use.cpp}{\code{logical}, defaults to \code{FALSE}. Determines whether or not to
+use \strong{Rcpp} functionality. Only applies if \code{x} is a raster object.}
 
 \item{filename}{\code{character}. Output filename (optional).}
 }
 \value{
-If \code{x} is a \verb{Raster*} object, a deseasoned
-\code{RasterStack}; else a deseasoned \code{numeric} vector.
+If \code{x} is a raster object, a deseasoned \code{SpatRaster}; else a
+deseasoned \code{numeric} vector.
 }
 \description{
-The function calculates anomalies of a RasterStack by supplying a
-suitable seasonal window. E.g. to create monthly anomalies of a
+The function calculates anomalies of a raster object by
+supplying a suitable seasonal window. E.g. to create monthly anomalies of a
 raster stack of 12 layers per year, use \code{cycle.window = 12}.
 }
 \examples{

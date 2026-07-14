@@ -4,24 +4,24 @@ if ( !isGeneric("deseason") ) {
 }
 #' Create seasonal anomalies
 #' 
-#' @description
-#' The function calculates anomalies of a RasterStack by supplying a 
-#' suitable seasonal window. E.g. to create monthly anomalies of a 
-#' raster stack of 12 layers per year, use \code{cycle.window = 12}.
+#' @description The function calculates anomalies of a raster object by 
+#'   supplying a suitable seasonal window. E.g. to create monthly anomalies of a 
+#'   raster stack of 12 layers per year, use `cycle.window = 12`.
 #' 
-#' @param x An `Raster*` object or, alternatively, a `numeric` time 
-#' series.
-#' @param cycle.window `integer`, defaults to \code{12}. The window for the 
-#' creation of the anomalies.
-#' @param use.cpp `logical`, defaults to `FALSE`. Determines whether 
-#' or not to use \strong{Rcpp} functionality. Only applies if \code{x} is a 
-#' `Raster*` object.
+#' @param x A `SpatRaster` (or `Raster*`) object or, alternatively, a `numeric`
+#'   time series.
+#' @param cycle.window `integer`, defaults to `12`. The window for the creation 
+#'   of the anomalies.
+#' @param use.cpp `logical`, defaults to `FALSE`. Determines whether or not to 
+#'   use **Rcpp** functionality. Only applies if `x` is a raster object.
 #' @param filename `character`. Output filename (optional).
-#' @param ... Additional arguments passed on to [raster::writeRaster()], only 
-#' considered if \code{filename} is specified.
+#' @param ... For `SpatRaster` input: additional arguments passed to
+#'   [terra::writeRaster()], only considered if `filename` is specified.
+#'   For `Raster*` input: arguments passed to the underlying `SpatRaster`
+#'   method (e.g. `cycle.window`, `use.cpp`, `filename`).
 #' 
-#' @return If \code{x} is a `Raster*` object, a deseasoned 
-#' \code{RasterStack}; else a deseasoned `numeric` vector.
+#' @return If `x` is a raster object, a deseasoned `SpatRaster`; else a 
+#'   deseasoned `numeric` vector.
 #' 
 #' @seealso
 #' [anomalize()], [denoise()]
