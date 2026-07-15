@@ -1,42 +1,83 @@
-#' Shorten a RasterStack
+methods::setGeneric(
+  "cutStack"
+  , function(x, ...) {
+    standardGeneric("cutStack")
+  }
+)
+
+#' Shorten a raster series
 #' 
-#' @description
-#' The function cuts a specified number of layers off a RrasterStack in 
-#' order to create lagged RasterStacks.
+#' @description The function cuts a specified number of layers off a raster 
+#'   series in order to create a lagged stack.
 #' 
-#' @param x a RasterStack
-#' @param tail logical. If `TRUE` the layers will be taken off
+#' @param x A `SpatRaster` (or `Raster*`) series.
+#' @param tail `logical`. If `TRUE` (default) the layers will be taken off
 #' the end of the stack. If `FALSE` layers will be taken off
 #' the beginning.
-#' @param n the number of layers to take away.
+#' @param n The number of layers to take away as `integer`. If `NULL` (default), 
+#'   'x' is returned unchanged.
+#' @param ... Additional arguments passed to the underlying `SpatRaster` method.
 #' 
-#' @return a RasterStack shortened by \code{n} layers either from the 
-#' beginning or the end, depending on the specification of \code{tail}
+#' @return A `SpatRaster` series shortened by 'n' layers either from the 
+#' beginning or the end, depending on the specification of 'tail'.
 #' 
 #' @examples
-#' data(australiaGPCP)
+#' pcp = terra::unwrap(australiaGPCP)
 #' 
 #' # 6 layers from the beginning
-#' cutStack(australiaGPCP, tail = FALSE, n = 6)
+#' cutStack(pcp, tail = FALSE, n = 6)
 #' # 8 layers from the end
-#' cutStack(australiaGPCP, tail = TRUE, n = 8)
+#' cutStack(pcp, tail = TRUE, n = 8)
 #' 
 #' @export cutStack
-cutStack <- function(x, 
-                     tail = TRUE,
-                     n = NULL) {
-  
-  # Return unmodified RasterStack if n == NULL
-  if (is.null(n)) {
-    return(x)
-  } else {
-    # Supplied RasterStack is predictor:
-    if (tail) {
-      return(x[[1:(raster::nlayers(x)-n)]])
-    # Supplied RasterStack is response:  
-    } else {
-      return(x[[(n+1):raster::nlayers(x)]])
-    }
+#' @name cutStack
+
+
+################################################################################
+### function using 'RasterStackBrick' ##########################################
+#' @aliases cutStack,RasterStackBrick-method
+#' @rdname cutStack
+methods::setMethod(
+  "cutStack"
+  , signature(x = "RasterStackBrick")
+  , function(
+    x
+    , ...
+  ) {
+    cutStack(
+      terra::rast(x)
+      , ...
+    )
   }
+)
+
+
+################################################################################
+### function using 'SpatRaster' ################################################
+#' @aliases cutStack,SpatRaster-method
+#' @rdname cutStack
+methods::setMethod(
+  "cutStack"
+  , signature(x = "SpatRaster")
+  , function(
+    x
+    , tail = TRUE
+    , n = NULL
+  ) {
   
-}
+    ## return unmodified raster series if `n == NULL`
+    if (is.null(n)) {
+      return(x)
+    }
+    
+    ## take away layers from the end, e.g. if supplied series is predictor
+    idx = if (tail) {
+      1:(terra::nlyr(x) - n)
+    ## take away layers from the start, e.g. if supplied series is response
+    } else {
+      seq.int(n + 1L, terra::nlyr(x))
+    }
+
+    return(x[[idx]])
+  }
+)
