@@ -175,3 +175,46 @@ tinytest::expect_equal(
   glbl
   , target = vls
 )
+
+
+# 2026-07-15 ====
+
+## `denoise()` BENCHMARKING ====
+
+gph = terra::unwrap(vdendool)
+
+microbenchmark::microbenchmark(
+  terra = gph_dns <- denoise(gph, expl.var = 0.8, use.cpp = FALSE, verbose = F)
+  , rcpp = gph_dns_cpp <- denoise(gph, expl.var = 0.8, verbose = FALSE)
+)
+# Unit: milliseconds
+#   expr      min       lq     mean   median       uq      max neval
+#  terra 7.954648 8.832743 10.63336  9.91166 10.84664 19.66279   100
+#   rcpp 8.732450 9.636186 11.87453 10.55196 11.59424 28.42883   100
+
+tinytest::expect_equal(
+  gph_dns
+  , target = gph_dns_cpp
+)
+
+
+# 2026-07-16 ====
+
+## `denoise()` / `covWeight()` WITH MISSING VALUES ====
+
+pcp = terra::unwrap(australiaGPCP)
+
+set.seed(1899L)
+idx = terra::spatSample(pcp, size = n, values = FALSE, cells = TRUE)
+
+pcp[idx] = NA_real_
+rng = global(pcp[[1L]], fun = "range", na.rm = TRUE)
+
+pcp_dns = denoise(pcp, expl.var = 0.8)
+
+opar = par(mfrow = c(1,2))
+plot(pcp[[1L]], main = "original")
+plot(pcp_dns[[1L]], main = "denoised")
+par(opar)
+
+plot(pcp[[1L]] - pcp_dns[[1L]], main = "residuals")
