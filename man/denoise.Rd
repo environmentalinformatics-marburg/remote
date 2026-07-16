@@ -2,9 +2,13 @@
 % Please edit documentation in R/denoise.R
 \name{denoise}
 \alias{denoise}
+\alias{denoise,RasterStackBrick-method}
+\alias{denoise,SpatRaster-method}
 \title{Noise filtering through principal components}
 \usage{
-denoise(
+\S4method{denoise}{RasterStackBrick}(x, ...)
+
+\S4method{denoise}{SpatRaster}(
   x,
   k = NULL,
   expl.var = NULL,
@@ -16,6 +20,8 @@ denoise(
 }
 \arguments{
 \item{x}{RasterStack to be filtered}
+
+\item{...}{additional arguments passed to \code{\link[stats:princomp]{stats::princomp()}}}
 
 \item{k}{number of components to be kept for reconstruction
 (ignored if \code{expl.var} is supplied)}
@@ -32,8 +38,6 @@ functionality, defaults to \code{TRUE}.}
 
 \item{verbose}{logical. If \code{TRUE} some details about the
 calculation process will be output to the console}
-
-\item{...}{additional arguments passed to \code{\link[stats:princomp]{stats::princomp()}}}
 }
 \value{
 a denoised RasterStack
@@ -43,12 +47,12 @@ Filter noise from a RasterStack by decomposing into principal components
 and subsequent reconstruction using only a subset of components
 }
 \examples{
-data("vdendool")
-vdd_dns <- denoise(vdendool, expl.var = 0.8)
+gph = terra::unwrap(vdendool)
+gph_dns = denoise(gph, expl.var = 0.8)
 
-opar <- par(mfrow = c(1,2))
-plot(vdendool[[1]], main = "original")
-plot(vdd_dns[[1]], main = "denoised")
+opar = par(mfrow = c(1,2))
+plot(gph[[1]], main = "original")
+plot(gph_dns[[1]], main = "denoised")
 par(opar)
 }
 \seealso{

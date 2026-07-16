@@ -1,3 +1,10 @@
+methods::setGeneric(
+  "denoise"
+  , function(x, ...) {
+    standardGeneric("denoise")
+  }
+)
+
 #' Noise filtering through principal components
 #' 
 #' Filter noise from a RasterStack by decomposing into principal components 
@@ -23,75 +30,120 @@
 #' [anomalize()], [deseason()]
 #' 
 #' @export denoise
+#' @name denoise
 #' 
 #' @examples
-#' data("vdendool")
-#' vdd_dns <- denoise(vdendool, expl.var = 0.8)
+#' gph = terra::unwrap(vdendool)
+#' gph_dns = denoise(gph, expl.var = 0.8)
 #' 
-#' opar <- par(mfrow = c(1,2))
-#' plot(vdendool[[1]], main = "original")
-#' plot(vdd_dns[[1]], main = "denoised")
+#' opar = par(mfrow = c(1,2))
+#' plot(gph[[1]], main = "original")
+#' plot(gph_dns[[1]], main = "denoised")
 #' par(opar)
-denoise <- function(x,
-                    k = NULL,
-                    expl.var = NULL,
-                    weighted = TRUE,
-                    use.cpp = TRUE,
-                    verbose = TRUE,
-                    ...) {
-  
-  x.vals <- raster::getValues(x)
-  #x.vals[is.na(x.vals)] <- 0
-  
-  # PCA
-  if (weighted) { 
-    pca <- princomp(~ x.vals, covmat = covWeight(x.vals, 
-                                                 remote::getWeights(x)), 
-                    scores = TRUE, na.action = na.exclude, ...)
-  } else {
-    pca <- princomp(~ x.vals, scores = TRUE, na.action = na.exclude, ...)
+
+
+################################################################################
+### function using 'RasterStackBrick' ##########################################
+#' @aliases denoise,RasterStackBrick-method
+#' @rdname denoise
+methods::setMethod(
+  "denoise"
+  , signature(x = "RasterStackBrick")
+  , function(
+    x
+    , ...
+  ) {
+    denoise(
+      terra::rast(x)
+      , ...
+    )
   }
-  
-  # declare reconstruction characteristics according to supplied values
-  if (!is.null(expl.var)) {
-    k <- which(cumsum(pca$sdev^2 / sum(pca$sdev^2)) >= expl.var)[1]
-  } else {
-    expl.var <- cumsum(pca$sdev^2 / sum(pca$sdev^2))[k]
+)
+
+
+################################################################################
+### function using 'SpatRaster' ################################################
+#' @aliases denoise,SpatRaster-method
+#' @rdname denoise
+methods::setMethod(
+  "denoise"
+  , signature(x = "SpatRaster")
+  , function(
+    x
+    , k = NULL
+    , expl.var = NULL
+    , weighted = TRUE
+    , use.cpp = TRUE
+    , verbose = TRUE
+    , ...
+  ) {
+    
+    x.vals <- terra::values(x)
+    #x.vals[is.na(x.vals)] <- 0
+    
+    # PCA
+    if (weighted) { 
+      pca <- stats::princomp(
+        ~ x.vals
+        , covmat = covWeight(
+          x.vals
+          , getWeights(x)
+        )
+        , scores = TRUE
+        , na.action = stats::na.exclude
+        , ...
+      )
+    } else {
+      pca <- stats::princomp(
+        ~ x.vals
+        , scores = TRUE
+        , na.action = stats::na.exclude
+        , ...
+      )
+    }
+    
+    # declare reconstruction characteristics according to supplied values
+    # TODO: `NULL` pointer in `else` if neither 'expl.var' nor 'k' are supplied
+    if (!is.null(expl.var)) {
+      k <- which(cumsum(pca$sdev^2 / sum(pca$sdev^2)) >= expl.var)[1]
+    } else {
+      expl.var <- cumsum(pca$sdev^2 / sum(pca$sdev^2))[k]
+    }
+    
+    if (verbose) {
+      paste(
+        "\nUsing the first %s components (of %s) to reconstruct series..."
+        , "these account for %s of variance in orig. series\n\n"
+        , sep = "\n "
+      ) |> 
+        sprintf(
+          k
+          , terra::nlyr(x)
+          , expl.var
+        ) |> 
+          cat()
+    }
+    
+    # Reconstruction
+    recons <- lapply(seq(terra::nlyr(x)), function(i) {
+      rowSums(t(as.matrix(pca$loadings[, 1:k])[i, ] * 
+      t(pca$scores[, 1:k]))) + pca$center[i]
+    })
+    
+    # Insert reconstructed values in original data set 
+    # TODO: discard 'use.cpp' option and always use {terra} for speed-up
+    if (use.cpp) { 
+      jnk <- insertReconsC(recons, x.vals)
+      rst <- terra::setValues(x, jnk)
+    } else {
+      rst = terra::setValues(
+        x
+        , values = do.call(cbind, recons)
+      )
+    }
+    
+    # Return denoised data set
+    return(rst)
+    
   }
-  
-  if (verbose) {
-    cat("\n",
-        "Using the first ",
-        k,
-        " components (of ",
-        raster::nlayers(x),
-        ") to reconstruct series...\n",
-        " these account for ",
-        expl.var,
-        " of variance in orig. series\n\n", 
-        sep = "")
-  }
-  
-  # Reconstruction
-  recons <- lapply(seq(nlayers(x)), function(i) {
-    rowSums(t(as.matrix(pca$loadings[, 1:k])[i, ] * 
-                t(pca$scores[, 1:k]))) + pca$center[i]
-  })
-  
-  # Insert reconstructed values in original data set 
-  if (use.cpp) { 
-    mat <- raster::as.matrix(x)
-    jnk <- insertReconsC(recons, mat)
-    rst <- raster::setValues(x, jnk)
-  } else {
-    rst <- raster::brick(lapply(seq(recons), function(i) {
-      tmp_rst <- x[[i]]
-      tmp_rst[] <- recons[[i]]
-      return(tmp_rst)
-    }))
-  }
-  
-  # Return denoised data set
-  return(rst)
-  
-}
+)
