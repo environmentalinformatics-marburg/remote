@@ -13,8 +13,8 @@
 \arguments{
 \item{x}{A \code{SpatRaster} (or \verb{Raster*}) object.}
 
-\item{...}{Additional arguments passed to be passed to 'f', or to the
-underlying \code{SpatRaster} method in general for \verb{Raster*} input.}
+\item{...}{Additional arguments passed to 'f', or to the underlying
+\code{SpatRaster} method in general for \verb{Raster*} input.}
 
 \item{f}{A \code{function} applied to the latitude (in radians) to compute
 weights. Defaults to \code{cos}.}

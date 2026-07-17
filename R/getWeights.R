@@ -10,11 +10,11 @@ methods::setGeneric(
 #' @description Calculate weights using the cosine of latitude to compensate for
 #'   area distortion of non-projected lat/lon data.
 #' 
-#' @param x A `SpatRaster` (or `Raster*`) object.
+#' @param x A non-projected `SpatRaster` (or `Raster*`) object.
 #' @param f A `function` applied to the latitude (in radians) to compute 
 #'   weights. Defaults to `cos`.
-#' @param ... Additional arguments passed to be passed to 'f', or to the 
-#'   underlying `SpatRaster` method in general for `Raster*` input.
+#' @param ... Additional arguments passed to 'f', or to the underlying 
+#'   `SpatRaster` method in general for `Raster*` input.
 #' 
 #' @return A `numeric` vector of weights for non-`NA` cells in 'x'.
 #' 
@@ -63,7 +63,7 @@ methods::setMethod(
   , signature(x = "SpatRaster")
   , function(
     x
-    , f = function(x) cos(x)
+    , f = cos
     , ...
   ) {
     
