@@ -139,3 +139,29 @@ expect_error(
   , pattern = "incorrect number of mode names"
   , info = "throws an error if the number of mode names and modes don't match"
 )
+
+
+### `print()` ----
+
+## `EotStack`
+expect_stdout(
+  print(nh_modes)
+  , pattern = paste(
+    "^class .* EotStack"
+    , "cum. expl. variance"
+    , "names"
+    , "dimensions"
+    , "resolution"
+    , "extent"
+    , "coord. ref"
+    , sep = ".*"
+  )
+  , info = "prints a summary of the `EotStack` object to console"
+)
+
+## `EotMode`
+expect_stdout(
+  print(nh_mode)
+  , pattern = "^class .* EotMode"
+  , info = "prints a summary of the `EotMode` object to console"
+)
