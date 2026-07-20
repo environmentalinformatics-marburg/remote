@@ -150,6 +150,23 @@ expect_identical(
 )
 
 
+### `nXplain()` ----
+
+expect_number(
+  nXplain(nh_modes, 0.25)
+  , lower = 1L
+  , upper = 3L
+  , finite = TRUE
+  , info = "returns a number between 1 (min. EOTs) and 3 ('n')"
+)
+
+expect_error(
+  nXplain(nh_modes, 0.8)
+  , pattern = "explained variance of EotStack is lower than"
+  , info = "throws an error if the explained variance is lower than 'var'"
+)
+
+
 ### `print()` ----
 
 ## `EotStack`
