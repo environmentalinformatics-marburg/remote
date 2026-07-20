@@ -8,12 +8,11 @@
 \usage{
 \S4method{geoWeight}{RasterStackBrick}(x, ...)
 
-\S4method{geoWeight}{SpatRaster}(x, ...)
+\S4method{geoWeight}{SpatRaster}(x, f = cos, ...)
 }
 \arguments{
-\item{x}{A non-projected \code{SpatRaster} (or \verb{Raster*}) object.}
-
-\item{...}{Additional arguments passed to \code{\link[=getWeights]{getWeights()}}.}
+\item{x, f, ...}{See \code{\link[=getWeights]{getWeights()}}. In case of \verb{Raster*} input, '...' funnels
+additional arguments (i.e. 'f') to the underlying \code{SpatRaster} method.}
 }
 \value{
 A weighted \code{SpatRaster}.

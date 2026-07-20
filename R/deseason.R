@@ -1,7 +1,10 @@
-if ( !isGeneric("deseason") ) {
-  setGeneric("deseason", function(x, ...)
-    standardGeneric("deseason"))
-}
+methods::setGeneric(
+  "deseason"
+  , function(x, ...) {
+    standardGeneric("deseason")
+  }
+)
+
 #' Create seasonal anomalies
 #' 
 #' @description The function calculates anomalies of a raster object by 

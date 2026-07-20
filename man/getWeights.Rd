@@ -8,10 +8,10 @@
 \usage{
 \S4method{getWeights}{RasterStackBrick}(x, ...)
 
-\S4method{getWeights}{SpatRaster}(x, f = function(x) cos(x), ...)
+\S4method{getWeights}{SpatRaster}(x, f = cos, ...)
 }
 \arguments{
-\item{x}{A \code{SpatRaster} (or \verb{Raster*}) object.}
+\item{x}{A non-projected \code{SpatRaster} (or \verb{Raster*}) object.}
 
 \item{...}{Additional arguments passed to 'f', or to the underlying
 \code{SpatRaster} method in general for \verb{Raster*} input.}
