@@ -3,9 +3,12 @@
 \name{eot}
 \alias{eot}
 \alias{eot,RasterStackBrick-method}
-\title{EOT analysis of a predictor and (optionally) a response RasterStack}
+\alias{eot,SpatRaster-method}
+\title{EOT analysis of a predictor and (optionally) a response raster series}
 \usage{
-\S4method{eot}{RasterStackBrick}(
+\S4method{eot}{RasterStackBrick}(x, ...)
+
+\S4method{eot}{SpatRaster}(
   x,
   y = NULL,
   n = 1,
@@ -20,40 +23,40 @@
 )
 }
 \arguments{
-\item{x}{a \verb{Raster*} object used as predictor}
+\item{x}{A \code{SpatRaster} (or \verb{Raster*}) object used as predictor.}
 
-\item{y}{a \verb{Raster*} object used as response. If \code{y} is
-\code{NULL}, \code{x} is used as \code{y}}
+\item{...}{Currently not used.}
 
-\item{n}{the number of EOT modes to calculate}
+\item{y}{A \code{SpatRaster} (or \verb{Raster*}) object used as response. If 'y' is
+\code{NULL} (default), 'x' is used as response.}
 
-\item{standardised}{logical. If \code{FALSE} the calculated r-squared values
-will be multiplied by the variance}
+\item{n}{The number of EOT modes to calculate as \code{integer}, defaults to \code{1}.}
 
-\item{write.out}{logical. If \code{TRUE} results will be written to disk
-using \code{path.out}}
+\item{standardised}{\code{logical}, default \code{TRUE}. If \code{FALSE} the calculated
+r-squared values will be multiplied by the variance.}
 
-\item{path.out}{the file path for writing results if \code{write.out} is \code{TRUE}.
-Defaults to current working directory}
+\item{write.out}{\code{logical}, default \code{FALSE}. If \code{TRUE} results will be
+written to disk using 'path.out'.}
 
-\item{prefix}{optional prefix to be used for naming of results if
-\code{write.out} is \code{TRUE}}
+\item{path.out}{The file path for writing results if 'write.out' is \code{TRUE}.
+Defaults to current working directory.}
 
-\item{reduce.both}{logical. If \code{TRUE} both \code{x} and \code{y}
-are reduced after each iteration. If \code{FALSE} only \code{y} is reduced}
+\item{prefix}{optional prefix to be used for naming of results if 'write.out'
+is \code{TRUE}.}
 
-\item{type}{the type of the link function. Defaults to \code{'rsq'} as in original
-proposed method from \cite{van den Dool 2000}. If set to \code{'ioa'} index of agreement is
-used instead}
+\item{reduce.both}{\code{logical}, default \code{FALSE}. If \code{TRUE} both 'x' and 'y' are
+reduced after each iteration. If \code{FALSE} only 'y' is reduced.}
 
-\item{verbose}{logical. If \code{TRUE} some details about the
-calculation process will be output to the console}
+\item{type}{The type of the link function. Defaults to \code{"rsq"} as in original
+proposed method from \cite{van den Dool 2000}. If set to \code{"ioa"} index of
+agreement is used instead.}
 
-\item{...}{not used at the moment}
+\item{verbose}{\code{logical}, default \code{FALSE}. If \code{TRUE} some details about the
+calculation process will be output to the console.}
 }
 \value{
-if n = 1 an \emph{EotMode}, if n > 1 an \emph{EotStack} of \code{n}
-\emph{EotMode}s. Each \emph{EotMode} has the following components:
+If \verb{n = 1`` an }EotMode\verb{, if n > 1 an }EotStack\verb{of 'n'}EotMode\verb{s. Each  }EotMode` has the following components:
+
 \itemize{
 \item \emph{mode} - the number of the identified mode (1 - n)
 \item \emph{eot} - the EOT (time series) at the identified base point.
@@ -61,17 +64,17 @@ Note, this is a simple numeric vector, not of class \code{ts}
 \item \emph{coords_bp} - the coordinates of the identified base point
 \item \emph{cell_bp} - the cell number of the indeified base point
 \item \emph{cum_exp_var} - the (cumulative) explained variance of the considered EOT
-\item \emph{r_predictor} - the \emph{RasterLayer} of the correlation coefficients
+\item \emph{r_predictor} - the \code{SpatRaster} of the correlation coefficients
 between the base point and each pixel of the predictor domain
 \item \emph{rsq_predictor} - as above but for the coefficient of determination
 \item \emph{rsq_sums_predictor} - as above but for the sums of coefficient of determination
-\item \emph{int_predictor} - the \emph{RasterLayer} of the intercept of the
+\item \emph{int_predictor} - the \code{SpatRaster} of the intercept of the
 regression equation for each pixel of the predictor domain
 \item \emph{slp_predictor} - same as above but for the slope of the
 regression equation for each pixel of the predictor domain
-\item \emph{p_predictor} - the \emph{RasterLayer} of the significance (p-value)
+\item \emph{p_predictor} - the \code{SpatRaster} of the significance (p-value)
 of the the regression equation for each pixel of the predictor domain
-\item \emph{resid_predictor} - the \emph{RasterBrick} of the reduced data
+\item \emph{resid_predictor} - the \code{SpatRaster} of the reduced data
 for the predictor domain
 }
 
@@ -79,11 +82,11 @@ Apart from \emph{rsq_sums_predictor}, all \emph{*_predictor} fields are
 also returned for the \emph{*_response} domain,
 even if predictor and response domain are equal. This is due to that fact,
 that if not both fields are reduced after the first EOT is found,
-these \emph{RasterLayers} will differ.
+these \code{SpatRaster}s will differ.
 }
 \description{
-Calculate a given number of EOT modes either internally or between
-RasterStacks.
+Calculate a given number of EOT modes either internally or between raster
+series.
 }
 \details{
 For a detailed description of the EOT algorithm and the mathematics behind it,
@@ -106,16 +109,17 @@ variability within the same or another geographic field.
 ### EXAMPLE I
 ### a single field
 \donttest{
-data(vdendool)
+gph = terra::unwrap(vdendool)
 
-## claculate 2 leading modes
-nh_modes <- eot(x = vdendool, y = NULL, n = 2, 
+## calculate 2 leading modes
+nh_modes <- eot(x = gph, y = NULL, n = 2, 
                 standardised = FALSE, 
                 verbose = TRUE)
 
 plot(nh_modes, y = 1, show.bp = TRUE)
 plot(nh_modes, y = 2, show.bp = TRUE)
 }
+
 }
 \references{
 \bold{Empirical Orthogonal Teleconnections}\cr

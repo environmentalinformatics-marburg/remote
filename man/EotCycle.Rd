@@ -2,9 +2,13 @@
 % Please edit documentation in R/EotCycle.R
 \name{EotCycle}
 \alias{EotCycle}
+\alias{EotCycle,RasterStackBrick-method}
+\alias{EotCycle,SpatRaster-method}
 \title{Calculate a single EOT}
 \usage{
-EotCycle(
+\S4method{EotCycle}{RasterStackBrick}(x, ...)
+
+\S4method{EotCycle}{SpatRaster}(
   x,
   y,
   n = 1,
@@ -13,43 +17,19 @@ EotCycle(
   write.out,
   path.out,
   prefix,
-  type,
+  type = c("rsq", "ioa"),
   verbose,
   ...
 )
 }
 \arguments{
-\item{x}{a ratser stack used as predictor}
+\item{x, y, n, standardised, write.out, path.out, prefix, type, verbose}{See \code{\link[=eot]{eot()}}.}
 
-\item{y}{a RasterStack used as response. If \code{y} is \code{NULL},
-\code{x} is used as \code{y}}
-
-\item{n}{the number of EOT modes to calculate}
-
-\item{standardised}{logical. If \code{FALSE} the calculated r-squared values
-will be multiplied by the variance}
+\item{...}{Further arguments passed to \code{\link[=writeEot]{writeEot()}} if \code{write.out = TRUE},
+or to the underlying \code{SpatRaster} method in general for \verb{Raster*} input.}
 
 \item{orig.var}{original variance of the response domain}
-
-\item{write.out}{logical. If \code{TRUE} results will be written to disk
-using \code{path.out}}
-
-\item{path.out}{the file path for writing results if \code{write.out} is \code{TRUE}.
-Defaults to current working directory}
-
-\item{prefix}{optional prefix to be used for naming of results if
-\code{write.out} is \code{TRUE}}
-
-\item{type}{the type of the link function. Defaults to \code{'rsq'} as in original
-proposed method from \cite{Dool2000}. If set to \code{'ioa'} index of agreement is
-used instead}
-
-\item{verbose}{logical. If \code{TRUE} some details about the
-calculation process will be output to the console}
-
-\item{...}{If \code{write.out = TRUE}, further arguments passed to
-\code{\link[=writeEot]{writeEot()}}.}
 }
 \description{
-EotCycle() calculates a single EOT and is controlled by the main eot() function
+Calculates a single EOT and is controlled by the main \code{\link[=eot]{eot()}} function.
 }
