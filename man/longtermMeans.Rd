@@ -2,29 +2,36 @@
 % Please edit documentation in R/longtermMeans.R
 \name{longtermMeans}
 \alias{longtermMeans}
-\title{Calculate long-term means from a 'RasterStack'}
+\alias{longtermMeans,RasterStackBrick-method}
+\alias{longtermMeans,SpatRaster-method}
+\title{Calculate long-term means from a raster series}
 \usage{
-longtermMeans(x, cycle.window = 12L)
+\S4method{longtermMeans}{RasterStackBrick}(x, ...)
+
+\S4method{longtermMeans}{SpatRaster}(x, cycle.window = 12L)
 }
 \arguments{
-\item{x}{A 'RasterStack' (or 'RasterBrick') object.}
+\item{x}{A \code{SpatRaster} (or \verb{Raster*}) series.}
 
-\item{cycle.window}{'integer'. See \code{\link[=deseason]{deseason()}}.}
+\item{...}{For \verb{Raster*} input, arguments passed to the underlying
+\code{SpatRaster} method.}
+
+\item{cycle.window}{\code{integer}, defaults to \code{12}. See \code{\link[=deseason]{deseason()}}.}
 }
 \value{
-If \code{cycle.window} equals \code{nlayers(x)} (which obviously doesn't make
-much sense), a 'RasterLayer' object; else a 'RasterStack' object.
+A \code{SpatRaster} with 'cycle.window' layers, each containing the mean across
+all corresponding time steps.
 }
 \description{
-Calculate long-term means from an input 'RasterStack' (or 'RasterBrick')
-object. Ideally, the number of input layers should be divisable by the
-supplied \code{cycle.window}. For instance, if \code{x} consists of monthly
-layers, \code{cycle.window} should be a multiple of 12.
+Calculate long-term means from an input raster series. Ideally, the number of
+input layers should be divisable by the supplied 'cycle.window'. For
+instance, if 'x' consists of monthly layers, 'cycle.window' should be a
+multiple of \code{12}.
 }
 \examples{
-data("australiaGPCP")
+pcp = terra::unwrap(australiaGPCP)
 
-longtermMeans(australiaGPCP)
+longtermMeans(pcp)
 
 }
 \seealso{
