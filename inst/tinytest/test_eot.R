@@ -141,6 +141,15 @@ expect_error(
 )
 
 
+### `nmodes()` ----
+
+expect_identical(
+  nmodes(nh_modes)
+  , target = n
+  , info = "returns the correct number of modes"
+)
+
+
 ### `print()` ----
 
 ## `EotStack`
