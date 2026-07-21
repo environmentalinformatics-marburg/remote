@@ -147,7 +147,7 @@ methods::setMethod(
     , reduce.both = FALSE
     , type = c("rsq", "ioa")
     , verbose = TRUE
-    , ...
+    , ... # TODO: pass to `writeEot()` (via `EotCycle()`), e.g. 'filetype'
   ) {
     
     type = match.arg(type)
