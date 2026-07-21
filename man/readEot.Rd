@@ -2,44 +2,44 @@
 % Please edit documentation in R/readEot.R
 \name{readEot}
 \alias{readEot}
-\title{Read \code{Eot}* files from disk}
+\title{Read \verb{Eot*} files from disk}
 \usage{
-readEot(x, prefix = "remote", suffix = "grd")
+readEot(x, prefix = "remote", suffix = ".grd")
 }
 \arguments{
-\item{x}{\code{character}, search path for \code{Eot}* related files passed
+\item{x}{\code{character}, search path for \verb{Eot*} related files passed
 to \code{\link[=list.files]{list.files()}}.}
 
-\item{prefix}{\code{character}, see \code{\link[=writeEot]{writeEot()}} for details.
-Should be the same as previously supplied to \code{\link[=eot]{eot()}}.}
+\item{prefix}{\code{character}, see \code{\link[=writeEot]{writeEot()}} for details. Should be the same
+'prefix' as used during file creation in \code{\link[=eot]{eot()}} or \code{\link[=writeEot]{writeEot()}}.}
 
-\item{suffix}{\code{character}, file extension depending on the output file
-type of locally stored \code{Eot}* files, see \code{\link[raster:writeRaster]{raster::writeRaster()}}.}
+\item{suffix}{\code{character}, default \code{.grd} for native \code{"RRASTER"} format. File
+extension depending on the output file type of locally stored \verb{Eot*} files.}
 }
 \value{
-An \code{Eot}* object.
+An \code{EotMode} if a single mode is found on disk, or an \code{EotStack}
+otherwise.
 }
 \description{
-Read \code{Eot}* related files from disk, e.g. for further use with
+Read \verb{Eot*} related files from disk, e.g. for further use with
 \code{\link[=predict]{predict()}} or \code{\link[=plot]{plot()}}.
 }
 \examples{
 \dontrun{
 ## calculate 3 leading modes
-data(vdendool)
-nh_modes <- eot(x = vdendool, n = 3, standardised = FALSE, 
-                write.out = TRUE, path.out = "~/data")
+gph <- terra::unwrap(vdendool)
+nh_modes <- eot(x = gph, n = 3, standardised = FALSE, 
+                write.out = TRUE, path.out = tempdir())
                 
 ## reimport related files
 rm(nh_modes)
-nh_modes <- readEot("~/data")
+nh_modes <- readEot(tempdir())
 nh_modes
 }
 
 }
 \seealso{
-\code{\link[=eot]{eot()}}, \code{\link[=writeEot]{writeEot()}},
-\code{\link[raster:writeRaster]{raster::writeRaster()}}.
+\code{\link[=writeEot]{writeEot()}}
 }
 \author{
 Florian Detsch

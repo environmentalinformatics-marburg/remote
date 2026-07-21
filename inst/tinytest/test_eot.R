@@ -38,12 +38,15 @@ expect_inherits(
   , info = "returns an `EotMode` object per mode"
 )
 
-## single-mode output
+## single-mode output with `write.out = TRUE`
 nh_mode = eot(
   x = gph
   , y = NULL
   , n = 1L
   , standardised = FALSE
+  , write.out = TRUE
+  , path.out = tempdir()
+  , prefix = "dooln1"
   , verbose = FALSE
 )
 
@@ -61,8 +64,8 @@ nh_modes_rb <- eot(
   , standardised = FALSE
   , write.out = TRUE
   , path.out = tempdir()
-  , reduce.both = TRUE
   , prefix = "dool"
+  , reduce.both = TRUE
   , verbose = FALSE
 )
 
@@ -95,6 +98,39 @@ expect_equal(
   nh_modes_rst
   , target = nh_modes
   , info = "returns the same result for `Raster*` input"
+)
+
+
+### `readEot()` ----
+
+nh_modes_rb_reimport = readEot(
+  x = tempdir()
+  , prefix = "dool"
+  , suffix = ".grd"
+)
+
+expect_inherits(
+  nh_modes_rb_reimport
+  , class = "EotStack"
+  , info = "reimports EOT results with 2+ leading modes as `EotStack`"
+)
+
+expect_equivalent(
+  nh_modes_rb_reimport
+  , target = nh_modes_rb
+  , info = "reimports EOT results from disk"
+)
+
+## single leading mode
+nh_mode_reimport = readEot(
+  x = tempdir()
+  , prefix = "dooln1"
+)
+
+expect_inherits(
+  nh_mode_reimport
+  , class = "EotMode"
+  , info = "reimports EOT results with a single leading mode as `EotMode`"
 )
 
 
