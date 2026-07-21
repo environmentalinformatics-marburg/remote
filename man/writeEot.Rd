@@ -4,44 +4,48 @@
 \alias{writeEot}
 \alias{writeEot,EotMode-method}
 \alias{writeEot,EotStack-method}
-\title{Write Eot* objects to disk}
+\title{Write \verb{Eot*} objects to disk}
 \usage{
 \S4method{writeEot}{EotMode}(x, path.out = ".", prefix = "remote", overwrite = TRUE, ...)
 
-\S4method{writeEot}{EotStack}(x, path.out = ".", prefix, ...)
+\S4method{writeEot}{EotStack}(x, ...)
 }
 \arguments{
-\item{x}{an Eot* object}
+\item{x}{An \verb{Eot*} object.}
 
-\item{path.out}{the path to the folder to write the files to}
+\item{path.out}{The path to the folder to write the files to.}
 
-\item{prefix}{a prefix to be added to the file names (see Details)}
+\item{prefix}{A prefix to be added to the file names (see Details).}
 
-\item{overwrite}{see \code{\link[raster:writeRaster]{raster::writeRaster()}}.
-Defaults to \code{TRUE} in \code{\link[=writeEot]{writeEot()}}}
+\item{overwrite}{See \code{\link[terra:writeRaster]{terra::writeRaster()}}. In \code{\link[=writeEot]{writeEot()}}, this defaults
+to \code{TRUE}.}
 
-\item{...}{further arguments passed to \code{\link[raster:writeRaster]{raster::writeRaster()}}}
+\item{...}{Further arguments passed to \code{\link[terra:writeRaster]{terra::writeRaster()}} for \code{EotMode}
+input, or to the underlying \code{EotMode} method for \code{EotStack} input. If
+'filetype' is not specified, the default \code{"RRASTER"} format (\code{.grd}) is
+used.}
 }
 \description{
-Write Eot* objects to disk. This is merely a wrapper around
-\code{\link[raster:writeRaster]{raster::writeRaster()}} so see respective help section for details.
+Write \verb{Eot*} objects to disk. This is merely a wrapper around
+\code{\link[terra:writeRaster]{terra::writeRaster()}} so see respective help section for details.
 }
 \details{
-\code{\link[=writeEot]{writeEot()}} will write the results of either an EotMode or an EotStack
+\code{\link[=writeEot]{writeEot()}} will write the results of either an \code{EotMode} or an \code{EotStack}
 to disk. For each mode the following files will be written:
 
 \itemize{
-\item \emph{pred_r} - the \emph{RasterLayer} of the correlation coefficients
+\item \emph{pred_r} - the \code{SpatRaster} of the correlation coefficients
 between the base point and each pixel of the predictor domain
 \item \emph{pred_rsq} - as above but for the coefficient of determination
-\item \emph{pred_rsq_sums} - as above but for the sums of coefficient of determination
-\item \emph{pred_int} - the \emph{RasterLayer} of the intercept of the
+\item \emph{pred_rsq_sums} - as above but for the sums of coefficient of
+determination
+\item \emph{pred_int} - the \code{SpatRaster} of the intercept of the
 regression equation for each pixel of the predictor domain
 \item \emph{pred_slp} - same as above but for the slope of the
 regression equation for each pixel of the predictor domain
-\item \emph{pred_p} - the \emph{RasterLayer} of the significance (p-value)
+\item \emph{pred_p} - the \code{SpatRaster} of the significance (p-value)
 of the the regression equation for each pixel of the predictor domain
-\item \emph{pred_resid} - the \emph{RasterBrick} of the reduced data
+\item \emph{pred_resid} - the \code{SpatRaster} of the reduced data
 for the predictor domain
 }
 
@@ -52,19 +56,19 @@ look like, e.g.:
 
 \emph{prefix_mode_n_pred_r.grd}
 
-for the \emph{RasterLayer} of the predictor correlation coefficient
-of mode n using the standard \emph{raster} file type (.grd).
+for the \code{SpatRaster} of the predictor correlation coefficient
+of mode n using the standard \pkg{raster} file type (\code{.grd}).
 }
-\section{Methods (by class)}{
+\section{Functions}{
 \itemize{
 \item \code{writeEot(EotStack)}: EotStack
 
 }}
 \examples{
 \dontrun{
-data(vdendool)
+gph <- terra::unwrap(vdendool)
 
-nh_modes <- eot(x = vdendool, y = NULL, n = 2, 
+nh_modes <- eot(x = gph, y = NULL, n = 2, 
                 standardised = FALSE, 
                 verbose = TRUE)
 
@@ -76,5 +80,5 @@ writeEot(nh_modes[[2]], prefix = "vdendool")
 }
 }
 \seealso{
-\code{\link[raster:writeRaster]{raster::writeRaster()}}
+\code{\link[terra:writeRaster]{terra::writeRaster()}}
 }

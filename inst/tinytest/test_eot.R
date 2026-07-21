@@ -53,19 +53,33 @@ expect_equal(
   , info = "returns the same result for single-mode output"
 )
 
-## `reduce.both = TRUE`
+## `reduce.both = TRUE` with `write.out = TRUE`
 nh_modes_rb <- eot(
   x = gph
   , y = NULL
   , n = n
   , standardised = FALSE
+  , write.out = TRUE
+  , path.out = tempdir()
   , reduce.both = TRUE
+  , prefix = "dool"
   , verbose = FALSE
 )
 
 expect_true(
   nh_modes_rb[[n]]@cum_exp_var != nh_modes[[n]]@cum_exp_var
   , info = "returns different results for `reduce.both = TRUE`"
+)
+
+nh_modes_rb_fls = list.files(
+  tempdir()
+  , pattern = "^dool_.*\\.grd$"
+)
+
+expect_true(
+  length(nh_modes_rb_fls) > 0L &&
+    length(nh_modes_rb_fls) %% n == 0L
+  , info = "writes EOT results to disk intrinsically if `write.out = TRUE`"
 )
 
 ## `Raster*` input
@@ -167,6 +181,19 @@ expect_error(
 )
 
 
+### `plot()` ----
+
+expect_null(
+  plot(nh_modes, show.bp = TRUE)
+  , info = "returns `NULL` invisibly"
+)
+
+expect_null(
+  plot(nh_modes, show.bp = TRUE, locations = TRUE)
+  , info = "returns `NULL` invisibly for plot of mode locations"
+)
+
+
 ### `print()` ----
 
 ## `EotStack`
@@ -190,4 +217,46 @@ expect_stdout(
   print(nh_mode)
   , pattern = "^class .* EotMode"
   , info = "prints a summary of the `EotMode` object to console"
+)
+
+
+### `writeEot()` ----
+
+## `filetype = "RRASTER"`
+writeEot(
+  nh_modes
+  , prefix = "vdendool"
+  , path.out = tempdir()
+)
+
+ofl = list.files(
+  tempdir()
+  , pattern = "^vdendool_mode_\\d+_.*_(predictor|response)\\.(grd|gri)$"
+  , full.names = TRUE
+)
+
+expect_true(
+  length(ofl) > 0L &&
+    length(ofl) %% n == 0L
+  , info = "writes EOT results to disk (default `.grd`)"
+)
+
+## other 'filetype'
+writeEot(
+  nh_modes
+  , prefix = "vdendool1"
+  , path.out = tempdir()
+  , filetype = "GTIFF"
+)
+
+ofl1 = list.files(
+  tempdir()
+  , pattern = "^vdendool1_mode_\\d+_.*_(predictor|response)$" # no extension
+  , full.names = TRUE
+)
+
+expect_true(
+  length(ofl1) > 0L &&
+    length(ofl1) %% n == 0L
+  , info = "writes EOT results to disk (custom 'filetype')"
 )
