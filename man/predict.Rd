@@ -6,59 +6,57 @@
 \alias{predict,EotMode-method}
 \title{EOT based spatial prediction}
 \usage{
-\S4method{predict}{EotStack}(object, newdata, n = 1, cores = 1L, filename = "", ...)
+\S4method{predict}{EotStack}(object, newdata, n = 1L, filename = "", ...)
 
-\S4method{predict}{EotMode}(object, newdata, n = 1, cores = 1L, filename = "", ...)
+\S4method{predict}{EotMode}(object, newdata, n = 1L, filename = "", ...)
 }
 \arguments{
-\item{object}{an \code{Eot*} object}
+\item{object}{An \verb{Eot*} object.}
 
-\item{newdata}{the data to be used as predictor}
+\item{newdata}{The data to be used as predictor.}
 
-\item{n}{the number of modes to be used for the prediction.
+\item{n}{The number of modes to be used for the prediction.
 See \code{\link[=nXplain]{nXplain()}} for calculating the number of modes based
 on their explanatory power.}
-
-\item{cores}{\code{integer}. Number of cores for parallel processing.}
 
 \item{filename}{\code{character}, output filenames (optional). If specified,
 this must be of the same length as \code{nlayers(newdata)}.}
 
-\item{...}{further arguments passed to \code{\link[raster:calc]{raster::calc()}}, and hence,
-\code{\link[raster:writeRaster]{raster::writeRaster()}}.}
+\item{...}{Further arguments passed to \code{\link[terra:app]{terra::app()}}, and hence,
+\code{\link[terra:writeRaster]{terra::writeRaster()}}.}
 }
 \value{
-a \emph{RasterStack} of \code{nlayers(newdata)}
+A \code{SpatRaster} of \code{nlayers(newdata)}.
 }
 \description{
 Make spatial predictions using the fitted model returned by
-\code{\link[=eot]{eot()}}. A (user-defined) set of \emph{n} modes will be used to
+\code{\link[=eot]{eot()}}. A (user-defined) set of 'n' modes will be used to
 model the outcome using the identified link functions of the respective modes
 which are added together to produce the final prediction.
 }
 \examples{
 ### not very useful, but highlights the workflow
 \donttest{
-data(pacificSST)
-data(australiaGPCP)
+sst = terra::unwrap(pacificSST)
+pcp = terra::unwrap(australiaGPCP)
 
 ## train data using eot()
-train <- eot(x = pacificSST[[1:10]],
-             y = australiaGPCP[[1:10]],
+train <- eot(x = sst[[1:10]],
+             y = pcp[[1:10]],
              n = 1)
 
 ## predict using identified model
 pred <- predict(train,
-                newdata = pacificSST[[11:20]],
+                newdata = sst[[11:20]],
                 n = 1)
 
 ## compare results
 opar <- par(mfrow = c(1,2))
-plot(australiaGPCP[[13]], main = "original", zlim = c(0, 10))
+plot(pcp[[13]], main = "original", zlim = c(0, 10))
 plot(pred[[3]], main = "predicted", zlim = c(0, 10))
 par(opar)
 }
 }
 \seealso{
-\code{\link[raster:calc]{raster::calc()}}, \code{\link[raster:writeRaster]{raster::writeRaster()}}.
+\code{\link[terra:app]{terra::app()}}, \code{\link[terra:writeRaster]{terra::writeRaster()}}.
 }
