@@ -82,10 +82,10 @@ domain, iii) the time series at the identified base point
 
 }}
 \examples{
-data(vdendool)
+gph <- terra::unwrap(vdendool)
 
 ## claculate 2 leading modes
-nh_modes <- eot(x = vdendool, y = NULL, n = 2, 
+nh_modes <- eot(x = gph, y = NULL, n = 2, 
                 standardised = FALSE, 
                 verbose = TRUE)
 

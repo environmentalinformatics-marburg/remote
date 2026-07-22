@@ -35,10 +35,10 @@ if ( !isGeneric('plot') ) {
 #' @param ... further arguments to be passed to [raster::spplot()]
 #' 
 #' @examples
-#' data(vdendool)
+#' gph <- terra::unwrap(vdendool)
 #' 
 #' ## claculate 2 leading modes
-#' nh_modes <- eot(x = vdendool, y = NULL, n = 2, 
+#' nh_modes <- eot(x = gph, y = NULL, n = 2, 
 #'                 standardised = FALSE, 
 #'                 verbose = TRUE)
 #'
@@ -87,6 +87,8 @@ setMethod('plot', signature(x = 'EotMode',
                    locations = FALSE,
                    ...) {
             
+            arrange = match.arg(arrange)
+
             pkgs <- c("lattice", "latticeExtra", "grid", "gridExtra",
                       "RColorBrewer", "maps")
             tst <- sapply(pkgs, "requireNamespace", 
@@ -110,9 +112,9 @@ setMethod('plot', signature(x = 'EotMode',
               rs <- slot(x, r.prm)
               
               if (is.null(ts.vec)) 
-                ts.vec <- seq(raster::nlayers(x@resid_response))
+                ts.vec <- seq(terra::nlyr(x@resid_response))
               
-              xy <- raster::xyFromCell(x@rsq_predictor, 
+              xy <- terra::xyFromCell(x@rsq_predictor, 
                                        cell = x@cell_bp)
               
               mode.location.p <- lattice::xyplot(xy[1, 2] ~ xy[1, 1], 
@@ -133,13 +135,13 @@ setMethod('plot', signature(x = 'EotMode',
                   x <- ifelse((x < 1) | (x > 359), NA, x)
                 })
                 
-                if (max(extent(ps)@xmax) > 180) {
+                if (max(terra::xmax(ps)) > 180) {
                   mm.pred <- mm360
                 } else {
                   mm.pred <- mm180
                 }
                 
-                if (max(extent(rs)@xmax) > 180) {
+                if (max(terra::xmax(rs)) > 180) {
                   mm.resp <- mm360
                 } else {
                   mm.resp <- mm180
@@ -151,8 +153,8 @@ setMethod('plot', signature(x = 'EotMode',
               }
               
               
-              px.pred <- raster::ncell(ps)
-              px.resp <- raster::ncell(rs)
+              px.pred <- terra::ncell(ps)
+              px.resp <- terra::ncell(rs)
               
               pred.p <- sp::spplot(ps, 
                                    mm = mm.pred, maxpixels = px.pred,
@@ -219,7 +221,6 @@ setMethod('plot', signature(x = 'EotMode',
               }
               
               ### set layout to wide or long
-              arrange <- arrange[1]
               if (arrange == "wide") ncls <- 2 else ncls <- 1
               
               ### amalgamate pred.p and resp.p according to layout
@@ -261,6 +262,8 @@ setMethod('plot', signature(x = 'EotStack',
                    locations = FALSE,
                    ...) {
             
+            arrange = match.arg(arrange)
+
             if (missing(y)) y <- 1
             
             if (!locations) {
@@ -281,7 +284,7 @@ setMethod('plot', signature(x = 'EotStack',
                            ...)
               
             } else {
-              remote::plotLocations(x, ...)
+              plotLocations(x, ...)
             }
             
           }
@@ -456,7 +459,7 @@ setMethod('plot', signature(x = 'EotStack',
 # )
 
 
-# definde function --------------------------------------------------------
+# define function --------------------------------------------------------
 plotLocations <- function(x, ...) {
   
   pkgs <- c("lattice", "latticeExtra", "grid", "gridExtra",
@@ -472,7 +475,7 @@ plotLocations <- function(x, ...) {
     ### plot function
     loc.df <- as.data.frame(do.call("rbind", 
                                     lapply(seq(nmodes(x)), function(i) {
-                                      raster::xyFromCell(
+                                      terra::xyFromCell(
                                         x[[i]]@rsq_predictor, 
                                         cell = x[[i]]@cell_bp)
                                     })))
@@ -481,7 +484,7 @@ plotLocations <- function(x, ...) {
                         sep = "_")
     
     mm <- maps::map("world", plot = FALSE, fill = TRUE)
-    px.pred <- raster::ncell(x[[1]]@r_predictor)
+    px.pred <- terra::ncell(x[[1]]@r_predictor)
     
     pred.p <- sp::spplot(x[[1]]@rsq_predictor, 
                          mm = mm, maxpixels = px.pred,
@@ -568,7 +571,8 @@ plotLocations <- function(x, ...) {
     }
     
     grid::upViewport(0)
-    
+    return(invisible())
+
   } else {    
     stop("need packages 'gridExtra', 'latticeExtra' & 'maps' to plot locations")
   }
