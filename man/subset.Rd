@@ -4,34 +4,36 @@
 \alias{subset}
 \alias{subset,EotStack-method}
 \alias{[[,EotStack,ANY,ANY-method}
-\title{Subset modes in EotStacks}
+\title{Subset modes in an \code{EotStack}}
 \usage{
 \S4method{subset}{EotStack}(x, subset, drop = FALSE, ...)
 
 \S4method{[[}{EotStack,ANY,ANY}(x, i)
 }
 \arguments{
-\item{x}{EotStack to be subset}
+\item{x}{\code{EotStack} to be subset}
 
-\item{subset}{integer or character. The modes to ectract (either by
-integer or by their names)}
+\item{subset}{\code{integer} or \code{character}. The modes to extract (either by
+their indexes or names).}
 
-\item{drop}{if \code{TRUE} a single mode will be returned as an EotMode}
+\item{drop}{If \code{TRUE}, a single selected mode is returned as an \code{EotMode}.
+Defaults to \code{FALSE}, which always returns an \code{EotStack}.}
 
-\item{...}{currently not used}
+\item{...}{Currently not used.}
 
-\item{i}{number of EotMode to be subset}
+\item{i}{Index(es) or name(s) to be subset, delegated to \code{\link[=subset]{subset()}}.}
 }
 \value{
-an Eot* object
+An \code{EotMode} if a single mode is selected and \code{drop = TRUE}, otherwise an
+\code{EotStack}.
 }
 \description{
-Extract a set of modes from an EotStack
+Extract a set of modes from an \code{EotStack}.
 }
 \examples{
-data(vdendool)
+gph <- terra::unwrap(vdendool)
 
-nh_modes <- eot(x = vdendool, y = NULL, n = 3, 
+nh_modes <- eot(x = gph, y = NULL, n = 3, 
                 standardised = FALSE, 
                 verbose = TRUE)
                 
@@ -43,5 +45,9 @@ subs <- subset(nh_modes, 2)
 class(subs)
 subs <- subset(nh_modes, 2, drop = TRUE)
 class(subs)
+
+## similarly to `drop = TRUE` above:
+nh_modes[[2L]]
+nh_modes[["mode_02"]]
 
 }

@@ -296,3 +296,61 @@ expect_true(
     length(ofl1) %% n == 0L
   , info = "writes EOT results to disk (custom 'filetype')"
 )
+
+
+### `subset()` ----
+
+## indexes
+nh_modes_s2 = subset(
+  nh_modes
+  , subset = 2:3
+)
+
+expect_inherits(
+  nh_modes_s2
+  , class = "EotStack"
+  , info = "returns a subset `EotStack`"
+)
+
+expect_true(
+  remote::nmodes(nh_modes_s2) == 2L
+  , info = "returns a subset `EotStack` with the specified # of modes"
+)
+
+## names
+nh_modes_s1 = subset(
+  nh_modes
+  , subset = names(nh_modes)[3L]
+  , drop = TRUE
+)
+
+expect_inherits(
+  nh_modes_s1
+  , class = "EotMode"
+  , info = "returns a single subset `EotMode`"
+)
+
+## errors and warnings
+expect_error(
+  subset(
+    nh_modes
+    , subset = "flying_waters"
+  )
+  , pattern = "invalid mode names"
+)
+
+expect_warning(
+  subset(
+    nh_modes
+    , subset = c(names(nh_modes)[1L], "flying_waters")
+  )
+  , pattern = "invalid mode names omitted"
+)
+
+expect_error(
+  subset(
+    nh_modes
+    , subset = n:(n + 1L)
+  )
+  , pattern = "not a valid subset"
+)

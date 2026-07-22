@@ -3,24 +3,26 @@ if (!isGeneric('subset')) {
     standardGeneric('subset')) 
 }
 
-#' Subset modes in EotStacks
+#' Subset modes in an `EotStack`
 #' 
 #' @description
-#' Extract a set of modes from an EotStack
+#' Extract a set of modes from an `EotStack`.
 #' 
-#' @param x EotStack to be subset
-#' @param subset integer or character. The modes to ectract (either by
-#' integer or by their names)
-#' @param drop if `TRUE` a single mode will be returned as an EotMode
-#' @param ... currently not used
+#' @param x `EotStack` to be subset
+#' @param subset `integer` or `character`. The modes to extract (either by
+#'   their indexes or names).
+#' @param drop If `TRUE`, a single selected mode is returned as an `EotMode`. 
+#'   Defaults to `FALSE`, which always returns an `EotStack`.
+#' @param ... Currently not used.
 #' 
 #' @return
-#' an Eot* object
+#' An `EotMode` if a single mode is selected and `drop = TRUE`, otherwise an 
+#'   `EotStack`.
 #' 
 #' @examples
-#' data(vdendool)
+#' gph <- terra::unwrap(vdendool)
 #' 
-#' nh_modes <- eot(x = vdendool, y = NULL, n = 3, 
+#' nh_modes <- eot(x = gph, y = NULL, n = 3, 
 #'                 standardised = FALSE, 
 #'                 verbose = TRUE)
 #'                 
@@ -32,6 +34,10 @@ if (!isGeneric('subset')) {
 #' class(subs)
 #' subs <- subset(nh_modes, 2, drop = TRUE)
 #' class(subs)
+#' 
+#' ## similarly to `drop = TRUE` above:
+#' nh_modes[[2L]]
+#' nh_modes[["mode_02"]]
 #' 
 #' @export subset
 #' @name subset
@@ -51,6 +57,8 @@ setMethod('subset', signature(x = 'EotStack'),
               }
               subset <- i
             }
+            # TODO: inconsistent behavior: invalid mode names are omitted in the
+            #   presence of valid names, but invalid indexes are not
             subset <- as.integer(subset)
             if (! all(subset %in% 1:nmodes(x))) {
               stop('not a valid subset')
@@ -65,7 +73,7 @@ setMethod('subset', signature(x = 'EotStack'),
 )
 
 #' @rdname subset
-#' @param i number of EotMode to be subset
+#' @param i Index(es) or name(s) to be subset, delegated to [remote::subset()].
 
 setMethod("[[", signature(x = "EotStack"), 
           function(x, i) {
