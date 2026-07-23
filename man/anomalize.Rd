@@ -13,12 +13,13 @@
 \arguments{
 \item{x}{A \code{SpatRaster} (or \verb{Raster*}) series.}
 
-\item{...}{Additional arguments passed to \code{\link[terra:app]{terra::app()}} when 'reference' is
-\code{NULL} (e.g. 'cores', 'filename'), or to the underlying \code{SpatRaster} method
-for \verb{Raster*} input.}
+\item{...}{Additional arguments passed to \code{\link[terra:app]{terra::app()}} (e.g. 'cores',
+'filename') to calculate the overall mean if 'reference' is \code{NULL}, or to
+the underlying \code{SpatRaster} method for \verb{Raster*} input.}
 
-\item{reference}{An optional \code{SpatRaster} (or \code{RasterLayer}) to be used as
-the reference.}
+\item{reference}{An optional single-layer \code{SpatRaster} (or \code{RasterLayer}) to
+be used as the reference. Uses the overall mean of the original series if
+\code{NULL} (default).}
 }
 \value{
 An anomaly \code{SpatRaster} series.

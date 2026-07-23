@@ -12,11 +12,12 @@ methods::setGeneric(
 #'   For the creation of seasonal anomalies use [deseason()].
 #' 
 #' @param x A `SpatRaster` (or `Raster*`) series.
-#' @param reference An optional `SpatRaster` (or `RasterLayer`) to be used as 
-#'   the reference.
-#' @param ... Additional arguments passed to [terra::app()] when 'reference' is 
-#'   `NULL` (e.g. 'cores', 'filename'), or to the underlying `SpatRaster` method
-#'   for `Raster*` input.
+#' @param reference An optional single-layer `SpatRaster` (or `RasterLayer`) to 
+#'   be used as the reference. Uses the overall mean of the original series if 
+#'   `NULL` (default).
+#' @param ... Additional arguments passed to [terra::app()] (e.g. 'cores', 
+#'   'filename') to calculate the overall mean if 'reference' is `NULL`, or to
+#'   the underlying `SpatRaster` method for `Raster*` input.
 #' 
 #' @return An anomaly `SpatRaster` series.
 #' 
@@ -74,6 +75,38 @@ methods::setMethod(
         , fun = mean
         , ...
       )
+    }
+    
+    ## early exit: 'reference' is not a raster
+    if (!inherits(reference, what = c("SpatRaster", "Raster"))) {
+      stop(
+        sprintf(
+          "Expected 'reference' to inherit from [%s], but got [%s]."
+          , paste0(c("SpatRaster", "Raster"), collapse = ", ")
+          , class(reference)[1L]
+        )
+        , call. = FALSE
+      )
+    }
+
+    ## if required, convert 'reference' to `SpatRaster`
+    if (inherits(reference, what = "Raster")) {
+      reference = terra::rast(reference)
+    }
+    
+    ## if required, use only the first 'reference' layer
+    if (terra::nlyr(reference) > 1L) {
+      warning(
+        sprintf(
+          paste(
+            "Expected 'reference' to have a single layer, but got [%s]."
+            , "Using the first layer only."
+          )
+          , terra::nlyr(reference)
+        )
+        , call. = FALSE
+      )
+      reference = reference[[1L]]
     }
     
     return(x - reference)

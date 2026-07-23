@@ -2,6 +2,9 @@
 
 #### ✨ features and improvements
 
+  * `anomalize()` fails gracefully if 'reference' is not a raster object, and 
+    uses the 1st layer (with a warning) if a multi-layer object is supplied.
+
 #### 🐛 bug fixes
 
 #### 💬 documentation etc
