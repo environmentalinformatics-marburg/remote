@@ -7,24 +7,29 @@ methods::setGeneric(
 
 #' Noise filtering through principal components
 #' 
-#' Filter noise from a RasterStack by decomposing into principal components 
-#' and subsequent reconstruction using only a subset of components
+#' @description
+#' Filter noise from a raster series by decomposing into principal components 
+#' and subsequent reconstruction using only a subset of components.
 #' 
-#' @param x RasterStack to be filtered
-#' @param k number of components to be kept for reconstruction 
-#' (ignored if \code{expl.var} is supplied)
-#' @param expl.var  minimum amount of variance to be kept after reconstruction
-#' (should be set to NULL or omitted if \code{k} is supplied)
+#' @param x A `SpatRaster` (or `Raster*`) series to be filtered.
+#' @param k The number of components to be kept for reconstruction (ignored if 
+#'   'expl.var' is supplied).
+#' @param expl.var Minimum amount of variance to be kept after reconstruction
+#' (should be set to `NULL` or omitted if 'k' is supplied).
 #' @param weighted logical. If `TRUE` the covariance matrix will be 
-#' geographically weighted using the cosine of latitude during decomposition 
-#' (only important for lat/lon data)
-#' @param use.cpp logical. Determines whether to use \strong{Rcpp} 
-#' functionality, defaults to `TRUE`.
-#' @param verbose logical. If `TRUE` some details about the 
-#' calculation process will be output to the console
-#' @param ... additional arguments passed to [stats::princomp()]
+#'   geographically weighted using the cosine of latitude during decomposition 
+#'   (only important for lat/lon data).
+#' @param use.cpp logical. Determines whether to use **Rcpp** functionality, 
+#'   defaults to `TRUE`.
+#' @param verbose logical. If `TRUE` some details about the calculation process 
+#'   will be output to the console.
+#' @param ... Additional arguments passed to [stats::princomp()].
 #' 
-#' @return a denoised RasterStack
+#' @return A denoised `SpatRaster` series.
+#' 
+#' @note
+#' Either 'k' or 'expl.var' must be specified. If both are supplied, 'k' will be
+#'   ignored. If none are supplied, an error will be thrown.
 #' 
 #' @seealso
 #' [anomalize()], [deseason()]
@@ -103,7 +108,11 @@ methods::setMethod(
     }
     
     # declare reconstruction characteristics according to supplied values
-    # TODO: `NULL` pointer in `else` if neither 'expl.var' nor 'k' are supplied
+    stopifnot(
+      "Either 'expl.var' or 'k' must be supplied." = 
+        !is.null(expl.var) | !is.null(k)
+    )
+
     if (!is.null(expl.var)) {
       k <- which(cumsum(pca$sdev^2 / sum(pca$sdev^2)) >= expl.var)[1]
     } else {

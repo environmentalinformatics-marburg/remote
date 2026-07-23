@@ -19,32 +19,36 @@
 )
 }
 \arguments{
-\item{x}{RasterStack to be filtered}
+\item{x}{A \code{SpatRaster} (or \verb{Raster*}) series to be filtered.}
 
-\item{...}{additional arguments passed to \code{\link[stats:princomp]{stats::princomp()}}}
+\item{...}{Additional arguments passed to \code{\link[stats:princomp]{stats::princomp()}}.}
 
-\item{k}{number of components to be kept for reconstruction
-(ignored if \code{expl.var} is supplied)}
+\item{k}{The number of components to be kept for reconstruction (ignored if
+'expl.var' is supplied).}
 
-\item{expl.var}{minimum amount of variance to be kept after reconstruction
-(should be set to NULL or omitted if \code{k} is supplied)}
+\item{expl.var}{Minimum amount of variance to be kept after reconstruction
+(should be set to \code{NULL} or omitted if 'k' is supplied).}
 
 \item{weighted}{logical. If \code{TRUE} the covariance matrix will be
 geographically weighted using the cosine of latitude during decomposition
-(only important for lat/lon data)}
+(only important for lat/lon data).}
 
-\item{use.cpp}{logical. Determines whether to use \strong{Rcpp}
-functionality, defaults to \code{TRUE}.}
+\item{use.cpp}{logical. Determines whether to use \strong{Rcpp} functionality,
+defaults to \code{TRUE}.}
 
-\item{verbose}{logical. If \code{TRUE} some details about the
-calculation process will be output to the console}
+\item{verbose}{logical. If \code{TRUE} some details about the calculation process
+will be output to the console.}
 }
 \value{
-a denoised RasterStack
+A denoised \code{SpatRaster} series.
 }
 \description{
-Filter noise from a RasterStack by decomposing into principal components
-and subsequent reconstruction using only a subset of components
+Filter noise from a raster series by decomposing into principal components
+and subsequent reconstruction using only a subset of components.
+}
+\note{
+Either 'k' or 'expl.var' must be specified. If both are supplied, 'k' will be
+ignored. If none are supplied, an error will be thrown.
 }
 \examples{
 gph = terra::unwrap(vdendool)

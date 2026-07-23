@@ -50,3 +50,8 @@ expect_identical(
   , info = "returns a `SpatRaster` of the same dimensions (unweighted)"
 )
 
+## errors
+expect_error(
+  denoise(pcp)
+  , pattern = "^Either 'expl.var' or 'k' must be supplied\\.$"
+)
