@@ -60,7 +60,7 @@ methods::setMethod(
     
     ### Identification of the most explanatory pred pixel
     
-    # Extract pixel entries from RasterStack objects
+    # Extract pixel entries from raster objects
     x.vals <- terra::values(x)
     y.vals <- terra::values(y)
     type <- match.arg(type)
@@ -123,10 +123,10 @@ methods::setMethod(
     
     ## Rasterize lm parameters
     
-    # RasterBrick template for residuals
+    # multi-layer raster template for residuals
     brck.y.resids <- terra::setValues(y, values = NA_real_)
     
-    # RasterLayer template for R-squared, slope and p value
+    # single-layer raster template for R-squared, slope and p value
     rst.y.template <- brck.y.resids[[1L]]
     
     rst.y.r <- rst.y.rsq <- rst.y.intercept <- 
@@ -167,10 +167,10 @@ methods::setMethod(
     
     ## Rasterize lm parameters
     
-    # RasterBrick template for residuals
+    # multi-layer raster template for residuals
     brck.x.resids <- terra::setValues(x, values = NA_real_)
     
-    # RasterLayer template for R-squared, slope and p value
+    # single-layer raster template for R-squared, slope and p value
     rst.x.template <- brck.x.resids[[1L]]
     
     rst.x.r <- rst.x.rsq <- rst.x.rsq.sums <- rst.x.intercept <- 

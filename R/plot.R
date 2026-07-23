@@ -32,7 +32,7 @@ if ( !isGeneric('plot') ) {
 #' @param locations logical. If x is an EotStack, set this to TRUE to 
 #' produce a map showing the locations of all modes. Ignored if x is an
 #' EotMode
-#' @param ... further arguments to be passed to [raster::spplot()]
+#' @param ... further arguments to be passed to [sp::spplot()]
 #' 
 #' @examples
 #' gph <- terra::unwrap(vdendool)
@@ -316,9 +316,9 @@ setMethod('plot', signature(x = 'EotStack',
 #                 rs <- slot(x[[y]], r.prm)
 #                 
 #                 if (is.null(ts.vec)) 
-#                   ts.vec <- seq(raster::nlayers(x[[y]]@resid_response))
+#                   ts.vec <- seq(terra::nlyr(x[[y]]@resid_response))
 #                 
-#                 xy <- raster::xyFromCell(x[[y]]@rsq_predictor, 
+#                 xy <- terra::xyFromCell(x[[y]]@rsq_predictor, 
 #                                          cell = x[[y]]@cell_bp)
 #                 
 #                 mode.location.p <- lattice::xyplot(xy[1, 2] ~ xy[1, 1], 
@@ -357,8 +357,8 @@ setMethod('plot', signature(x = 'EotStack',
 #                 }
 #                 
 #                 
-#                 px.pred <- raster::ncell(ps)
-#                 px.resp <- raster::ncell(rs)
+#                 px.pred <- terra::ncell(ps)
+#                 px.resp <- terra::ncell(rs)
 #                 
 #                 pred.p <- sp::spplot(ps, 
 #                                      mm = mm.pred, maxpixels = px.pred,
