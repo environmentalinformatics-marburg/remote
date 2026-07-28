@@ -98,16 +98,26 @@ methods::setMethod(
     , cycle.window = 12L
   ) {
     
+    ## construct index for splitting time series into seasonal windows
+    idx = rep(
+      1:cycle.window
+      , length.out = length(x)
+    )
+    
     ## calculate long-term mean values
-    x_mv <- sapply(1:cycle.window, function(i) {
-      val <- x[seq(i, length(x), cycle.window)]
-      mean(val, na.rm = TRUE)
-    })
-    
+    x_mv = vapply(
+      split(
+        x
+        , f = idx
+      )
+      , FUN = mean
+      , FUN.VALUE = numeric(1L)
+      , USE.NAMES = FALSE
+    )
+
     ## create anomalies
-    x_dsn <- x - x_mv
+    x_dsn = x - x_mv
     
-    # Return output
     return(x_dsn)
   }
 )
