@@ -86,17 +86,20 @@ denoise = function(
   }
   
   if (verbose) {
-    paste(
+    fmt = paste(
       "\nUsing the first %s components (of %s) to reconstruct series..."
       , "these account for %s of variance in orig. series\n\n"
       , sep = "\n "
-    ) |> 
-    sprintf(
-      k
+    )
+    
+    txt = sprintf(
+      fmt
+      , k
       , terra::nlyr(x)
       , expl.var
-    ) |> 
-    cat()
+    )
+    
+    cat(txt)
   }
   
   # Reconstruction

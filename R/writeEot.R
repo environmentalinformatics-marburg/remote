@@ -116,7 +116,7 @@ methods::setMethod(
     
     ## write objects to disk
     Map(
-      \(oo, on) {
+      function(oo, on) {
         do.call(
           terra::writeRaster
           , args = c(

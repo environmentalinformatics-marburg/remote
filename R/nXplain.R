@@ -46,18 +46,22 @@ setMethod('nXplain', signature(x = 'EotStack'),
             idx = var - expl.var <= 0
 
             if (!any(idx)) {
-              paste(
+              fmt = paste(
                 "explained variance of EotStack is lower than: %s"
                 , "maximum explained variance of this EotStack is: %s"
                 , sep = "\n"
-              ) |> 
-                sprintf(
-                  var
-                  , x[[nmodes(x)]]@cum_exp_var
-                ) |> 
-                stop(
-                  call. = FALSE
-                )
+              )
+              
+              txt = sprintf(
+                fmt
+                , var
+                , x[[nmodes(x)]]@cum_exp_var
+              )
+              
+              stop(
+                txt
+                , call. = FALSE
+              )
             }
 
             n <- min(which(idx), na.rm = TRUE)

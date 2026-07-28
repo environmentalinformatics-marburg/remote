@@ -52,20 +52,22 @@ readEot <- function(x, prefix = "remote", suffix = ".grd") {
       , fls_mds
       , perl = TRUE
     )
-  ) |> 
-    unique()
+  )
+
+  mds = unique(mds)
 
   ## import locations and explained variance related to leading modes
   # TODO: `.csv` file is only created in `eot()`, not in `writeEot()`
-  dat_mds = list.files(
+  fl_mds = list.files(
     x
     , sprintf(
       "^%s_eot_locations\\.csv$"
       , prefix
     )
     , full.names = TRUE
-  ) |> 
-    utils::read.csv()
+  )
+
+  dat_mds = utils::read.csv(fl_mds)
 
   ## loop over modes, creating 'EotMode' objects for each mode available
   lst_eot <- lapply(mds, function(n) {
