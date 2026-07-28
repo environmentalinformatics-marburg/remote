@@ -33,3 +33,13 @@ expect_true(
   file.exists(tmp)
   , info = "creates a file if 'filename' is specified"
 )
+
+
+### `numeric` ----
+
+pcp_vls = terra::global(
+  pcp
+  , fun = "mean"
+)[, 1L]
+
+deseason(pcp_vls)
