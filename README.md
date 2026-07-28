@@ -1,7 +1,7 @@
 ### R EMpirical Orthogonal TEleconnections
 
 <!-- badges: start -->
-[![R-CMD-check](https://github.com/environmentalinformatics-marburg/remote/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/environmentalinformatics-marburg/remote/actions/workflows/R-CMD-check.yaml)
+[![R-CMD-check](https://github.com/r-spatial/remote/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/r-spatial/remote/actions/workflows/R-CMD-check.yaml)
 [![cranchecks](https://badges.cranchecks.info/worst/remote.svg)](https://cran.r-project.org/web/checks/check_results_remote.html)
 ![monthly](https://cranlogs.r-pkg.org/badges/remote)
 ![total](https://cranlogs.r-pkg.org/badges/grand-total/remote)
