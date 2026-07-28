@@ -1,10 +1,3 @@
-methods::setGeneric(
-  "eot"
-  , function(x, ...) {
-    standardGeneric("eot")
-  }
-)
-
 #' EOT analysis of a predictor and (optionally) a response raster series
 #' 
 #' @description
@@ -102,132 +95,105 @@ methods::setGeneric(
 #'                 standardised = FALSE, 
 #'                 verbose = TRUE)
 #' 
-#' plot(nh_modes, y = 1, show.bp = TRUE)
-#' plot(nh_modes, y = 2, show.bp = TRUE)
+# plot(nh_modes, y = 1, show.bp = TRUE)
+# plot(nh_modes, y = 2, show.bp = TRUE)
 #' }
 #' 
 #' @export
-#' @name eot
-
-
-################################################################################
-### function using 'RasterStackBrick' ##########################################
-#' @aliases eot,RasterStackBrick-method
-#' @rdname eot
-methods::setMethod(
-  "eot"
-  , signature(x = "RasterStackBrick")
-  , function(
-    x
-    , ...
-  ) {
-    eot(
-      terra::rast(x)
-      , ...
-    )
+eot = function(
+  x
+  , y = NULL
+  , n = 1
+  , standardised = TRUE
+  , write.out = FALSE
+  , path.out = "."
+  , prefix = "remote"
+  , reduce.both = FALSE
+  , type = c("rsq", "ioa")
+  , verbose = TRUE
+  , ... # TODO: pass to `writeEot()` (via `EotCycle()`), e.g. 'filetype'
+) {
+  
+  type = match.arg(type)
+  
+  x = asSpatRaster(x)
+  y = asSpatRaster(y) # returns `NULL` unaltered
+  
+  ## duplicate predictor set in case predictor and response are identical
+  if (is.null(y)) {
+    y <- x  
   }
-)
-
-
-################################################################################
-### function using 'SpatRaster' ################################################
-#' @aliases eot,SpatRaster-method
-#' @rdname eot
-methods::setMethod(
-  "eot"
-  , signature(x = "SpatRaster")
-  , function(
-    x
-    , y = NULL
-    , n = 1
-    , standardised = TRUE
-    , write.out = FALSE
-    , path.out = "."
-    , prefix = "remote"
-    , reduce.both = FALSE
-    , type = c("rsq", "ioa")
-    , verbose = TRUE
-    , ... # TODO: pass to `writeEot()` (via `EotCycle()`), e.g. 'filetype'
-  ) {
+  
+  orig.var <- calcVar(y, standardised = standardised)
+  
+  ## loop through number of desired eots
+  for (z in 1:n) {
     
-    type = match.arg(type)
-    
-    ## duplicate predictor set in case predictor and response are identical
-    if (is.null(y)) {
-      y <- x  
-    }
-    
-    orig.var <- calcVar(y, standardised = standardised)
-    
-    ## loop through number of desired eots
-    for (z in 1:n) {
+    # use initial response data set in case of first iteration
+    if (z == 1) {
       
-      # use initial response data set in case of first iteration
-      if (z == 1) {
-        
-        x.eot <- EotCycle(
-          x = x
-          , y = y
-          , n = z
-          , type = type
-          , standardised = standardised
-          , orig.var = orig.var
-          , write.out = write.out
-          , path.out = path.out
-          , verbose = verbose
-          , prefix = prefix
-        )
-        
-        names(x.eot) <- sprintf("mode_%02d", z)
-        next
-        
-      }
-      
-      # use last entry of slot 'residuals' otherwise
-      tmp.x.eot <- EotCycle(
-        x = if (!reduce.both) {
-          x
-        } else {
-          if (z == 2) {
-            x.eot@resid_predictor
-          } else {
-            x.eot[[z-1]]@resid_predictor
-          }
-        }, 
-        y = if (z == 2) {
-          x.eot@resid_response 
-        } else {
-          x.eot[[z-1]]@resid_response
-        }, 
-        # y.eq.x = y.eq.x,
-        n = z, 
-        type = type,
-        standardised = standardised, 
-        orig.var = orig.var,
-        write.out = write.out,
-        path.out = path.out,  
-        verbose = verbose,
-        prefix = prefix
+      x.eot <- EotCycle(
+        x = x
+        , y = y
+        , n = z
+        , type = type
+        , standardised = standardised
+        , orig.var = orig.var
+        , write.out = write.out
+        , path.out = path.out
+        , verbose = verbose
+        , prefix = prefix
       )
       
-      if (z == 2) {
-        x.eot <- list(x.eot, tmp.x.eot)
-        names(x.eot) <- sprintf("mode_%02d", c(1, z))
-      } else {
-        tmp.names <- names(x.eot)
-        x.eot <- append(x.eot, list(tmp.x.eot))
-        names(x.eot) <- c(
-          tmp.names
-          , sprintf("mode_%02d", z)
-        )
-      }
+      names(x.eot) <- sprintf("mode_%02d", z)
+      next
+      
     }
     
-    if (length(x.eot) == 1) {
-      out <- x.eot
+    # use last entry of slot 'residuals' otherwise
+    tmp.x.eot <- EotCycle(
+      x = if (!reduce.both) {
+        x
+      } else {
+        if (z == 2) {
+          x.eot@resid_predictor
+        } else {
+          x.eot[[z-1]]@resid_predictor
+        }
+      }, 
+      y = if (z == 2) {
+        x.eot@resid_response 
+      } else {
+        x.eot[[z-1]]@resid_response
+      }, 
+      # y.eq.x = y.eq.x,
+      n = z, 
+      type = type,
+      standardised = standardised, 
+      orig.var = orig.var,
+      write.out = write.out,
+      path.out = path.out,  
+      verbose = verbose,
+      prefix = prefix
+    )
+    
+    if (z == 2) {
+      x.eot <- list(x.eot, tmp.x.eot)
+      names(x.eot) <- sprintf("mode_%02d", c(1, z))
     } else {
-      out <- new('EotStack', modes = x.eot, names = names(x.eot))
+      tmp.names <- names(x.eot)
+      x.eot <- append(x.eot, list(tmp.x.eot))
+      names(x.eot) <- c(
+        tmp.names
+        , sprintf("mode_%02d", z)
+      )
     }
-    return(out)
   }
-)
+  
+  if (length(x.eot) == 1) {
+    out <- x.eot
+  } else {
+    out <- new('EotStack', modes = x.eot, names = names(x.eot))
+  }
+  return(out)
+}

@@ -16,13 +16,6 @@ expect_identical(
   , info = "returns a `SpatRaster` of the same dimensions as the input"
 )
 
-## `Raster*` input
-expect_equal(
-  deseason(as(pcp, "Raster"), cycle.window = 12L)
-  , target = dsn
-  , info = "returns same result as `Raster*` input"
-)
-
 ## with cpp
 dsn_cpp = deseason(pcp, cycle.window = 12L, use.cpp = TRUE)
 

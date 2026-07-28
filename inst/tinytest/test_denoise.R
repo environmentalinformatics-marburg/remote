@@ -14,7 +14,7 @@ expect_identical(
 )
 
 expect_stdout(
-  dns_rst <- denoise(as(pcp, "Raster"), expl.var = 0.8, use.cpp = FALSE)
+  dns_rst <- denoise(pcp, expl.var = 0.8, use.cpp = FALSE)
   , pattern = paste(
     "Using the first \\d+ components .* to reconstruct series"
     , "these account for .* of variance in orig. series"
@@ -26,7 +26,7 @@ expect_stdout(
 expect_equal(
   dns_rst
   , target = dns
-  , info = "returns same result with `Raster*` input and `use.cpp = FALSE`"
+  , info = "returns same result with `use.cpp = FALSE`"
 )
 
 ## unweighted, with 'k' instead of 'expl.var'

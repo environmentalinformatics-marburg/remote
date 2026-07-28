@@ -2,21 +2,16 @@
 % Please edit documentation in R/calcVar.R
 \name{calcVar}
 \alias{calcVar}
-\alias{calcVar,RasterStackBrick-method}
-\alias{calcVar,SpatRaster-method}
 \title{Calculate space-time variance of a raster series}
 \usage{
-\S4method{calcVar}{RasterStackBrick}(x, ...)
-
-\S4method{calcVar}{SpatRaster}(x, standardised = FALSE, ...)
+calcVar(x, standardised = FALSE, ...)
 }
 \arguments{
 \item{x}{A \code{SpatRaster} (or \verb{Raster*}) series.}
 
-\item{...}{For \code{SpatRaster} input: currently not used. For \verb{Raster*} input:
-arguments passed to the underlying \code{SpatRaster} method.}
-
 \item{standardised}{\code{logical}, defaults to \code{FALSE}.}
+
+\item{...}{Currently not used.}
 }
 \value{
 The mean (optionally standardised) space-time variance as \code{numeric}.
@@ -30,4 +25,5 @@ sst = terra::unwrap(pacificSST)
 
 calcVar(sst) # default non-standardised
 calcVar(sst, standardised = TRUE)
+
 }

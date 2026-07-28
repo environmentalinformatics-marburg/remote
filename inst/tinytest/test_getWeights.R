@@ -25,7 +25,7 @@ idx = terra::spatSample(pcp, size = n, values = FALSE, cells = TRUE)
 pcp1 = pcp
 pcp1[idx] = NA_real_
 
-wghts_na = getWeights(as(pcp1, "Raster"))
+wghts_na = getWeights(pcp1)
 
 expect_true(
   length(wghts_na) == terra::ncell(pcp) - n

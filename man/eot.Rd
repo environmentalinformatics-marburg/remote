@@ -2,13 +2,9 @@
 % Please edit documentation in R/eot.R
 \name{eot}
 \alias{eot}
-\alias{eot,RasterStackBrick-method}
-\alias{eot,SpatRaster-method}
 \title{EOT analysis of a predictor and (optionally) a response raster series}
 \usage{
-\S4method{eot}{RasterStackBrick}(x, ...)
-
-\S4method{eot}{SpatRaster}(
+eot(
   x,
   y = NULL,
   n = 1,
@@ -24,8 +20,6 @@
 }
 \arguments{
 \item{x}{A \code{SpatRaster} (or \verb{Raster*}) object used as predictor.}
-
-\item{...}{Currently not used.}
 
 \item{y}{A \code{SpatRaster} (or \verb{Raster*}) object used as response. If 'y' is
 \code{NULL} (default), 'x' is used as response.}
@@ -53,6 +47,8 @@ agreement is used instead.}
 
 \item{verbose}{\code{logical}, default \code{FALSE}. If \code{TRUE} some details about the
 calculation process will be output to the console.}
+
+\item{...}{Currently not used.}
 }
 \value{
 If \verb{n = 1`` an }EotMode\verb{, if n > 1 an }EotStack\verb{of 'n'}EotMode\verb{s. Each  }EotMode` has the following components:
@@ -116,8 +112,6 @@ nh_modes <- eot(x = gph, y = NULL, n = 2,
                 standardised = FALSE, 
                 verbose = TRUE)
 
-plot(nh_modes, y = 1, show.bp = TRUE)
-plot(nh_modes, y = 2, show.bp = TRUE)
 }
 
 }

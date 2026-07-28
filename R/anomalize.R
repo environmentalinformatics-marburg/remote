@@ -1,10 +1,3 @@
-methods::setGeneric(
-  "anomalize"
-  , function(x, ...) {
-    standardGeneric("anomalize")
-  }
-)
-
 #' Create an anomaly raster series 
 #' 
 #' @description The function creates an anomaly raster series either based on 
@@ -15,17 +8,13 @@ methods::setGeneric(
 #' @param reference An optional single-layer `SpatRaster` (or `RasterLayer`) to 
 #'   be used as the reference. Uses the overall mean of the original series if 
 #'   `NULL` (default).
-#' @param ... Additional arguments passed to [terra::app()] (e.g. 'cores', 
-#'   'filename') to calculate the overall mean if 'reference' is `NULL`, or to
-#'   the underlying `SpatRaster` method for `Raster*` input.
+#' @param ... If `reference = NULL`, additional arguments passed to 
+#'   [terra::app()] when calculating the overall mean (except for 'fun').
 #' 
 #' @return An anomaly `SpatRaster` series.
 #' 
 #' @seealso
 #' [deseason()], [denoise()]
-#' 
-#' @export anomalize
-#' @name anomalize
 #' 
 #' @examples
 #' pcp = terra::unwrap(australiaGPCP)
@@ -35,49 +24,25 @@ methods::setGeneric(
 #' plot(pcp[[10]], main = "original")
 #' plot(pcp_anom[[10]], main = "anomalized")
 #' par(opar)
-
-
-################################################################################
-### function using 'RasterStackBrick' ##########################################
-#' @aliases anomalize,RasterStackBrick-method
-#' @rdname anomalize
-methods::setMethod(
-  "anomalize"
-  , signature(x = "RasterStackBrick")
-  , function(
-    x
-    , ...
-  ) {
-    anomalize(
-      terra::rast(x)
+#' 
+#' @export
+anomalize = function(
+  x
+  , reference = NULL
+  , ...
+) {
+  
+  x = asSpatRaster(x)
+  
+  if (is.null(reference)) {
+    reference = terra::app(
+      x
+      , fun = mean
       , ...
     )
-  }
-)
-
-
-################################################################################
-### function using 'SpatRaster' ################################################
-#' @aliases anomalize,SpatRaster-method
-#' @rdname anomalize
-methods::setMethod(
-  "anomalize"
-  , signature(x = "SpatRaster")
-  , function(
-    x
-    , reference = NULL
-    , ...
-  ) {
-    
-    if (is.null(reference)) {
-      reference = terra::app(
-        x
-        , fun = mean
-        , ...
-      )
-    }
-    
-    ## early exit: 'reference' is not a raster
+  } else {
+  
+    ## early exit: 'reference' is neither `NULL` nor a raster
     if (!inherits(reference, what = c("SpatRaster", "Raster"))) {
       stop(
         sprintf(
@@ -88,27 +53,24 @@ methods::setMethod(
         , call. = FALSE
       )
     }
-
-    ## if required, convert 'reference' to `SpatRaster`
-    if (inherits(reference, what = "Raster")) {
-      reference = terra::rast(reference)
-    }
     
-    ## if required, use only the first 'reference' layer
-    if (terra::nlyr(reference) > 1L) {
-      warning(
-        sprintf(
-          paste(
-            "Expected 'reference' to have a single layer, but got [%s]."
-            , "Using the first layer only."
-          )
-          , terra::nlyr(reference)
-        )
-        , call. = FALSE
-      )
-      reference = reference[[1L]]
-    }
-    
-    return(x - reference)
+    reference = asSpatRaster(reference)
   }
-)
+
+  ## if required, use only the first 'reference' layer
+  if (terra::nlyr(reference) > 1L) {
+    warning(
+      sprintf(
+        paste(
+          "Expected 'reference' to have a single layer, but got [%s]."
+          , "Using the first layer only."
+        )
+        , terra::nlyr(reference)
+      )
+      , call. = FALSE
+    )
+    reference = reference[[1L]]
+  }
+  
+  return(x - reference)
+}

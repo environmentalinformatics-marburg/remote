@@ -44,12 +44,3 @@ expect_equal(
   , target = pcp[[n_st + 1L]]
   , info = "first layer of cut series is correct"
 )
-
-## same with `Raster*` input
-cut_st_rst = cutStack(as(pcp, "Raster"), tail = FALSE, n = n_st)
-
-expect_equal(
-  cut_st_rst
-  , target = cut_st
-  , info = "`Raster*` input returns identical result"
-)

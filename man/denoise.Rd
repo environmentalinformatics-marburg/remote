@@ -2,13 +2,9 @@
 % Please edit documentation in R/denoise.R
 \name{denoise}
 \alias{denoise}
-\alias{denoise,RasterStackBrick-method}
-\alias{denoise,SpatRaster-method}
 \title{Noise filtering through principal components}
 \usage{
-\S4method{denoise}{RasterStackBrick}(x, ...)
-
-\S4method{denoise}{SpatRaster}(
+denoise(
   x,
   k = NULL,
   expl.var = NULL,
@@ -20,8 +16,6 @@
 }
 \arguments{
 \item{x}{A \code{SpatRaster} (or \verb{Raster*}) series to be filtered.}
-
-\item{...}{Additional arguments passed to \code{\link[stats:princomp]{stats::princomp()}}.}
 
 \item{k}{The number of components to be kept for reconstruction (ignored if
 'expl.var' is supplied).}
@@ -38,6 +32,8 @@ defaults to \code{TRUE}.}
 
 \item{verbose}{logical. If \code{TRUE} some details about the calculation process
 will be output to the console.}
+
+\item{...}{Additional arguments passed to \code{\link[stats:princomp]{stats::princomp()}}.}
 }
 \value{
 A denoised \code{SpatRaster} series.
@@ -58,6 +54,7 @@ opar = par(mfrow = c(1,2))
 plot(gph[[1]], main = "original")
 plot(gph_dns[[1]], main = "denoised")
 par(opar)
+
 }
 \seealso{
 \code{\link[=anomalize]{anomalize()}}, \code{\link[=deseason]{deseason()}}

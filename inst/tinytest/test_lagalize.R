@@ -34,16 +34,16 @@ expect_match(
 )
 
 ## `Raster*` input
-lagged_rst = lagalize(as(sst, "Raster"), as(pcp, "Raster"), freq = 12L)
+lagged_l0 = lagalize(sst, pcp, freq = 12L)
 
 expect_equal(
-  lagged_rst[[1L]]
+  lagged_l0[[1L]]
   , target = sst
   , info = "returns the original 'x' series when 'lag' is `NULL`"
 )
 
 expect_equal(
-  lagged_rst[[2L]]
+  lagged_l0[[2L]]
   , target = pcp
   , info = "returns the original 'y' series when 'lag' is `NULL`"
 )

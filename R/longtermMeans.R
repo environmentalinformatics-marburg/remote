@@ -1,10 +1,3 @@
-methods::setGeneric(
-  "longtermMeans"
-  , function(x, ...) {
-    standardGeneric("longtermMeans")
-  }
-)
-
 #' Calculate long-term means from a raster series
 #' 
 #' @description 
@@ -15,8 +8,6 @@ methods::setGeneric(
 #' 
 #' @param x A `SpatRaster` (or `Raster*`) series.
 #' @param cycle.window `integer`, defaults to `12`. See [deseason()].
-#' @param ... For `Raster*` input, arguments passed to the underlying 
-#'   `SpatRaster` method.
 #' 
 #' @return
 #' A `SpatRaster` with 'cycle.window' layers, each containing the mean across 
@@ -34,50 +25,22 @@ methods::setGeneric(
 #' longtermMeans(pcp)
 #' 
 #' @export
-#' @name longtermMeans
-
-
-################################################################################
-### function using 'RasterStackBrick' ##########################################
-#' @aliases longtermMeans,RasterStackBrick-method
-#' @rdname longtermMeans
-methods::setMethod(
-  "longtermMeans"
-  , signature(x = "RasterStackBrick")
-  , function(
+longtermMeans = function(x, cycle.window = 12L) {
+  
+  x = asSpatRaster(x)
+  
+  ## insert values
+  idx = rep(
+    1:cycle.window
+    , times = terra::nlyr(x) / cycle.window
+  )
+  
+  rst_ltm = terra::tapp(
     x
-    , ...
-  ) {
-    longtermMeans(
-      x = terra::rast(x)
-      , ...
-    )
-  }
-)
-
-
-################################################################################
-### function using 'SpatRaster' ################################################
-#' @aliases longtermMeans,SpatRaster-method
-#' @rdname longtermMeans
-methods::setMethod(
-  "longtermMeans"
-  , signature(x = "SpatRaster")
-  , function(x, cycle.window = 12L) {
-    
-    ## insert values
-    idx = rep(
-      1:cycle.window
-      , times = terra::nlyr(x) / cycle.window
-    )
-    
-    rst_ltm = terra::tapp(
-      x
-      , index = idx
-      , fun = mean
-      , na.rm = TRUE
-    )
-    
-    return(rst_ltm)
-  }
-)
+    , index = idx
+    , fun = mean
+    , na.rm = TRUE
+  )
+  
+  return(rst_ltm)
+}

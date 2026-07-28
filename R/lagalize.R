@@ -1,10 +1,3 @@
-methods::setGeneric(
-  "lagalize"
-  , function(x, y, ...) {
-    standardGeneric("lagalize")
-  }
-)
-
 #' Create lagged raster series
 #' 
 #' @description
@@ -17,8 +10,7 @@ methods::setGeneric(
 #' @param lag The desired lag in the native frequency of the series passed to 
 #'   [cutStack()].
 #' @param freq The frequency of the raster series as `integer`.
-#' @param ... For `SpatRaster` input: currently not used. For `Raster*` input: 
-#'   arguments passed to the underlying `SpatRaster` method.
+#' @param ... Currently not used.
 #' 
 #' @return
 #' A `list` with the two raster series lagged by 'lag'.
@@ -33,62 +25,33 @@ methods::setGeneric(
 #' lagged[[2]][[1]] # -"-
 #' 
 #' @export
-#' @name lagalize
+lagalize = function(
+  x
+  , y
+  , lag = NULL
+  , freq = 12L
+  , ...
+) {
+  
+  x = asSpatRaster(x)
+  y = asSpatRaster(y)
 
-
-################################################################################
-### function using 'RasterStackBrick' ##########################################
-#' @aliases lagalize,RasterStackBrick,RasterStackBrick-method
-#' @rdname lagalize
-methods::setMethod(
-  "lagalize"
-  , signature(x = "RasterStackBrick", y = "RasterStackBrick")
-  , function(
-    x
-    , y
-    , ...
-  ) {
-    lagalize(
-      x = terra::rast(x)
-      , y = terra::rast(y)
-      , ...
-    )
+  # Return list of unmodified raster series if lag == NULL
+  if (is.null(lag)) {
+    return(list(x, y))
   }
-)
-
-
-################################################################################
-### function using 'SpatRaster' ################################################
-#' @aliases lagalize,SpatRaster,SpatRaster-method
-#' @rdname lagalize
-methods::setMethod(
-  "lagalize"
-  , signature(x = "SpatRaster", y = "SpatRaster")
-  , function(
-    x
-    , y
-    , lag = NULL
-    , freq = 12L
-    , ...
-  ) {
-    
-    # Return list of unmodified RasterStacks if lag == NULL
-    if (is.null(lag)) {
-      return(list(x, y))
-    }
-    
-    rest <- freq - lag
-    
-    # Lagalize predictor stack
-    x.lag <- cutStack(x = x, tail = TRUE, n = lag)
-    x.lag.adj <- x.lag[[1:(terra::nlyr(x.lag) - rest)]]
-    
-    # Lagalize response stack
-    y.lag <- cutStack(x = y, tail = FALSE, n = lag)
-    y.lag.adj <- y.lag[[1:(terra::nlyr(y.lag) - rest)]]
-    
-    # Return list of lagalized stacks
-    return(list(x.lag, y.lag))
-    
-  }
-)
+  
+  rest <- freq - lag
+  
+  # Lagalize predictor stack
+  x.lag <- cutStack(x = x, tail = TRUE, n = lag)
+  x.lag.adj <- x.lag[[1:(terra::nlyr(x.lag) - rest)]]
+  
+  # Lagalize response stack
+  y.lag <- cutStack(x = y, tail = FALSE, n = lag)
+  y.lag.adj <- y.lag[[1:(terra::nlyr(y.lag) - rest)]]
+  
+  # Return list of lagalized stacks
+  return(list(x.lag, y.lag))
+  
+}

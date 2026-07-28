@@ -2,17 +2,12 @@
 % Please edit documentation in R/geoWeight.R
 \name{geoWeight}
 \alias{geoWeight}
-\alias{geoWeight,RasterStackBrick-method}
-\alias{geoWeight,SpatRaster-method}
 \title{Geographic weighting}
 \usage{
-\S4method{geoWeight}{RasterStackBrick}(x, ...)
-
-\S4method{geoWeight}{SpatRaster}(x, f = cos, ...)
+geoWeight(x, f = cos, ...)
 }
 \arguments{
-\item{x, f, ...}{See \code{\link[=getWeights]{getWeights()}}. In case of \verb{Raster*} input, '...' funnels
-additional arguments (i.e. 'f') to the underlying \code{SpatRaster} method.}
+\item{x, f, ...}{See \code{\link[=getWeights]{getWeights()}}.}
 }
 \value{
 A weighted \code{SpatRaster}.
@@ -30,4 +25,5 @@ opar <- par(mfrow = c(1,2))
 plot(gph[[1]], main = "original")
 plot(wgtd[[1]], main = "weighted")
 par(opar)
+
 }

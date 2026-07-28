@@ -18,12 +18,10 @@ methods::setGeneric(
 #' @param use.cpp `logical`, defaults to `FALSE`. Determines whether or not to 
 #'   use **Rcpp** functionality. Only applies if `x` is a raster object.
 #' @param filename `character`. Output filename (optional).
-#' @param ... For `SpatRaster` input: additional arguments passed to
-#'   [terra::writeRaster()], only considered if `filename` is specified.
-#'   For `Raster*` input: arguments passed to the underlying `SpatRaster`
-#'   method (e.g. `cycle.window`, `use.cpp`, `filename`).
+#' @param ... Additional arguments passed to [terra::writeRaster()]. Only 
+#'   considered if 'filename' is specified.
 #' 
-#' @return If `x` is a raster object, a deseasoned `SpatRaster`; else a 
+#' @return If 'x' is a raster object, a deseasoned `SpatRaster`; else a 
 #'   deseasoned `numeric` vector.
 #' 
 #' @seealso
@@ -43,82 +41,73 @@ methods::setGeneric(
 
 
 ################################################################################
-### function using 'RasterStack' or 'RasterBrick' ##############################
-#' @aliases deseason,RasterStackBrick-method
-#' @rdname deseason
-setMethod(
-  "deseason"
-  , signature(x = "RasterStackBrick")
-  , function(
-    x
-    , ...
-  ) {
-    deseason(
-      terra::rast(x)
-      , ...
-    )
-  }
-)
-
-
-################################################################################
 ### function using 'SpatRaster' ################################################
 #' @aliases deseason,SpatRaster-method
 #' @rdname deseason
-setMethod("deseason",
-          signature(x = "SpatRaster"),
-          function(x, 
-                   cycle.window = 12L,
-                   use.cpp = FALSE,
-                   filename = "", 
-                   ...) {
-            
-            if (use.cpp) {
-              ## raster to matrix
-              mat <- terra::as.matrix(x)
-              
-              ## deseasoning
-              mat_mv <- monthlyMeansC(mat, cycle.window)
-              x_mv <- x[[1:cycle.window]]
-              x_mv <- terra::setValues(x_mv, values = mat_mv)
-            } else {
-              # Calculate layer averages based on supplied seasonal window
-              x_mv <- terra::rast(lapply(1:cycle.window, function(i) {
-                terra::app(x[[seq(i, terra::nlyr(x), cycle.window)]], 
-                             fun = mean, na.rm = TRUE)
-              }))
-            }
-            
-            # Subtract monthly averages from actually measured values
-            x_dsn <- x - x_mv
-            
-            # Write to file (optional)
-            if (filename != "")
-              x_dsn <- terra::writeRaster(x_dsn, filename = filename, ...)
-            
-            # Return output
-            return(x_dsn)
-          })
+methods::setMethod(
+  "deseason"
+  , signature(x = "SpatRaster")
+  , function(
+    x
+    , cycle.window = 12L
+    , use.cpp = FALSE
+    , filename = ""
+    , ...
+  ) {
+    
+    x = asSpatRaster(x)
+    
+    if (use.cpp) {
+      ## raster to matrix
+      mat <- terra::as.matrix(x)
+      
+      ## deseasoning
+      mat_mv <- monthlyMeansC(mat, cycle.window)
+      x_mv <- x[[1:cycle.window]]
+      x_mv <- terra::setValues(x_mv, values = mat_mv)
+    } else {
+      # Calculate layer averages based on supplied seasonal window
+      x_mv <- terra::rast(lapply(1:cycle.window, function(i) {
+        terra::app(x[[seq(i, terra::nlyr(x), cycle.window)]], 
+        fun = mean, na.rm = TRUE)
+      }))
+    }
+    
+    # Subtract monthly averages from actually measured values
+    x_dsn <- x - x_mv
+    
+    # Write to file (optional)
+    if (filename != "")
+    x_dsn <- terra::writeRaster(x_dsn, filename = filename, ...)
+    
+    # Return output
+    return(x_dsn)
+  }
+)
 
 
 ################################################################################
 ### function using 'numeric' ###################################################
 #' @aliases deseason,numeric-method
 #' @rdname deseason
-setMethod("deseason",
-          signature(x = "numeric"),
-          function(x, 
-                   cycle.window = 12L) {
-            
-            ## calculate long-term mean values
-            x_mv <- sapply(1:cycle.window, function(i) {
-              val <- x[seq(i, length(x), cycle.window)]
-              mean(val, na.rm = TRUE)
-            })
-            
-            ## create anomalies
-            x_dsn <- x - x_mv
-            
-            # Return output
-            return(x_dsn)
-          })
+methods::setMethod(
+  "deseason"
+  , signature(x = "numeric")
+  , function(
+    x
+    , cycle.window = 12L
+  ) {
+    
+    ## calculate long-term mean values
+    x_mv <- sapply(1:cycle.window, function(i) {
+      val <- x[seq(i, length(x), cycle.window)]
+      mean(val, na.rm = TRUE)
+    })
+    
+    ## create anomalies
+    x_dsn <- x - x_mv
+    
+    # Return output
+    return(x_dsn)
+  }
+)

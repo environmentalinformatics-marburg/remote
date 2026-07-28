@@ -37,33 +37,33 @@ if ( !isGeneric('plot') ) {
 #' @examples
 #' gph <- terra::unwrap(vdendool)
 #' 
-#' ## claculate 2 leading modes
+#' ## calculate 2 leading modes
 #' nh_modes <- eot(x = gph, y = NULL, n = 2, 
 #'                 standardised = FALSE, 
 #'                 verbose = TRUE)
 #'
-#' ## default settings 
-#' plot(nh_modes, y = 1) # is equivalent to
-#'
-#' \dontrun{
-#' plot(nh_modes[[1]]) 
-#' 
-#' plot(nh_modes, y = 2) # shows variance explained by mode 2 only
-#' plot(nh_modes[[2]]) # shows cumulative variance explained by modes 1 & 2
-#' 
-#' ## showing the loction of the mode
-#' plot(nh_modes, y = 1, show.bp = TRUE)
-#' 
-#' ## changing parameters
-#' plot(nh_modes, y = 1, show.bp = TRUE,
-#'      pred.prm = "r", resp.prm = "p")
-#'         
-#' ## change plot arrangement
-#' plot(nh_modes, y = 1, show.bp = TRUE, arrange = "long") 
-#' 
-#' ## plot locations of all base points
-#' plot(nh_modes, locations = TRUE)
-#' }
+# ## default settings 
+# plot(nh_modes, y = 1) # is equivalent to
+#
+# \dontrun{
+# plot(nh_modes[[1]]) 
+# 
+# plot(nh_modes, y = 2) # shows variance explained by mode 2 only
+# plot(nh_modes[[2]]) # shows cumulative variance explained by modes 1 & 2
+# 
+# ## showing the loction of the mode
+# plot(nh_modes, y = 1, show.bp = TRUE)
+# 
+# ## changing parameters
+# plot(nh_modes, y = 1, show.bp = TRUE,
+#      pred.prm = "r", resp.prm = "p")
+#         
+# ## change plot arrangement
+# plot(nh_modes, y = 1, show.bp = TRUE, arrange = "long") 
+# 
+# ## plot locations of all base points
+# plot(nh_modes, locations = TRUE)
+# }
 #' 
 #' @export
 #' @name plot

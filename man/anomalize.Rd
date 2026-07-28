@@ -2,24 +2,19 @@
 % Please edit documentation in R/anomalize.R
 \name{anomalize}
 \alias{anomalize}
-\alias{anomalize,RasterStackBrick-method}
-\alias{anomalize,SpatRaster-method}
 \title{Create an anomaly raster series}
 \usage{
-\S4method{anomalize}{RasterStackBrick}(x, ...)
-
-\S4method{anomalize}{SpatRaster}(x, reference = NULL, ...)
+anomalize(x, reference = NULL, ...)
 }
 \arguments{
 \item{x}{A \code{SpatRaster} (or \verb{Raster*}) series.}
 
-\item{...}{Additional arguments passed to \code{\link[terra:app]{terra::app()}} (e.g. 'cores',
-'filename') to calculate the overall mean if 'reference' is \code{NULL}, or to
-the underlying \code{SpatRaster} method for \verb{Raster*} input.}
-
 \item{reference}{An optional single-layer \code{SpatRaster} (or \code{RasterLayer}) to
 be used as the reference. Uses the overall mean of the original series if
 \code{NULL} (default).}
+
+\item{...}{If \code{reference = NULL}, additional arguments passed to
+\code{\link[terra:app]{terra::app()}} when calculating the overall mean (except for 'fun').}
 }
 \value{
 An anomaly \code{SpatRaster} series.
@@ -37,6 +32,7 @@ opar = par(mfrow = c(1,2))
 plot(pcp[[10]], main = "original")
 plot(pcp_anom[[10]], main = "anomalized")
 par(opar)
+
 }
 \seealso{
 \code{\link[=deseason]{deseason()}}, \code{\link[=denoise]{denoise()}}

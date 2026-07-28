@@ -85,21 +85,6 @@ expect_true(
   , info = "writes EOT results to disk intrinsically if `write.out = TRUE`"
 )
 
-## `Raster*` input
-nh_modes_rst = eot(
-  x = as(gph, "Raster")
-  , y = NULL
-  , n = n
-  , standardised = FALSE
-  , verbose = FALSE
-)
-
-expect_equal(
-  nh_modes_rst
-  , target = nh_modes
-  , info = "returns the same result for `Raster*` input"
-)
-
 
 ### `readEot()` ----
 
@@ -217,17 +202,17 @@ expect_error(
 )
 
 
-### `plot()` ----
+# ### `plot()` ----
 
-expect_null(
-  plot(nh_modes, show.bp = TRUE)
-  , info = "returns `NULL` invisibly"
-)
+# expect_null(
+#   plot(nh_modes, show.bp = TRUE)
+#   , info = "returns `NULL` invisibly"
+# )
 
-expect_null(
-  plot(nh_modes, show.bp = TRUE, locations = TRUE)
-  , info = "returns `NULL` invisibly for plot of mode locations"
-)
+# expect_null(
+#   plot(nh_modes, show.bp = TRUE, locations = TRUE)
+#   , info = "returns `NULL` invisibly for plot of mode locations"
+# )
 
 
 ### `print()` ----

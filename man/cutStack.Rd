@@ -2,18 +2,12 @@
 % Please edit documentation in R/cutStack.R
 \name{cutStack}
 \alias{cutStack}
-\alias{cutStack,RasterStackBrick-method}
-\alias{cutStack,SpatRaster-method}
 \title{Shorten a raster series}
 \usage{
-\S4method{cutStack}{RasterStackBrick}(x, ...)
-
-\S4method{cutStack}{SpatRaster}(x, tail = TRUE, n = NULL)
+cutStack(x, tail = TRUE, n = NULL)
 }
 \arguments{
 \item{x}{A \code{SpatRaster} (or \verb{Raster*}) series.}
-
-\item{...}{Additional arguments passed to the underlying \code{SpatRaster} method.}
 
 \item{tail}{\code{logical}. If \code{TRUE} (default) the layers will be taken off
 the end of the stack. If \code{FALSE} layers will be taken off

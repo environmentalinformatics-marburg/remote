@@ -2,13 +2,9 @@
 % Please edit documentation in R/EotCycle.R
 \name{EotCycle}
 \alias{EotCycle}
-\alias{EotCycle,RasterStackBrick-method}
-\alias{EotCycle,SpatRaster-method}
 \title{Calculate a single EOT}
 \usage{
-\S4method{EotCycle}{RasterStackBrick}(x, ...)
-
-\S4method{EotCycle}{SpatRaster}(
+EotCycle(
   x,
   y,
   n = 1,
@@ -25,10 +21,9 @@
 \arguments{
 \item{x, y, n, standardised, write.out, path.out, prefix, type, verbose}{See \code{\link[=eot]{eot()}}.}
 
-\item{...}{Further arguments passed to \code{\link[=writeEot]{writeEot()}} if \code{write.out = TRUE},
-or to the underlying \code{SpatRaster} method in general for \verb{Raster*} input.}
-
 \item{orig.var}{original variance of the response domain}
+
+\item{...}{Further arguments passed to \code{\link[=writeEot]{writeEot()}} if \code{write.out = TRUE}.}
 }
 \description{
 Calculates a single EOT and is controlled by the main \code{\link[=eot]{eot()}} function.

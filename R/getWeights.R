@@ -1,10 +1,3 @@
-methods::setGeneric(
-  "getWeights"
-  , function(x, ...) {
-    standardGeneric("getWeights")
-  }
-)
-
 #' Calculate weights from latitude
 #' 
 #' @description Calculate weights using the cosine of latitude to compensate for
@@ -13,8 +6,7 @@ methods::setGeneric(
 #' @param x A non-projected `SpatRaster` (or `Raster*`) object.
 #' @param f A `function` applied to the latitude (in radians) to compute 
 #'   weights. Defaults to `cos`.
-#' @param ... Additional arguments passed to 'f', or to the underlying 
-#'   `SpatRaster` method in general for `Raster*` input.
+#' @param ... Additional arguments passed to 'f'.
 #' 
 #' @return A `numeric` vector of weights for non-`NA` cells in 'x'.
 #' 
@@ -31,53 +23,25 @@ methods::setGeneric(
 #' plot(wghts_rst, main = "weights")
 #' par(opar)
 #' 
-#' @export getWeights
-#' @name getWeights
+#' @export
+getWeights = function(
+  x
+  , f = cos
+  , ...
+) {
+  
+  # TODO: 
+  # * what happens in the presence of `NA` values (length of weights vector is
+  #   not a multiple of `ncell(x)`)? Use `na.all = TRUE` to account for all 
+  #   layers in 'x', not just first?
+  # * test for epsg:4326
+  x = asSpatRaster(x)
 
-
-################################################################################
-### function using 'RasterStackBrick' ##########################################
-#' @aliases getWeights,RasterStackBrick-method
-#' @rdname getWeights
-methods::setMethod(
-  "getWeights"
-  , signature(x = "RasterStackBrick")
-  , function(
-    x
-    , ...
-  ) {
-    getWeights(
-      terra::rast(x)
-      , ...
+  f(
+    deg2rad(
+      terra::crds(x, na.rm = TRUE)[, 2L]
     )
-  }
-)
-
-
-################################################################################
-### function using 'SpatRaster' ################################################
-#' @aliases getWeights,SpatRaster-method
-#' @rdname getWeights
-methods::setMethod(
-  "getWeights"
-  , signature(x = "SpatRaster")
-  , function(
-    x
-    , f = cos
     , ...
-  ) {
-    
-    # TODO: 
-    # * what happens in the presence of `NA` values (length of weights vector is
-    #   not a multiple of `ncell(x)`)? Use `na.all = TRUE` to account for all 
-    #   layers in 'x', not just first?
-    # * test for epsg:4326
-    f(
-      deg2rad(
-        terra::crds(x, na.rm = TRUE)[, 2L]
-      )
-      , ...
-    )
-    
-  }
-)
+  )
+  
+}

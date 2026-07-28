@@ -27,7 +27,6 @@ Description: Empirical orthogonal teleconnections in R.
 License: GPL (>= 3) | file LICENSE
 Depends: 
     Rcpp (>= 0.10.3),
-    raster,
     methods,
     R (>= 3.5)
 Imports: 
@@ -44,6 +43,7 @@ Suggests:
     grid,
     lattice,
     maps,
+    raster,
     sp, 
     tinytest
 LinkingTo: Rcpp

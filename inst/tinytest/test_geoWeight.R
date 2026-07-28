@@ -26,10 +26,3 @@ expect_true(
   )[[1L]]
   , info = "returns different results for different weighting function"
 )
-
-## `Raster*` input
-expect_equal(
-  geoWeight(as(gph, "Raster"))
-  , target = gph_wghts
-  , info = "returns same result as `Raster*` input"
-)

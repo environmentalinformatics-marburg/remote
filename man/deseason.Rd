@@ -2,13 +2,10 @@
 % Please edit documentation in R/deseason.R
 \name{deseason}
 \alias{deseason}
-\alias{deseason,RasterStackBrick-method}
 \alias{deseason,SpatRaster-method}
 \alias{deseason,numeric-method}
 \title{Create seasonal anomalies}
 \usage{
-\S4method{deseason}{RasterStackBrick}(x, ...)
-
 \S4method{deseason}{SpatRaster}(x, cycle.window = 12L, use.cpp = FALSE, filename = "", ...)
 
 \S4method{deseason}{numeric}(x, cycle.window = 12L)
@@ -17,11 +14,6 @@
 \item{x}{A \code{SpatRaster} (or \verb{Raster*}) object or, alternatively, a \code{numeric}
 time series.}
 
-\item{...}{For \code{SpatRaster} input: additional arguments passed to
-\code{\link[terra:writeRaster]{terra::writeRaster()}}, only considered if \code{filename} is specified.
-For \verb{Raster*} input: arguments passed to the underlying \code{SpatRaster}
-method (e.g. \code{cycle.window}, \code{use.cpp}, \code{filename}).}
-
 \item{cycle.window}{\code{integer}, defaults to \code{12}. The window for the creation
 of the anomalies.}
 
@@ -29,9 +21,12 @@ of the anomalies.}
 use \strong{Rcpp} functionality. Only applies if \code{x} is a raster object.}
 
 \item{filename}{\code{character}. Output filename (optional).}
+
+\item{...}{Additional arguments passed to \code{\link[terra:writeRaster]{terra::writeRaster()}}. Only
+considered if 'filename' is specified.}
 }
 \value{
-If \code{x} is a raster object, a deseasoned \code{SpatRaster}; else a
+If 'x' is a raster object, a deseasoned \code{SpatRaster}; else a
 deseasoned \code{numeric} vector.
 }
 \description{

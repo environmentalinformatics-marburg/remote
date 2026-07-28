@@ -2,19 +2,12 @@
 % Please edit documentation in R/longtermMeans.R
 \name{longtermMeans}
 \alias{longtermMeans}
-\alias{longtermMeans,RasterStackBrick-method}
-\alias{longtermMeans,SpatRaster-method}
 \title{Calculate long-term means from a raster series}
 \usage{
-\S4method{longtermMeans}{RasterStackBrick}(x, ...)
-
-\S4method{longtermMeans}{SpatRaster}(x, cycle.window = 12L)
+longtermMeans(x, cycle.window = 12L)
 }
 \arguments{
 \item{x}{A \code{SpatRaster} (or \verb{Raster*}) series.}
-
-\item{...}{For \verb{Raster*} input, arguments passed to the underlying
-\code{SpatRaster} method.}
 
 \item{cycle.window}{\code{integer}, defaults to \code{12}. See \code{\link[=deseason]{deseason()}}.}
 }

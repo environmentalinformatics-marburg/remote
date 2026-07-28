@@ -2,22 +2,17 @@
 % Please edit documentation in R/getWeights.R
 \name{getWeights}
 \alias{getWeights}
-\alias{getWeights,RasterStackBrick-method}
-\alias{getWeights,SpatRaster-method}
 \title{Calculate weights from latitude}
 \usage{
-\S4method{getWeights}{RasterStackBrick}(x, ...)
-
-\S4method{getWeights}{SpatRaster}(x, f = cos, ...)
+getWeights(x, f = cos, ...)
 }
 \arguments{
 \item{x}{A non-projected \code{SpatRaster} (or \verb{Raster*}) object.}
 
-\item{...}{Additional arguments passed to 'f', or to the underlying
-\code{SpatRaster} method in general for \verb{Raster*} input.}
-
 \item{f}{A \code{function} applied to the latitude (in radians) to compute
 weights. Defaults to \code{cos}.}
+
+\item{...}{Additional arguments passed to 'f'.}
 }
 \value{
 A \code{numeric} vector of weights for non-\code{NA} cells in 'x'.

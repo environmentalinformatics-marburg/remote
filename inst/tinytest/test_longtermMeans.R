@@ -19,7 +19,7 @@ expect_identical(
   , info = "returns the correct number of rows and columns"
 )
 
-pcp_mn1 = longtermMeans(as(pcp, "Raster"), cycle.window = 1L)
+pcp_mn1 = longtermMeans(pcp, cycle.window = 1L)
 
 expect_true(
   terra::nlyr(pcp_mn1) == 1L

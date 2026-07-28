@@ -1,10 +1,3 @@
-methods::setGeneric(
-  "cutStack"
-  , function(x, ...) {
-    standardGeneric("cutStack")
-  }
-)
-
 #' Shorten a raster series
 #' 
 #' @description The function cuts a specified number of layers off a raster 
@@ -16,7 +9,6 @@ methods::setGeneric(
 #' the beginning.
 #' @param n The number of layers to take away as `integer`. If `NULL` (default), 
 #'   'x' is returned unchanged.
-#' @param ... Additional arguments passed to the underlying `SpatRaster` method.
 #' 
 #' @return A `SpatRaster` series shortened by 'n' layers either from the 
 #' beginning or the end, depending on the specification of 'tail'.
@@ -29,55 +21,27 @@ methods::setGeneric(
 #' # 8 layers from the end
 #' cutStack(pcp, tail = TRUE, n = 8)
 #' 
-#' @export cutStack
-#' @name cutStack
-
-
-################################################################################
-### function using 'RasterStackBrick' ##########################################
-#' @aliases cutStack,RasterStackBrick-method
-#' @rdname cutStack
-methods::setMethod(
-  "cutStack"
-  , signature(x = "RasterStackBrick")
-  , function(
-    x
-    , ...
-  ) {
-    cutStack(
-      terra::rast(x)
-      , ...
-    )
-  }
-)
-
-
-################################################################################
-### function using 'SpatRaster' ################################################
-#' @aliases cutStack,SpatRaster-method
-#' @rdname cutStack
-methods::setMethod(
-  "cutStack"
-  , signature(x = "SpatRaster")
-  , function(
-    x
-    , tail = TRUE
-    , n = NULL
-  ) {
+#' @export
+cutStack = function(
+  x
+  , tail = TRUE
+  , n = NULL
+) {
   
-    ## return unmodified raster series if `n == NULL`
-    if (is.null(n)) {
-      return(x)
-    }
-    
-    ## take away layers from the end, e.g. if supplied series is predictor
-    idx = if (tail) {
-      1:(terra::nlyr(x) - n)
-    ## take away layers from the start, e.g. if supplied series is response
-    } else {
-      seq.int(n + 1L, terra::nlyr(x))
-    }
-
-    return(x[[idx]])
+  x = asSpatRaster(x)
+  
+  ## return unmodified raster series if `n == NULL`
+  if (is.null(n)) {
+    return(x)
   }
-)
+  
+  ## take away layers from the end, e.g. if supplied series is predictor
+  idx = if (tail) {
+    1:(terra::nlyr(x) - n)
+    ## take away layers from the start, e.g. if supplied series is response
+  } else {
+    seq.int(n + 1L, terra::nlyr(x))
+  }
+  
+  return(x[[idx]])
+}

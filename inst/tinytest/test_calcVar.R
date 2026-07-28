@@ -27,10 +27,3 @@ expect_number(
 expect_true(
   var_st != var_ns
 )
-
-## `Raster*` input
-expect_identical(
-  calcVar(as(sst, "Raster"))
-  , target = var_ns
-  , info = "returns same result as `Raster*` input"
-)

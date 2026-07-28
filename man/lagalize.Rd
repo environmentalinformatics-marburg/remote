@@ -2,26 +2,21 @@
 % Please edit documentation in R/lagalize.R
 \name{lagalize}
 \alias{lagalize}
-\alias{lagalize,RasterStackBrick,RasterStackBrick-method}
-\alias{lagalize,SpatRaster,SpatRaster-method}
 \title{Create lagged raster series}
 \usage{
-\S4method{lagalize}{RasterStackBrick,RasterStackBrick}(x, y, ...)
-
-\S4method{lagalize}{SpatRaster,SpatRaster}(x, y, lag = NULL, freq = 12L, ...)
+lagalize(x, y, lag = NULL, freq = 12L, ...)
 }
 \arguments{
 \item{x}{A \code{SpatRaster} (or \verb{Raster*}) series to be cut from tail.}
 
 \item{y}{A \code{SpatRaster} (or \verb{Raster*}) series to be cut from beginning.}
 
-\item{...}{For \code{SpatRaster} input: currently not used. For \verb{Raster*} input:
-arguments passed to the underlying \code{SpatRaster} method.}
-
 \item{lag}{The desired lag in the native frequency of the series passed to
 \code{\link[=cutStack]{cutStack()}}.}
 
 \item{freq}{The frequency of the raster series as \code{integer}.}
+
+\item{...}{Currently not used.}
 }
 \value{
 A \code{list} with the two raster series lagged by 'lag'.
