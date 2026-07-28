@@ -6,12 +6,12 @@
 \alias{remote}
 \title{R EMpirical Orthogonal TEleconnections}
 \description{
-R EMpirical Orthogonal TEleconnections
+A collection of functions to facilitate empirical orthogonal teleconnection
+analysis. Some handy functions for preprocessing, such as deseasoning,
+denoising, lagging are readily available for ease of usage.
 }
 \details{
-A collection of functions to facilitate empirical orthogonal teleconnection analysis.
-Some handy functions for preprocessing, such as deseasoning, denoising, lagging
-are readily available for ease of usage.
+R EMpirical Orthogonal TEleconnections
 }
 \references{
 Empirical Orthogonal Teleconnections\cr
@@ -23,8 +23,12 @@ H. M. van den Dool (2007)\cr
 Oxford University Press, Oxford, New York (2007)\cr
 }
 \seealso{
-\pkg{remote} is built upon Raster* classes from the
-\link[raster:raster-package]{raster::raster-package}. Please see their documentation for data preparation etc.
+\pkg{remote} is built upon the \pkg{terra} package, which is the
+direct successor of the \pkg{raster} package. The \pkg{terra} package is used
+for raster data handling and processing, while \pkg{raster} is still
+supported but not actively developed anymore. For more information on raster
+data handling, please refer to the documentation of the \pkg{terra} package
+and its functions.
 }
 \author{
 Tim Appelhans, Florian Detsch, Thomas Nauss\cr

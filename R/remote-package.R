@@ -1,8 +1,9 @@
 #' R EMpirical Orthogonal TEleconnections
 #' 
-#' A collection of functions to facilitate empirical orthogonal teleconnection analysis. 
-#' Some handy functions for preprocessing, such as deseasoning, denoising, lagging 
-#' are readily available for ease of usage.
+#' @description
+#' A collection of functions to facilitate empirical orthogonal teleconnection 
+#' analysis. Some handy functions for preprocessing, such as deseasoning, 
+#' denoising, lagging are readily available for ease of usage.
 #' 
 #' @name remote-package
 #' @aliases remote
@@ -20,9 +21,15 @@
 #' Empirical methods in short-term climate prediction\cr
 #' H. M. van den Dool (2007)\cr
 #' Oxford University Press, Oxford, New York (2007)\cr
-#' @seealso \pkg{remote} is built upon Raster* classes from the 
-#' [raster::raster-package]. Please see their documentation for data preparation etc.
-#' @import Rcpp raster gridExtra latticeExtra mapdata scales methods parallel terra
+#' 
+#' @seealso \pkg{remote} is built upon the \pkg{terra} package, which is the 
+#' direct successor of the \pkg{raster} package. The \pkg{terra} package is used
+#' for raster data handling and processing, while \pkg{raster} is still 
+#' supported but not actively developed anymore. For more information on raster 
+#' data handling, please refer to the documentation of the \pkg{terra} package 
+#' and its functions.
+#' 
+#' @import Rcpp gridExtra latticeExtra mapdata scales methods parallel terra
 #' @importFrom grDevices colorRampPalette hcl 
 #' @importFrom stats pt var cov.wt na.exclude princomp na.omit
 #' @importFrom utils read.csv write.table
