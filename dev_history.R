@@ -218,3 +218,16 @@ plot(pcp_dns[[1L]], main = "denoised")
 par(opar)
 
 plot(pcp[[1L]] - pcp_dns[[1L]], main = "residuals")
+
+
+# 2026-07-28 ====
+
+## RESOLVE CHECK ISSUES ====
+
+## eliminate "Compilation used the following non-portable flag(s): 
+##   ‘-mno-omit-leaf-frame-pointer’" note
+usethis::edit_r_makevars()
+
+## add these lines:
+## CFLAGS = -g -O2 -Wall -pedantic
+## CXXFLAGS = -g -O2 -Wall -pedantic
