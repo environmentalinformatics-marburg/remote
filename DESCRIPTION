@@ -34,7 +34,6 @@ Imports:
     gridExtra,
     latticeExtra,
     mapdata,
-    scales, 
     stats, 
     terra,
     utils

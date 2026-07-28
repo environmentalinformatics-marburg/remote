@@ -29,9 +29,9 @@
 #' data handling, please refer to the documentation of the \pkg{terra} package 
 #' and its functions.
 #' 
-#' @import Rcpp gridExtra latticeExtra mapdata scales methods parallel terra
+#' @import Rcpp gridExtra latticeExtra mapdata methods parallel terra
 #' @importFrom grDevices colorRampPalette hcl 
-#' @importFrom stats pt var cov.wt na.exclude princomp na.omit
+#' @importFrom stats pt var cov.wt na.exclude
 #' @importFrom utils read.csv write.table
 #' @useDynLib remote
 #' 

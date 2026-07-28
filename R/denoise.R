@@ -54,7 +54,7 @@ denoise = function(
   
   # PCA
   if (weighted) { 
-    pca <- stats::princomp(
+    pca <- princomp(
       ~ x.vals
       , covmat = covWeight(
         x.vals
@@ -65,7 +65,7 @@ denoise = function(
       , ...
     )
   } else {
-    pca <- stats::princomp(
+    pca <- princomp(
       ~ x.vals
       , scores = TRUE
       , na.action = stats::na.exclude
@@ -98,7 +98,7 @@ denoise = function(
       , terra::nlyr(x)
       , expl.var
     )
-    
+
     cat(txt)
   }
   
