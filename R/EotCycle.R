@@ -27,6 +27,8 @@ EotCycle = function(
   x = asSpatRaster(x)
   y = asSpatRaster(y)
 
+  nl = terra::nlyr(x)
+
   ### Identification of the most explanatory pred pixel
   
   # Extract pixel entries from raster objects
@@ -91,28 +93,35 @@ EotCycle = function(
   
   ## Rasterize lm parameters
   
-  # multi-layer raster template for residuals
-  brck.y.resids <- terra::setValues(y, values = NA_real_)
-  
-  # single-layer raster template for R-squared, slope and p value
-  rst.y.template <- brck.y.resids[[1L]]
-  
-  rst.y.r <- rst.y.rsq <- rst.y.intercept <- 
-  rst.y.slp <- rst.y.p <- rst.y.template
-  
-  # R
-  rst.y.r[] <- sapply(y.lm.param.p, "[[", 1)
-  # R-squared
-  rst.y.rsq[] <- sapply(y.lm.param.p, "[[", 1) ^ 2
-  # Intercept
-  rst.y.intercept[] <- sapply(y.lm.param.p, "[[", 2)
-  # Slope
-  rst.y.slp[] <- sapply(y.lm.param.p, "[[", 3)
-  # P value
-  rst.y.p[] <- sapply(y.lm.param.p, "[[", 5)
-  # Residuals
-  brck.y.resids[] <- matrix(sapply(y.lm.param.p, "[[", 4), 
-  ncol = terra::nlyr(x), byrow = TRUE)
+  # multi-layer 'y' raster template
+  brck.y.temp <- terra::setValues(y, values = NA_real_)
+
+  y.lst = Map(
+    function(idx, len) {
+      v = vapply(y.lm.param.p, `[[`, numeric(len), idx)
+
+      args = if (is.matrix(v)) {
+        list(x = brck.y.temp, values = t(v))
+      } else {
+        list(x = brck.y.temp[[1L]], values = v)
+      }
+
+      do.call(
+        terra::setValues
+        , args = args
+      )
+    }
+    , 1:5 # parameter indexes
+    , c(1, 1, 1, nl, 1) # expected vector lengths
+  )
+
+  rst.y.r = y.lst[[1L]] # r
+  rst.y.rsq = rst.y.r ^ 2 # r-squared
+  rst.y.intercept = y.lst[[2L]] # intercept
+  rst.y.slp = y.lst[[3L]] # slope
+  brck.y.resids = y.lst[[4L]] # residuals
+  rst.y.p = y.lst[[5L]] # p
+
   # EOT over time
   eot.ts <- as.numeric(terra::extract(x, maxxy)[1, ])
   
@@ -135,30 +144,40 @@ EotCycle = function(
   
   ## Rasterize lm parameters
   
-  # multi-layer raster template for residuals
-  brck.x.resids <- terra::setValues(x, values = NA_real_)
+  # multi-layer 'x' raster template
+  brck.x.temp <- terra::setValues(x, values = NA_real_)
   
-  # single-layer raster template for R-squared, slope and p value
-  rst.x.template <- brck.x.resids[[1L]]
-  
-  rst.x.r <- rst.x.rsq <- rst.x.rsq.sums <- rst.x.intercept <- 
-  rst.x.slp <- rst.x.p <- rst.x.template
-  
-  # R
-  rst.x.r[] <- sapply(x.lm.param.p, "[[", 1)
-  # R-squared
-  rst.x.rsq[] <- sapply(x.lm.param.p, "[[", 1) ^ 2
+  x.lst = Map(
+    function(idx, len) {
+      v = vapply(x.lm.param.p, `[[`, numeric(len), idx)
+
+      args = if (is.matrix(v)) {
+        list(x = brck.x.temp, values = t(v))
+      } else {
+        list(x = brck.x.temp[[1L]], values = v)
+      }
+
+      do.call(
+        terra::setValues
+        , args = args
+      )
+    }
+    , 1:5 # parameter indexes
+    , c(1, 1, 1, nl, 1) # expected vector lengths
+  )
+
+  rst.x.r = x.lst[[1L]] # r
+  rst.x.rsq = rst.x.r ^ 2 # r-squared
+  rst.x.intercept = x.lst[[2L]] # intercept
+  rst.x.slp = x.lst[[3L]] # slope
+  brck.x.resids = x.lst[[4L]] # residuals
+  rst.x.p = x.lst[[5L]] # p
+
   # R-squared sums
-  rst.x.rsq.sums[] <- a
-  # Intercept
-  rst.x.intercept[] <- sapply(x.lm.param.p, "[[", 2)
-  # Slope
-  rst.x.slp[] <- sapply(x.lm.param.p, "[[", 3)
-  # P value
-  rst.x.p[] <- sapply(x.lm.param.p, "[[", 5)
-  # Residuals
-  brck.x.resids[] <- matrix(sapply(x.lm.param.p, "[[", 4), 
-  ncol = terra::nlyr(x), byrow = TRUE)
+  rst.x.rsq.sums = terra::setValues(
+    brck.x.temp[[1L]]
+    , values = a
+  )
   
   #     #expl.var <- x[maxxy] / orig.var
   #   if (!standardised) {

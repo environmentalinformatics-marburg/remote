@@ -73,9 +73,19 @@ readEot <- function(x, prefix = "remote", suffix = ".grd") {
   lst_eot <- lapply(mds, function(n) {
     
     # track and reorder files related to current mode
-    fls <- fls_mds[grep(paste0("mode_", n), basename(fls_mds))]
-    ids <- sapply(eotLayerNames(), function(j) grep(j, fls))
-    fls <- fls[ids]
+    pttrns = sprintf(
+      "mode_%s%s"
+      , n
+      , eotLayerNames()
+    )
+
+    fls = vapply(
+      pttrns
+      , FUN = grep
+      , FUN.VALUE = character(1L)
+      , x = fls_mds
+      , value = TRUE
+    )
     
     # import files
     lst <- lapply(1:length(fls), function(j) {
@@ -113,7 +123,7 @@ readEot <- function(x, prefix = "remote", suffix = ".grd") {
   }
   
   ## else create an `EotStack` if more than one leading mode is available
-  names(lst_eot) <- sapply(lst_eot, function(i) i@name)
+  names(lst_eot) <- vapply(lst_eot, slot, character(1L), "name")
   new('EotStack', modes = lst_eot, names = names(lst_eot))
 }
 

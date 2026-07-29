@@ -82,7 +82,12 @@ methods::setMethod(
       }
     
       ### extract identified EOT (@cell_bp)
-      bps <- sapply(seq(n), function(i) object[[i]]@cell_bp)
+      bps = vapply(
+        object@modes[1:n]
+        , FUN = slot
+        , FUN.VALUE = integer(1L)
+        , name = "cell_bp"
+      )
       ts.modes <- t(terra::extract(newdata, bps))
       
       ### target files

@@ -37,35 +37,44 @@ methods::setGeneric(
 #' @rdname nXplain
 #' @aliases nXplain,EotStack-method
 
-setMethod('nXplain', signature(x = 'EotStack'),
-          function(x, var = 0.9) {
-            expl.var <- sapply(seq(nmodes(x)), function(i) {
-              x[[i]]@cum_exp_var
-            })
-            
-            idx = var - expl.var <= 0
-
-            if (!any(idx)) {
-              fmt = paste(
-                "explained variance of EotStack is lower than: %s"
-                , "maximum explained variance of this EotStack is: %s"
-                , sep = "\n"
-              )
-              
-              txt = sprintf(
-                fmt
-                , var
-                , x[[nmodes(x)]]@cum_exp_var
-              )
-              
-              stop(
-                txt
-                , call. = FALSE
-              )
-            }
-
-            n <- min(which(idx), na.rm = TRUE)
-            
-            return(n)
-          }
+methods::setMethod(
+  'nXplain'
+  , signature(x = 'EotStack')
+  , function(
+    x
+    , var = 0.9
+  ) {
+    
+    expl.var = vapply(
+      x@modes
+      , FUN = slot
+      , FUN.VALUE = numeric(1L)
+      , name = "cum_exp_var"
+    )
+    
+    idx = var - expl.var <= 0
+    
+    if (!any(idx)) {
+      fmt = paste(
+        "explained variance of EotStack is lower than: %s"
+        , "maximum explained variance of this EotStack is: %s"
+        , sep = "\n"
+      )
+      
+      txt = sprintf(
+        fmt
+        , var
+        , x[[nmodes(x)]]@cum_exp_var
+      )
+      
+      stop(
+        txt
+        , call. = FALSE
+      )
+    }
+    
+    n <- min(which(idx), na.rm = TRUE)
+    
+    return(n)
+  }
 )
