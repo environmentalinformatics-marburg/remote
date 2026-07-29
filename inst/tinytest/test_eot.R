@@ -85,6 +85,30 @@ expect_true(
   , info = "writes EOT results to disk intrinsically if `write.out = TRUE`"
 )
 
+## `type = "ioa"`
+nh_modes_ioa <- eot(
+  x = gph
+  , y = NULL
+  , n = n
+  , standardised = FALSE
+  , type = "ioa"
+  , verbose = FALSE
+)
+
+expect_true(
+  nh_modes_ioa[[n]]@cum_exp_var != nh_modes[[n]]@cum_exp_var
+  , info = "returns different results for `type = 'ioa'`"
+)
+
+## errors
+expect_error(
+  eot(
+    x = gph
+    , type = "rmse"
+  )
+  , pattern = "'arg' should be one of"
+)
+
 
 ### `readEot()` ----
 
