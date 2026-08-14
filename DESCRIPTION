@@ -31,22 +31,17 @@ Depends:
     R (>= 3.5)
 Imports: 
     grDevices,
-    gridExtra,
-    latticeExtra,
-    mapdata,
     stats, 
     terra,
     utils
 Suggests: 
     checkmate,
-    grid,
-    lattice,
     maps,
     raster,
-    sp, 
     tinytest
 LinkingTo: Rcpp
 Roxygen: list(markdown = TRUE)
 Encoding: UTF-8
 Config/roxygen2/version: 8.0.0
 LazyData: true
+RoxygenNote: 7.3.3

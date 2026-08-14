@@ -89,5 +89,25 @@ nh_modes <- eot(x = gph, y = NULL, n = 2,
                 standardised = FALSE, 
                 verbose = TRUE)
 
+## default settings 
+plot(nh_modes, y = 1) # is equivalent to
+
+\dontrun{
+plot(nh_modes[[1]]) 
+
+plot(nh_modes, y = 2) # shows variance explained by mode 2 only
+plot(nh_modes[[2]]) # shows cumulative variance explained by modes 1 & 2
+
+## showing the location of the mode but without map overlay
+plot(nh_modes, y = 1, show.bp = TRUE, add.map = FALSE)
+
+## changing parameters
+plot(nh_modes, y = 1, show.bp = TRUE,
+     pred.prm = "r", resp.prm = "p")
+        
+## change plot arrangement
+plot(nh_modes, y = 1, show.bp = TRUE, arrange = "long") 
+
+}
 
 }

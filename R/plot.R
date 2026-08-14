@@ -42,28 +42,28 @@ if ( !isGeneric('plot') ) {
 #'                 standardised = FALSE, 
 #'                 verbose = TRUE)
 #'
-# ## default settings 
-# plot(nh_modes, y = 1) # is equivalent to
-#
-# \dontrun{
-# plot(nh_modes[[1]]) 
-# 
-# plot(nh_modes, y = 2) # shows variance explained by mode 2 only
-# plot(nh_modes[[2]]) # shows cumulative variance explained by modes 1 & 2
-# 
-# ## showing the loction of the mode
-# plot(nh_modes, y = 1, show.bp = TRUE)
-# 
-# ## changing parameters
-# plot(nh_modes, y = 1, show.bp = TRUE,
-#      pred.prm = "r", resp.prm = "p")
-#         
-# ## change plot arrangement
-# plot(nh_modes, y = 1, show.bp = TRUE, arrange = "long") 
-# 
+#' ## default settings 
+#' plot(nh_modes, y = 1) # is equivalent to
+#'
+#' \dontrun{
+#' plot(nh_modes[[1]]) 
+#' 
+#' plot(nh_modes, y = 2) # shows variance explained by mode 2 only
+#' plot(nh_modes[[2]]) # shows cumulative variance explained by modes 1 & 2
+#' 
+#' ## showing the location of the mode but without map overlay
+#' plot(nh_modes, y = 1, show.bp = TRUE, add.map = FALSE)
+#' 
+#' ## changing parameters
+#' plot(nh_modes, y = 1, show.bp = TRUE,
+#'      pred.prm = "r", resp.prm = "p")
+#'         
+#' ## change plot arrangement
+#' plot(nh_modes, y = 1, show.bp = TRUE, arrange = "long") 
+#' 
 # ## plot locations of all base points
 # plot(nh_modes, locations = TRUE)
-# }
+#' }
 #' 
 #' @export
 #' @name plot
@@ -87,159 +87,198 @@ setMethod('plot', signature(x = 'EotMode',
                    locations = FALSE,
                    ...) {
             
-            arrange = match.arg(arrange)
-
-            pkgs <- c("lattice", "latticeExtra", "grid", "gridExtra",
-                      "RColorBrewer", "maps")
-            tst <- sapply(pkgs, "requireNamespace", 
-                          quietly = TRUE, USE.NAMES = FALSE)
+            on.exit(layout(1))  # reset to default
             
-            if (all(tst == TRUE)) {
-              
-              try(attachNamespace("gridExtra"), silent = TRUE)
-              
-              if (is.null(clr)) {
-                clr <- colorRampPalette(
-                  rev(RColorBrewer::brewer.pal(9, "Spectral")))(1000)
-              }
-              
-              if (missing(y)) y <- 1
-              
-              p.prm <- paste(pred.prm, "predictor", sep = "_")
-              r.prm <- paste(resp.prm, "response", sep = "_")
-              
-              ps <- slot(x, p.prm)
-              rs <- slot(x, r.prm)
-              
-              if (is.null(ts.vec)) 
-                ts.vec <- seq(terra::nlyr(x@resid_response))
-              
-              xy <- terra::xyFromCell(x@rsq_predictor, 
-                                       cell = x@cell_bp)
-              
-              mode.location.p <- lattice::xyplot(xy[1, 2] ~ xy[1, 1], 
-                                                 cex = 2,
-                                                 pch = 21, fill = "grey80", 
-                                                 col = "black")
-              
-              if (isTRUE(add.map)) {
-                
-                try(attachNamespace("maps"), silent = TRUE)
-                
-                mm180 <- maps::map("world", plot = FALSE, fill = TRUE, 
-                                   col = "grey70")
-                mm360 <- data.frame(maps::map(plot = FALSE, 
-                                              fill = TRUE)[c("x","y")])
-                mm360 <- within(mm360, {
-                  x <- ifelse(x < 0, x + 360, x)
-                  x <- ifelse((x < 1) | (x > 359), NA, x)
-                })
-                
-                if (max(terra::xmax(ps)) > 180) {
-                  mm.pred <- mm360
-                } else {
-                  mm.pred <- mm180
-                }
-                
-                if (max(terra::xmax(rs)) > 180) {
-                  mm.resp <- mm360
-                } else {
-                  mm.resp <- mm180
-                }
-              } else {
-                add.map <- FALSE
-                mm.pred <- NULL
-                mm.resp <- NULL
-              }
-              
-              
-              px.pred <- terra::ncell(ps)
-              px.resp <- terra::ncell(rs)
-              
-              pred.p <- sp::spplot(ps, 
-                                   mm = mm.pred, maxpixels = px.pred,
-                                   colorkey = list(space = "top",
-                                                   width = 0.7, 
-                                                   height = 0.8), 
-                                   main = paste(p.prm, "mode", x@mode, 
-                                                sep = " "),
-                                   col.regions = clr, 
-                                   panel = function(..., mm) {
-                                     lattice::panel.levelplot(...)
-                                     if (isTRUE(add.map)) {
-                                       lattice::panel.polygon(
-                                         mm$x, mm$y, 
-                                         lwd = 0.5, 
-                                         border = "grey20")
-                                     }
-                                   }, ...) 
-              
-              if (show.bp) pred.p <- pred.p + 
-                latticeExtra::as.layer(mode.location.p)
-              
-              resp.p <- sp::spplot(rs, 
-                                   mm = mm.resp, maxpixels = px.resp,
-                                   colorkey = list(space = "top",
-                                                   width = 0.7, 
-                                                   height = 0.8), 
-                                   main = paste(r.prm, "mode", x@mode, 
-                                                sep = " "), 
-                                   col.regions = clr, 
-                                   panel = function(..., mm) {
-                                     lattice::panel.levelplot(...)
-                                     if (isTRUE(add.map)) {
-                                       lattice::panel.polygon(
-                                         mm$x, mm$y, 
-                                         lwd = 0.5, 
-                                         border = "grey20")
-                                     }
-                                   }, ...) 
-              
-              if (show.bp) resp.p <- resp.p + 
-                latticeExtra::as.layer(mode.location.p)
-              
-              md <- x@mode
-              
-              ts.main <- paste("time series eot", x@mode, "\n",
-                               "cumulative explained response domain variance:", 
-                               round(x@cum_exp_var * 100 , 2), "%", sep = " ")
-              
-              eot.ts <- lattice::xyplot(x@eot ~ ts.vec,
-                                        type = "b", pch = 20, col = "black", 
-                                        ylab = "", xlab = "",
-                                        scales = list(tck = c(0.5, 0), 
-                                                      x = list(axs = "i")), 
-                                        main = ts.main,
-                                        panel = lattice::panel.xyplot)
-              
-              if (anomalies) {
-                eot.ts <- eot.ts + 
-                  latticeExtra::layer(lattice::panel.abline(h = 0, 
-                                                            col = "grey40", 
-                                                            lty = 3), 
-                                      under = TRUE)
-              }
-              
-              ### set layout to wide or long
-              if (arrange == "wide") ncls <- 2 else ncls <- 1
-              
-              ### amalgamate pred.p and resp.p according to layout
-              c.pred.resp <- gridExtra::arrangeGrob(pred.p, resp.p, 
-                                                    ncol = ncls)
-              
-              ### clear plot area
-              grid::grid.newpage()
-              
-              ### combine c.pred.resp and eot time series and plot
-              tst <- gridExtra::arrangeGrob(c.pred.resp, eot.ts, 
-                                            heights = grid::unit(c(1, 0.5), 
-                                                                 "null"), 
-                                            ncol = 1)
-              grid::grid.draw(tst)
-              
-            } else {
-              stop("need packages 'latticeExtra' & 'gridExtra' for plotting EOT results")
+            arrange = match.arg(arrange)
+            
+            # pkgs <- c("lattice", "latticeExtra", "grid", "gridExtra",
+            #           "RColorBrewer", "maps")
+            # tst <- sapply(pkgs, "requireNamespace", 
+            #               quietly = TRUE, USE.NAMES = FALSE)
+            
+            # if (all(tst == TRUE)) {
+            #   
+            #   try(attachNamespace("gridExtra"), silent = TRUE)
+            
+            if (is.null(clr)) {
+              clr <- rev(hcl.colors(100, "Spectral"))
             }
+            
+            if (missing(y)) y <- 1
+            
+            p.prm <- paste(pred.prm, "predictor", sep = "_")
+            r.prm <- paste(resp.prm, "response", sep = "_")
+            
+            ps <- slot(x, p.prm)
+            rs <- slot(x, r.prm)
+            
+            if (is.null(ts.vec)) 
+              ts.vec <- seq(terra::nlyr(x@resid_response))
+            
+            xy = matrix(c(NA, NA), ncol = 2, dimnames = list(NULL, c("x", "y")))
+            
+            if (show.bp) {
+              xy <- terra::xyFromCell(x@rsq_predictor, 
+                                      cell = x@cell_bp)
+            } 
+            
+            # mode.location.p <- lattice::xyplot(xy[1, 2] ~ xy[1, 1], 
+            #                                    cex = 2,
+            #                                    pch = 21, fill = "grey80", 
+            #                                    col = "black")
+            
+            if (isTRUE(add.map)) {
+              
+              try(attachNamespace("maps"), silent = TRUE)
+              
+              mm180 <- maps::map("world", plot = FALSE, fill = TRUE, 
+                                 col = "grey70")
+              mm360 <- data.frame(maps::map(plot = FALSE, 
+                                            fill = TRUE)[c("x","y")])
+              mm360 <- within(mm360, {
+                x <- ifelse(x < 0, x + 360, x)
+                x <- ifelse((x < 1) | (x > 359), NA, x)
+              })
+              
+              if (max(terra::xmax(ps)) > 180) {
+                mm.pred <- mm360
+              } else {
+                mm.pred <- mm180
+              }
+              
+              if (max(terra::xmax(rs)) > 180) {
+                mm.resp <- mm360
+              } else {
+                mm.resp <- mm180
+              }
+            } else {
+              add.map <- FALSE
+              mm.pred <- list("x" = NA, "y" = NA)
+              mm.resp <- list("x" = NA, "y" = NA)
+            }
+            
+            
+            px.pred <- terra::ncell(ps)
+            px.resp <- terra::ncell(rs)
+            
+            # pred.p <- sp::spplot(ps, 
+            #                      mm = mm.pred, maxpixels = px.pred,
+            #                      colorkey = list(space = "top",
+            #                                      width = 0.7, 
+            #                                      height = 0.8), 
+            #                      main = paste(p.prm, "mode", x@mode, 
+            #                                   sep = " "),
+            #                      col.regions = clr, 
+            #                      panel = function(..., mm) {
+            #                        lattice::panel.levelplot(...)
+            #                        if (isTRUE(add.map)) {
+            #                          lattice::panel.polygon(
+            #                            mm$x, mm$y, 
+            #                            lwd = 0.5, 
+            #                            border = "grey20")
+            #                        }
+            #                      }, ...) 
+            
+            # if (show.bp) pred.p <- pred.p + 
+            #   latticeExtra::as.layer(mode.location.p)
+            # 
+            # resp.p <- sp::spplot(rs, 
+            #                      mm = mm.resp, maxpixels = px.resp,
+            #                      colorkey = list(space = "top",
+            #                                      width = 0.7, 
+            #                                      height = 0.8), 
+            #                      main = paste(r.prm, "mode", x@mode, 
+            #                                   sep = " "), 
+            #                      col.regions = clr, 
+            #                      panel = function(..., mm) {
+            #                        lattice::panel.levelplot(...)
+            #                        if (isTRUE(add.map)) {
+            #                          lattice::panel.polygon(
+            #                            mm$x, mm$y, 
+            #                            lwd = 0.5, 
+            #                            border = "grey20")
+            #                        }
+            #                      }, ...) 
+            # 
+            # if (show.bp) resp.p <- resp.p + 
+            #   latticeExtra::as.layer(mode.location.p)
+            
+            md <- x@mode
+            
+            ts.main <- paste("time series eot", x@mode, "\n",
+                             "cumulative explained response domain variance:", 
+                             round(x@cum_exp_var * 100 , 2), "%", sep = " ")
+            
+            if (arrange == "wide") {
+              layout(
+                matrix(c(1,2,3,3), nrow = 2, byrow = TRUE)
+                , heights = c(2, 1)
+                , widths = c(1, 1)
+              )
+            }
+            
+            if (arrange == "long") {
+              layout(
+                matrix(c(1,2,3), ncol = 1, byrow = TRUE)
+                , heights = c(0.7, 0.7, 0.7)
+                , widths = c(1, 1, 1)
+                , respect = TRUE
+              )
+            }
+            
+            # predictor
+            plot(ps, legend = "top", maxcell = px.pred, axes = FALSE, box = TRUE, col = clr)
+            polygon(mm180$x, mm180$y, border = "grey20", lwd = 0.5, xpd = FALSE)
+            points(xy[, "x"], xy[, "y"], pch = 21, cex = 2, col = "black", bg = "grey80")
+            title(main = paste(p.prm, "mode", x@mode, sep = " "))
+            
+            # response
+            plot(rs, legend = "top", maxcell = px.pred, 
+                 col = clr, axes = FALSE, box = TRUE)
+            polygon(mm180$x, mm180$y, border = "grey20", lwd = 0.5, xpd = FALSE)
+            points(xy[, "x"], xy[, "y"], pch = 21, cex = 2, col = "black", bg = "grey80")
+            title(main = paste(r.prm, "mode", x@mode, sep = " "))
+            
+            # time series
+            plot(x@eot, type = "o", pch = 20, main = ts.main, ylab = "", xlab = "")
+            if (anomalies) { abline(h = 0, col = "grey40", lty = 3) }
+            
+            # eot.ts <- lattice::xyplot(x@eot ~ ts.vec,
+            #                           type = "b", pch = 20, col = "black", 
+            #                           ylab = "", xlab = "",
+            #                           scales = list(tck = c(0.5, 0), 
+            #                                         x = list(axs = "i")), 
+            #                           main = ts.main,
+            #                           panel = lattice::panel.xyplot)
+            # 
+            # if (anomalies) {
+            #   eot.ts <- eot.ts + 
+            #     latticeExtra::layer(lattice::panel.abline(h = 0, 
+            #                                               col = "grey40", 
+            #                                               lty = 3), 
+            #                         under = TRUE)
+            # }
+            # 
+            ### set layout to wide or long
+            # if (arrange == "wide") ncls <- 2 else ncls <- 1
+            # 
+            # ### amalgamate pred.p and resp.p according to layout
+            # c.pred.resp <- gridExtra::arrangeGrob(pred.p, resp.p, 
+            #                                       ncol = ncls)
+            
+            ### clear plot area
+            # grid::grid.newpage()
+            
+            ### combine c.pred.resp and eot time series and plot
+            # tst <- gridExtra::arrangeGrob(c.pred.resp, eot.ts, 
+            #                               heights = grid::unit(c(1, 0.5), 
+            #                                                    "null"), 
+            #                               ncol = 1)
+            # grid::grid.draw(tst)
+            
+            # } else {
+            #   stop("need packages 'latticeExtra' & 'gridExtra' for plotting EOT results")
+            # }
             
           }
 )
@@ -263,7 +302,7 @@ setMethod('plot', signature(x = 'EotStack',
                    ...) {
             
             arrange = match.arg(arrange)
-
+            
             if (missing(y)) y <- 1
             
             if (!locations) {
@@ -572,7 +611,7 @@ plotLocations <- function(x, ...) {
     
     grid::upViewport(0)
     return(invisible())
-
+    
   } else {    
     stop("need packages 'gridExtra', 'latticeExtra' & 'maps' to plot locations")
   }

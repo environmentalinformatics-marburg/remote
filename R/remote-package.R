@@ -29,10 +29,11 @@
 #' data handling, please refer to the documentation of the \pkg{terra} package 
 #' and its functions.
 #' 
-#' @import Rcpp gridExtra latticeExtra mapdata methods parallel terra
-#' @importFrom grDevices colorRampPalette hcl 
+#' @import Rcpp methods parallel terra
+#' @importFrom grDevices hcl hcl.colors
 #' @importFrom stats pt var cov.wt na.exclude
 #' @importFrom utils read.csv write.table
+#' @importFrom graphics abline layout polygon title
 #' @useDynLib remote
 #' 
 "_PACKAGE"
