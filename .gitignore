@@ -6,3 +6,4 @@ src/*.so
 src/*.dll
 README.html
 README.Rmd
+data-raw/*.RData

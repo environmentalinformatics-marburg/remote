@@ -1,7 +1,7 @@
 Package: remote
 Title: Empirical Orthogonal Teleconnections in R
-Version: 1.2.3
-Authors@R:
+Version: 1.2.3.9012
+Authors@R: 
     c(person(given = "Tim",
              family = "Appelhans",
              role = c("cre", "aut"),
@@ -25,24 +25,23 @@ Description: Empirical orthogonal teleconnections in R.
     space and time, EOT analysis produces patterns that are orthogonal in
     either space or time.
 License: GPL (>= 3) | file LICENSE
-Depends:
+Depends: 
     Rcpp (>= 0.10.3),
-    raster,
-    methods
-Imports:
+    methods,
+    R (>= 3.5)
+Imports: 
     grDevices,
-    gridExtra,
-    latticeExtra,
-    mapdata,
-    scales, 
     stats, 
+    terra,
     utils
-Suggests:
+Suggests: 
+    checkmate,
     maps,
-    lattice,
-    grid,
-    sp
+    raster,
+    tinytest
 LinkingTo: Rcpp
-RoxygenNote: 7.3.2
 Roxygen: list(markdown = TRUE)
 Encoding: UTF-8
+Config/roxygen2/version: 8.0.0
+LazyData: true
+RoxygenNote: 7.3.3

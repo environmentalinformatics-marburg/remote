@@ -1,29 +1,31 @@
-if (!isGeneric('nXplain')) {
-  setGeneric('nXplain', function(x, ...)
-    standardGeneric('nXplain')) 
-}
-
+methods::setGeneric(
+  'nXplain'
+  , function(x, ...) {
+    standardGeneric('nXplain')
+  }
+)
 
 #' Number of EOTs needed for variance explanation
 #' 
 #' @description 
-#' The function identifies the number of modes needed to explain a certain amount of
-#' variance within the response field.
+#' The function identifies the number of modes needed to explain a certain 
+#'   amount of variance within the response field.
 #' 
-#' @param x an \emph{EotStack}
-#' @param var the minimum amount of variance to be explained by the modes
+#' @param x An `EotStack`.
+#' @param var The minimum amount of variance to be explained by the modes as 
+#'   `numeric`, defaults to `0.9`.
 #' 
-#' @note This is a post-hoc function. It needs an \emph{EotStack} 
-#' created as returned by [eot()]. Depending on the potency
-#' of the identified EOTs, it may be necessary to compute a high number of 
-#' modes in order to be able to explain a large enough part of the variance.
+#' @note This is a post-hoc function. It needs an `EotStack` created as returned
+#'   by [eot()]. Depending on the potency of the identified EOTs, it may be 
+#'   necessary to compute a high number of modes in order to be able to explain 
+#'   a large enough part of the variance.
 #' 
-#' @return an integer denoting the number of EOTs needed to explain \code{var}
+#' @return The number of EOTs needed to explain 'var'.
 #' 
 #' @examples
-#' data(vdendool)
+#' gph <- terra::unwrap(vdendool)
 #' 
-#' nh_modes <- eot(x = vdendool, y = NULL, n = 3, 
+#' nh_modes <- eot(x = gph, y = NULL, n = 3, 
 #'                 standardised = FALSE, 
 #'                 verbose = TRUE)
 #'              
@@ -35,21 +37,44 @@ if (!isGeneric('nXplain')) {
 #' @rdname nXplain
 #' @aliases nXplain,EotStack-method
 
-setMethod('nXplain', signature(x = 'EotStack'),
-          function(x, var = 0.9) {
-            expl.var <- sapply(seq(nmodes(x)), function(i) {
-              x[[i]]@cum_exp_var
-            })
-            
-            n <- min(which(var - expl.var <= 0), na.rm = TRUE)
-            
-            if (!is.finite(n)) {
-              stop("explained variance of EotStack is lower than: ", var, 
-                   "\n",
-                   "maximum explained variance of this EotStack is: ", 
-                   x[[nmodes(x)]]@cum_exp_var)
-            }
-            
-            return(n)
-          }
+methods::setMethod(
+  'nXplain'
+  , signature(x = 'EotStack')
+  , function(
+    x
+    , var = 0.9
+  ) {
+    
+    expl.var = vapply(
+      x@modes
+      , FUN = slot
+      , FUN.VALUE = numeric(1L)
+      , name = "cum_exp_var"
+    )
+    
+    idx = var - expl.var <= 0
+    
+    if (!any(idx)) {
+      fmt = paste(
+        "explained variance of EotStack is lower than: %s"
+        , "maximum explained variance of this EotStack is: %s"
+        , sep = "\n"
+      )
+      
+      txt = sprintf(
+        fmt
+        , var
+        , x[[nmodes(x)]]@cum_exp_var
+      )
+      
+      stop(
+        txt
+        , call. = FALSE
+      )
+    }
+    
+    n <- min(which(idx), na.rm = TRUE)
+    
+    return(n)
+  }
 )

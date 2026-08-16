@@ -1,35 +1,37 @@
 #' Geographic weighting
 #' 
-#' @description
-#' The function performs geographic weighting of non-projected long/lat
-#' data. By default it uses the cosine of latitude to compensate for the 
-#' area distortion, though the user can supply other functions via \code{f}.
+#' @description 
+#' The function performs geographic weighting of non-projected long/lat data. By
+#' default it uses the cosine of latitude (in radians) to compensate for the 
+#' area distortion, though the user can supply other weighting functions.
 #' 
+#' @param x,f,... See [getWeights()].
 #' 
-#' @param x a Raster* object
-#' @param f a function to be used to the weighting.
-#' Defaults to \code{cos(x)}
-#' @param ... additional arguments to be passed to f
-#' 
-#' @return a weighted Raster* object
-#' 
-#' @export geoWeight
+#' @return A weighted `SpatRaster`.
 #' 
 #' @examples
-#' data(vdendool)
-#' 
-#' wgtd <- geoWeight(vdendool)
+#' gph <- terra::unwrap(vdendool)
+#' wgtd <- geoWeight(gph)
 #' 
 #' opar <- par(mfrow = c(1,2))
-#' plot(vdendool[[1]], main = "original")
+#' plot(gph[[1]], main = "original")
 #' plot(wgtd[[1]], main = "weighted")
 #' par(opar)
-geoWeight <- function(x, 
-                      f = function(x) cos(x), 
-                      ...) {
+#' 
+#' @export
+geoWeight = function(
+  x
+  , f = cos
+  , ...
+) {
   
+  # TODO: test for epsg:4326
+  # NOTE: can't use `getWeights()` hereafter because of `na.rm = TRUE` 
+  #   (required for compatibility with `princomp()`) therein
+  
+  x = asSpatRaster(x)
   x.vals <- x[]
-  rads <- deg2rad(sp::coordinates(x)[, 2])
+  rads <- deg2rad(terra::crds(x)[, 2L])
   x.weightd <- x.vals * f(rads, ...)
   x[] <- x.weightd
   return(x)

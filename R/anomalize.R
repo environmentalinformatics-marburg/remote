@@ -1,41 +1,76 @@
-#' Create an anomaly RasterStack 
+#' Create an anomaly raster series 
 #' 
-#' @description
-#' The function creates an anomaly RasterStack either based on the
-#' overall mean of the original stack, or a supplied reference RasterLayer.
-#' For the creation of seasonal anomalies use [deseason()].
+#' @description The function creates an anomaly raster series either based on 
+#'   the overall mean of the original series, or a supplied reference raster. 
+#'   For the creation of seasonal anomalies use [deseason()].
 #' 
-#' @param x a RasterStack
-#' @param reference an optional RasterLayer to be used as the reference 
-#' @param ... additional arguments passed to [raster::calc()] (and, in turn, 
-#' [raster::writeRaster()]) which is used under the hood
+#' @param x A `SpatRaster` (or `Raster*`) series.
+#' @param reference An optional single-layer `SpatRaster` (or `RasterLayer`) to 
+#'   be used as the reference. Uses the overall mean of the original series if 
+#'   `NULL` (default).
+#' @param ... If `reference = NULL`, additional arguments passed to 
+#'   [terra::app()] when calculating the overall mean (except for 'fun').
 #' 
-#' @return an anomaly RasterStack
+#' @return An anomaly `SpatRaster` series.
 #' 
 #' @seealso
-#' [deseason()], [denoise()], [raster::calc()]
-#' 
-#' @export anomalize
+#' [deseason()], [denoise()]
 #' 
 #' @examples
-#' data(australiaGPCP)
+#' pcp = terra::unwrap(australiaGPCP)
+#' pcp_anom = anomalize(pcp)
 #' 
-#' aus_anom <- anomalize(australiaGPCP)
-#' 
-#' opar <- par(mfrow = c(1,2))
-#' plot(australiaGPCP[[10]], main = "original")
-#' plot(aus_anom[[10]], main = "anomalized")
+#' opar = par(mfrow = c(1,2))
+#' plot(pcp[[10]], main = "original")
+#' plot(pcp_anom[[10]], main = "anomalized")
 #' par(opar)
-anomalize <- function(x, 
-                      reference = NULL, 
-                      ...) {
+#' 
+#' @export
+anomalize = function(
+  x
+  , reference = NULL
+  , ...
+) {
+  
+  x = asSpatRaster(x)
   
   if (is.null(reference)) {
-    mn <- raster::calc(x, fun = mean, ...)
+    reference = terra::app(
+      x
+      , fun = mean
+      , ...
+    )
   } else {
-    mn <- reference
+  
+    ## early exit: 'reference' is neither `NULL` nor a raster
+    if (!inherits(reference, what = c("SpatRaster", "Raster"))) {
+      stop(
+        sprintf(
+          "Expected 'reference' to inherit from [%s], but got [%s]."
+          , paste0(c("SpatRaster", "Raster"), collapse = ", ")
+          , class(reference)[1L]
+        )
+        , call. = FALSE
+      )
+    }
+    
+    reference = asSpatRaster(reference)
+  }
+
+  ## if required, use only the first 'reference' layer
+  if (terra::nlyr(reference) > 1L) {
+    warning(
+      sprintf(
+        paste(
+          "Expected 'reference' to have a single layer, but got [%s]."
+          , "Using the first layer only."
+        )
+        , terra::nlyr(reference)
+      )
+      , call. = FALSE
+    )
+    reference = reference[[1L]]
   }
   
-  return(x - mn)
-  
+  return(x - reference)
 }

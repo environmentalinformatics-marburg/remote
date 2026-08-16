@@ -1,40 +1,35 @@
-if ( !isGeneric('eot') ) {
-  setGeneric('eot', function(x, ...)
-    standardGeneric('eot'))
-}
-
-#' EOT analysis of a predictor and (optionally) a response RasterStack
+#' EOT analysis of a predictor and (optionally) a response raster series
 #' 
 #' @description
-#' Calculate a given number of EOT modes either internally or between 
-#' RasterStacks.
+#' Calculate a given number of EOT modes either internally or between raster 
+#' series.
 #' 
-#' @param x a `Raster*` object used as predictor
-#' @param y a `Raster*` object used as response. If \code{y} is 
-#' `NULL`, \code{x} is used as \code{y}
-#' @param n the number of EOT modes to calculate
-#' @param standardised logical. If `FALSE` the calculated r-squared values 
-#' will be multiplied by the variance
-#' @param write.out logical. If `TRUE` results will be written to disk 
-#' using \code{path.out}
-#' @param path.out the file path for writing results if \code{write.out} is `TRUE`.
-#' Defaults to current working directory
-#' @param prefix optional prefix to be used for naming of results if 
-#' \code{write.out} is `TRUE`
-#' @param reduce.both logical. If `TRUE` both \code{x} and \code{y} 
-#' are reduced after each iteration. If `FALSE` only \code{y} is reduced
-#' @param type the type of the link function. Defaults to \code{'rsq'} as in original
-#' proposed method from \cite{van den Dool 2000}. If set to \code{'ioa'} index of agreement is
-#' used instead
-#' @param verbose logical. If `TRUE` some details about the 
-#' calculation process will be output to the console
-#' @param ... not used at the moment
+#' @param x A `SpatRaster` (or `Raster*`) object used as predictor.
+#' @param y A `SpatRaster` (or `Raster*`) object used as response. If 'y' is 
+#'   `NULL` (default), 'x' is used as response.
+#' @param n The number of EOT modes to calculate as `integer`, defaults to `1`.
+#' @param standardised `logical`, default `TRUE`. If `FALSE` the calculated 
+#'   r-squared values will be multiplied by the variance.
+#' @param write.out `logical`, default `FALSE`. If `TRUE` results will be 
+#'   written to disk using 'path.out'.
+#' @param path.out The file path for writing results if 'write.out' is `TRUE`. 
+#'   Defaults to current working directory.
+#' @param prefix optional prefix to be used for naming of results if 'write.out'
+#'   is `TRUE`.
+#' @param reduce.both `logical`, default `FALSE`. If `TRUE` both 'x' and 'y' are
+#'   reduced after each iteration. If `FALSE` only 'y' is reduced.
+#' @param type The type of the link function. Defaults to `"rsq"` as in original
+#'   proposed method from \cite{van den Dool 2000}. If set to `"ioa"` index of 
+#'   agreement is used instead.
+#' @param verbose `logical`, default `FALSE`. If `TRUE` some details about the 
+#'   calculation process will be output to the console.
+#' @param ... Currently not used.
 #' 
 #' @details 
 #' For a detailed description of the EOT algorithm and the mathematics behind it,
 #' see the References section. In brief, the algorithm works as follows: 
-#' First, the temporal profiles of each pixel \emph{xp} of the predictor domain 
-#' are regressed against the profiles of all pixels \emph{xr} in the 
+#' First, the temporal profiles of each pixel _xp_ of the predictor domain 
+#' are regressed against the profiles of all pixels _xr_ in the 
 #' response domain. 
 #' The calculated coefficients of determination are summed up and the pixel 
 #' with the highest sum is identified as the 'base point' of the first/leading mode. 
@@ -42,32 +37,33 @@ if ( !isGeneric('eot') ) {
 #' Then, the residuals from the regression are taken to be the basis 
 #' for the calculation of the next EOT, thus ensuring orthogonality 
 #' of the identified teleconnections. This procedure is repeated until 
-#' a predefined amount of \emph{n} EOTs is calculated. In general, 
+#' a predefined amount of _n_ EOTs is calculated. In general, 
 #' \pkg{remote} implements a 'brute force' spatial data mining approach to 
 #' identify locations of enhanced potential to explain spatio-temporal 
 #' variability within the same or another geographic field.
 #' 
 #' @return 
-#' if n = 1 an \emph{EotMode}, if n > 1 an \emph{EotStack} of \code{n} 
-#' \emph{EotMode}s. Each \emph{EotMode} has the following components:
+#' If `n = 1`` an `EotMode`, if n > 1 an `EotStack` of 'n' `EotMode`s. Each 
+#' `EotMode` has the following components:
+#' 
 #' \itemize{
 #' \item \emph{mode} - the number of the identified mode (1 - n)
 #' \item \emph{eot} - the EOT (time series) at the identified base point. 
-#' Note, this is a simple numeric vector, not of class \code{ts}
+#' Note, this is a simple numeric vector, not of class `ts`
 #' \item \emph{coords_bp} - the coordinates of the identified base point
 #' \item \emph{cell_bp} - the cell number of the indeified base point
 #' \item \emph{cum_exp_var} - the (cumulative) explained variance of the considered EOT
-#' \item \emph{r_predictor} - the \emph{RasterLayer} of the correlation coefficients 
+#' \item \emph{r_predictor} - the `SpatRaster` of the correlation coefficients 
 #' between the base point and each pixel of the predictor domain
 #' \item \emph{rsq_predictor} - as above but for the coefficient of determination
 #' \item \emph{rsq_sums_predictor} - as above but for the sums of coefficient of determination
-#' \item \emph{int_predictor} - the \emph{RasterLayer} of the intercept of the 
+#' \item \emph{int_predictor} - the `SpatRaster` of the intercept of the 
 #' regression equation for each pixel of the predictor domain
 #' \item \emph{slp_predictor} - same as above but for the slope of the 
 #' regression equation for each pixel of the predictor domain
-#' \item \emph{p_predictor} - the \emph{RasterLayer} of the significance (p-value) 
+#' \item \emph{p_predictor} - the `SpatRaster` of the significance (p-value) 
 #' of the the regression equation for each pixel of the predictor domain
-#' \item \emph{resid_predictor} - the \emph{RasterBrick} of the reduced data 
+#' \item \emph{resid_predictor} - the `SpatRaster` of the reduced data 
 #' for the predictor domain
 #' }
 #' 
@@ -75,8 +71,7 @@ if ( !isGeneric('eot') ) {
 #' also returned for the \emph{*_response} domain, 
 #' even if predictor and response domain are equal. This is due to that fact, 
 #' that if not both fields are reduced after the first EOT is found, 
-#' these \emph{RasterLayers} will differ.
-#' 
+#' these `SpatRaster`s will differ.
 #' 
 #' @references 
 #' \bold{Empirical Orthogonal Teleconnections}\cr
@@ -93,214 +88,112 @@ if ( !isGeneric('eot') ) {
 #' ### EXAMPLE I
 #' ### a single field
 #' \donttest{
-#' data(vdendool)
+#' gph = terra::unwrap(vdendool)
 #' 
-#' ## claculate 2 leading modes
-#' nh_modes <- eot(x = vdendool, y = NULL, n = 2, 
+#' ## calculate 2 leading modes
+#' nh_modes <- eot(x = gph, y = NULL, n = 2, 
 #'                 standardised = FALSE, 
 #'                 verbose = TRUE)
 #' 
-#' plot(nh_modes, y = 1, show.bp = TRUE)
-#' plot(nh_modes, y = 2, show.bp = TRUE)
+# plot(nh_modes, y = 1, show.bp = TRUE)
+# plot(nh_modes, y = 2, show.bp = TRUE)
 #' }
+#' 
 #' @export
-#' @name eot
-#' @rdname eot
-#' @aliases eot,RasterStackBrick-method
-
-# set methods -------------------------------------------------------------
-
-setMethod('eot', signature(x = 'RasterStackBrick'), 
-          function(x, 
-                   y = NULL, 
-                   n = 1, 
-                   standardised = TRUE, 
-                   write.out = FALSE,
-                   path.out = ".", 
-                   prefix = "remote",
-                   reduce.both = FALSE, 
-                   type = c("rsq", "ioa"),
-                   verbose = TRUE,
-                   ...) {
-            
-            # Duplicate predictor set in case predictor and response are identical
-            if (is.null(y)) {
-              y <- x  
-            }
-            
-            orig.var <- calcVar(y, standardised = standardised)
-            
-            ### EOT
-            
-            # Loop through number of desired EOTs
-            for (z in 1:n) {
-              
-              # Use initial response data set in case of first iteration
-              if (z == 1) {
-                
-                x.eot <- EotCycle(x = x, 
-                                  y = y,
-                                  n = z, 
-                                  type = type,
-                                  standardised = standardised, 
-                                  orig.var = orig.var,
-                                  write.out = write.out,
-                                  path.out = path.out, 
-                                  verbose = verbose,
-                                  prefix = prefix)
-                
-                names(x.eot) <- paste("mode_", sprintf("%02.f", z), 
-                                      sep = "")
-                
-                # Use last entry of slot 'residuals' otherwise  
-              } else if (z > 1) {
-                tmp.x.eot <- EotCycle(
-                  x = if (!reduce.both) {
-                    x
-                  } else {
-                    if (z == 2) {
-                      x.eot@resid_predictor
-                    } else {
-                      x.eot[[z-1]]@resid_predictor
-                    }
-                  }, 
-                  y = if (z == 2) {
-                    x.eot@resid_response 
-                  } else {
-                    x.eot[[z-1]]@resid_response
-                  }, 
-                  # y.eq.x = y.eq.x,
-                  n = z, 
-                  type = type,
-                  standardised = standardised, 
-                  orig.var = orig.var,
-                  write.out = write.out,
-                  path.out = path.out,  
-                  verbose = verbose,
-                  prefix = prefix)
-                
-                if (z == 2) {
-                  x.eot <- list(x.eot, tmp.x.eot)
-                  names(x.eot) <- c(paste("mode_", sprintf("%02.f", 1), 
-                                          sep = ""), 
-                                    paste("mode", sprintf("%02.f", z), 
-                                          sep = "_"))
-                } else {
-                  tmp.names <- names(x.eot)
-                  x.eot <- append(x.eot, list(tmp.x.eot))
-                  names(x.eot) <- c(tmp.names, 
-                                    paste("mode", sprintf("%02.f", z), 
-                                          sep = "_"))
-                }
-              }
-            }
-            
-            if (length(x.eot) == 1) {
-              out <- x.eot
-            } else {
-              out <- new('EotStack', modes = x.eot, names = names(x.eot))
-            }
-            return(out)
-          }
-)
-
-# #' @describeIn eot
-
-# setMethod('eot', signature(x = 'RasterBrick'), 
-#           function(x, 
-#                    y = NULL, 
-#                    n = 1, 
-#                    standardised = TRUE, 
-#                    write.out = FALSE,
-#                    path.out = ".", 
-#                    prefix = "remote",
-#                    reduce.both = FALSE, 
-#                    type = c("rsq", "ioa"),
-#                    verbose = TRUE,
-#                    ...) {
-#             
-#             # Duplicate predictor set in case predictor and response are identical
-#             if (is.null(y)) {
-#               y <- x  
-#               y.eq.x <- TRUE
-#             } else {
-#               y.eq.x <- FALSE
-#             }
-#             
-#             orig.var <- calcVar(y, standardised = standardised)
-#             
-#             ### EOT
-#             
-#             # Loop through number of desired EOTs
-#             for (z in seq(n)) {
-#               
-#               # Use initial response data set in case of first iteration
-#               if (z == 1) {
-#                 
-#                 x.eot <- EotCycle(x = x, 
-#                                   y = y,
-#                                   y.eq.x = y.eq.x,
-#                                   n = z, 
-#                                   type = type,
-#                                   standardised = standardised, 
-#                                   orig.var = orig.var,
-#                                   write.out = write.out,
-#                                   path.out = path.out, 
-#                                   verbose = verbose,
-#                                   prefix = prefix)
-#                 
-#                 names(x.eot) <- paste("mode_", sprintf("%02.f", z), 
-#                                       sep = "")
-#                 
-#                 # Use last entry of slot 'residuals' otherwise  
-#               } else if (z > 1) {
-#                 tmp.x.eot <- EotCycle(
-#                   x = if (!reduce.both) {
-#                     x
-#                   } else {
-#                     if (z == 2) {
-#                       x.eot@resid_predictor
-#                     } else {
-#                       x.eot[[z-1]]@resid_predictor
-#                     }
-#                   }, 
-#                   y = if (z == 2) {
-#                     x.eot@resid_response 
-#                   } else {
-#                     x.eot[[z-1]]@resid_response
-#                   }, 
-#                   y.eq.x = y.eq.x,
-#                   n = z, 
-#                   type = type,
-#                   standardised = standardised, 
-#                   orig.var = orig.var,
-#                   write.out = write.out,
-#                   path.out = path.out,  
-#                   verbose = verbose,
-#                   prefix = prefix)
-#                 
-#                 if (z == 2) {
-#                   x.eot <- list(x.eot, tmp.x.eot)
-#                   names(x.eot) <- c(paste("mode_", sprintf("%02.f", 1), 
-#                                           sep = ""), 
-#                                     paste("mode", sprintf("%02.f", z),
-#                                           sep = "_"))
-#                 } else {
-#                   tmp.names <- names(x.eot)
-#                   x.eot <- append(x.eot, list(tmp.x.eot))
-#                   names(x.eot) <- c(tmp.names, 
-#                                     paste("mode", sprintf("%02.f", z), 
-#                                           sep = "_"))
-#                 }
-#               }
-#             }
-#             
-#             if (length(x.eot) == 1) {
-#               out <- x.eot
-#             } else {
-#               out <- new('EotStack', modes = x.eot, names = names(x.eot))
-#             }
-#             return(out)
-#           }
-# )
-# 
+eot = function(
+  x
+  , y = NULL
+  , n = 1
+  , standardised = TRUE
+  , write.out = FALSE
+  , path.out = "."
+  , prefix = "remote"
+  , reduce.both = FALSE
+  , type = c("rsq", "ioa")
+  , verbose = TRUE
+  , ... # TODO: pass to `writeEot()` (via `EotCycle()`), e.g. 'filetype'
+) {
+  
+  type = match.arg(type)
+  
+  x = asSpatRaster(x)
+  y = asSpatRaster(y) # returns `NULL` unaltered
+  
+  ## duplicate predictor set in case predictor and response are identical
+  if (is.null(y)) {
+    y <- x  
+  }
+  
+  orig.var <- calcVar(y, standardised = standardised)
+  
+  ## loop through number of desired eots
+  for (z in 1:n) {
+    
+    # use initial response data set in case of first iteration
+    if (z == 1) {
+      
+      x.eot <- EotCycle(
+        x = x
+        , y = y
+        , n = z
+        , type = type
+        , standardised = standardised
+        , orig.var = orig.var
+        , write.out = write.out
+        , path.out = path.out
+        , verbose = verbose
+        , prefix = prefix
+      )
+      
+      names(x.eot) <- sprintf("mode_%02d", z)
+      next
+      
+    }
+    
+    # use last entry of slot 'residuals' otherwise
+    tmp.x.eot <- EotCycle(
+      x = if (!reduce.both) {
+        x
+      } else {
+        if (z == 2) {
+          x.eot@resid_predictor
+        } else {
+          x.eot[[z-1]]@resid_predictor
+        }
+      }, 
+      y = if (z == 2) {
+        x.eot@resid_response 
+      } else {
+        x.eot[[z-1]]@resid_response
+      }, 
+      # y.eq.x = y.eq.x,
+      n = z, 
+      type = type,
+      standardised = standardised, 
+      orig.var = orig.var,
+      write.out = write.out,
+      path.out = path.out,  
+      verbose = verbose,
+      prefix = prefix
+    )
+    
+    if (z == 2) {
+      x.eot <- list(x.eot, tmp.x.eot)
+      names(x.eot) <- sprintf("mode_%02d", c(1, z))
+    } else {
+      tmp.names <- names(x.eot)
+      x.eot <- append(x.eot, list(tmp.x.eot))
+      names(x.eot) <- c(
+        tmp.names
+        , sprintf("mode_%02d", z)
+      )
+    }
+  }
+  
+  if (length(x.eot) == 1) {
+    out <- x.eot
+  } else {
+    out <- new('EotStack', modes = x.eot, names = names(x.eot))
+  }
+  return(out)
+}

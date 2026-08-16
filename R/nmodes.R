@@ -1,32 +1,19 @@
-if (!isGeneric('nmodes')) {
-  setGeneric('nmodes', function(x, ...)
-    standardGeneric('nmodes')) 
-}
-
-#' Number of modes of an EotStack
+#' Number of modes of an `EotStack`
 #' 
-#' @param x an EotStack
+#' @description
+#' Retrieves the number of modes of an `EotStack`.
 #' 
-#' @details
-#' retrieves the number of modes of an EotStack
+#' @param x An `EotStack`.
 #' 
 #' @return
-#' integer
+#' The number of modes as `integer`.
 #' 
 #' @examples
-#' data(vdendool)
-#' 
-#' nh_modes <- eot(vdendool, n = 2)
-#' 
+#' gph = terra::unwrap(vdendool)
+#' nh_modes = eot(gph, n = 2)
 #' nmodes(nh_modes)
 #' 
 #' @export
-#' @name nmodes
-#' @rdname nmodes
-#' @aliases nmodes,EotStack-method
-
-setMethod('nmodes', signature(x = 'EotStack'), 
-          function(x) { 
-            length(x@modes)
-          }
-)
+nmodes = function(x) { 
+  length(x@modes)
+}

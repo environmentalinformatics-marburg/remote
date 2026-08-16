@@ -8,27 +8,28 @@
 \S4method{nXplain}{EotStack}(x, var = 0.9)
 }
 \arguments{
-\item{x}{an \emph{EotStack}}
+\item{x}{An \code{EotStack}.}
 
-\item{var}{the minimum amount of variance to be explained by the modes}
+\item{var}{The minimum amount of variance to be explained by the modes as
+\code{numeric}, defaults to \code{0.9}.}
 }
 \value{
-an integer denoting the number of EOTs needed to explain \code{var}
+The number of EOTs needed to explain 'var'.
 }
 \description{
-The function identifies the number of modes needed to explain a certain amount of
-variance within the response field.
+The function identifies the number of modes needed to explain a certain
+amount of variance within the response field.
 }
 \note{
-This is a post-hoc function. It needs an \emph{EotStack}
-created as returned by \code{\link[=eot]{eot()}}. Depending on the potency
-of the identified EOTs, it may be necessary to compute a high number of
-modes in order to be able to explain a large enough part of the variance.
+This is a post-hoc function. It needs an \code{EotStack} created as returned
+by \code{\link[=eot]{eot()}}. Depending on the potency of the identified EOTs, it may be
+necessary to compute a high number of modes in order to be able to explain
+a large enough part of the variance.
 }
 \examples{
-data(vdendool)
+gph <- terra::unwrap(vdendool)
 
-nh_modes <- eot(x = vdendool, y = NULL, n = 3, 
+nh_modes <- eot(x = gph, y = NULL, n = 3, 
                 standardised = FALSE, 
                 verbose = TRUE)
              

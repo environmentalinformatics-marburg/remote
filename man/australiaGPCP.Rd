@@ -5,12 +5,16 @@
 \alias{australiaGPCP}
 \title{Monthly GPCP precipitation data for Australia}
 \format{
-a RasterBrick with the following attributes\cr
-\cr
-dimensions  : 12, 20, 240, 348  (nrow, ncol, ncell, nlayers)\cr
-resolution  : 2.5, 2.5  (x, y)\cr
-extent      : 110, 160, -40, -10  (xmin, xmax, ymin, ymax)\cr
-coord. ref. : +proj=longlat +ellps=WGS84 +towgs84=0,0,0,0,0,0,0 +no_defs\cr
+A \code{PackedSpatRaster} with the following attributes:\cr
+
+\if{html}{\out{<div class="sourceCode sh">}}\preformatted{size        : 12, 20, 348  (nrow, ncol, nlyr)
+resolution  : 2.5, 2.5  (x, y)
+extent      : 110, 160, -40, -10  (xmin, xmax, ymin, ymax)
+coord. ref. : +proj=longlat +ellps=WGS84 +towgs84=0,0,0,0,0,0,0 +no_defs
+}\if{html}{\out{</div>}}
+}
+\usage{
+australiaGPCP
 }
 \description{
 Monthly Gridded Precipitation Climatology Project precipitation data
@@ -19,6 +23,9 @@ for Australia from 1982/01 to 2010/12
 \details{
 Monthly Gridded Precipitation Climatology Project precipitation data
 for Australia from 1982/01 to 2010/12
+}
+\examples{
+terra::unwrap(australiaGPCP)
 }
 \references{
 The Version-2 Global Precipitation Climatology Project (GPCP) Monthly Precipitation Analysis (1979 - Present)\cr

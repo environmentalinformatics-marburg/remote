@@ -1,3 +1,18 @@
+# remote 1.2.3.9012 (2026-08-16)
+
+#### ✨ features and improvements
+
+  * `anomalize()` fails gracefully if 'reference' is not a raster object, and 
+    uses the 1st layer (with a warning) if a multi-layer object is supplied.
+  * `denoise()` fails gracefully if neither 'expl.var' nor 'k' are supplied.
+
+#### 🐛 bug fixes
+
+#### 💬 documentation etc
+
+#### 🍬 miscellaneous
+
+
 # remote 1.2.3 (2025-04-12)
 
 #### 💬 documentation etc

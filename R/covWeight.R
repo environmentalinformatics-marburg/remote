@@ -1,19 +1,22 @@
 #' Create a weighted covariance matrix
 #' 
-#' @param m a matrix (e.g. as returned by [raster::getValues()])
-#' @param weights a numeric vector of weights. For lat/lon data this 
-#' can be produced with [getWeights()]
-#' @param ... additional arguments passed to [stats::cov.wt()]
+#' @param m A `matrix`, e.g. as returned by [terra::values()].
+#' @param weights A `numeric` vector of weights. For lat/lon data this can be 
+#'   produced with [getWeights()].
+#' @param ... Additional arguments passed to [stats::cov.wt()]
 #' 
 #' @return
-#' see [stats::cov.wt()]
+#' See [stats::cov.wt()].
 #' 
-#' @seealso
-#' [stats::cov.wt()]
-#' 
-#' @export covWeight
+#' @export
 covWeight <- function(m, weights, ...) {
   
-  cov.wt(na.exclude(m), weights, cor = TRUE, ...)
+  # TODO: `SpatRaster` method
+  stats::cov.wt(
+    stats::na.exclude(m)
+    , weights
+    , cor = TRUE
+    , ...
+  )
   
 }

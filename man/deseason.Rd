@@ -2,47 +2,45 @@
 % Please edit documentation in R/deseason.R
 \name{deseason}
 \alias{deseason}
-\alias{deseason,RasterStackBrick-method}
+\alias{deseason,SpatRaster-method}
 \alias{deseason,numeric-method}
 \title{Create seasonal anomalies}
 \usage{
-\S4method{deseason}{RasterStackBrick}(x, cycle.window = 12L, use.cpp = FALSE, filename = "", ...)
+\S4method{deseason}{SpatRaster}(x, cycle.window = 12L, use.cpp = FALSE, filename = "", ...)
 
 \S4method{deseason}{numeric}(x, cycle.window = 12L)
 }
 \arguments{
-\item{x}{An \verb{Raster*} object or, alternatively, a \code{numeric} time
-series.}
+\item{x}{A \code{SpatRaster} (or \verb{Raster*}) object or, alternatively, a \code{numeric}
+time series.}
 
-\item{cycle.window}{\code{integer}, defaults to \code{12}. The window for the
-creation of the anomalies.}
+\item{cycle.window}{\code{integer}, defaults to \code{12}. The window for the creation
+of the anomalies.}
 
-\item{use.cpp}{\code{logical}, defaults to \code{FALSE}. Determines whether
-or not to use \strong{Rcpp} functionality. Only applies if \code{x} is a
-\verb{Raster*} object.}
+\item{use.cpp}{\code{logical}, defaults to \code{FALSE}. Determines whether or not to
+use \strong{Rcpp} functionality. Only applies if \code{x} is a raster object.}
 
 \item{filename}{\code{character}. Output filename (optional).}
 
-\item{...}{Additional arguments passed on to \code{\link[raster:writeRaster]{raster::writeRaster()}}, only
-considered if \code{filename} is specified.}
+\item{...}{Additional arguments passed to \code{\link[terra:writeRaster]{terra::writeRaster()}}. Only
+considered if 'filename' is specified.}
 }
 \value{
-If \code{x} is a \verb{Raster*} object, a deseasoned
-\code{RasterStack}; else a deseasoned \code{numeric} vector.
+If 'x' is a raster object, a deseasoned \code{SpatRaster}; else a
+deseasoned \code{numeric} vector.
 }
 \description{
-The function calculates anomalies of a RasterStack by supplying a
-suitable seasonal window. E. g. to create monthly anomalies of a
+The function calculates anomalies of a raster object by
+supplying a suitable seasonal window. E.g. to create monthly anomalies of a
 raster stack of 12 layers per year, use \code{cycle.window = 12}.
 }
 \examples{
-data("australiaGPCP")
+pcp = terra::unwrap(australiaGPCP)
+pcp_dsn = deseason(pcp, cycle.window = 12)
 
-aus_dsn <- deseason(australiaGPCP, 12)
-
-opar <- par(mfrow = c(1,2))
-plot(australiaGPCP[[1]], main = "original")
-plot(aus_dsn[[1]], main = "deseasoned")
+opar = par(mfrow = c(1, 2))
+plot(pcp[[1]], main = "original")
+plot(pcp_dsn[[1]], main = "deseasoned")
 par(opar)
 }
 \seealso{

@@ -22,30 +22,30 @@ Class EotMode
 
 \item{\code{cum_exp_var}}{the cumulative explained variance of the considered EOT mode}
 
-\item{\code{r_predictor}}{the RasterLayer of the correlation coefficients between the base point and each pixel of the predictor domain}
+\item{\code{r_predictor}}{\code{SpatRaster} of the correlation coefficients between the base point and each pixel of the predictor domain}
 
 \item{\code{rsq_predictor}}{as above but for the coefficient of determination of the predictor domain}
 
 \item{\code{rsq_sums_predictor}}{as above but for the sums of coefficient of determination of the predictor domain}
 
-\item{\code{int_predictor}}{the RasterLayer of the intercept of the regression equation for each pixel of the predictor domain}
+\item{\code{int_predictor}}{\code{SpatRaster} of the intercept of the regression equation for each pixel of the predictor domain}
 
-\item{\code{slp_predictor}}{same as above but for the slope of the regression equation for each pixel of the predictor domain}
+\item{\code{slp_predictor}}{as above but for the slope of the regression equation for each pixel of the predictor domain}
 
-\item{\code{p_predictor}}{the RasterLayer of the significance (p-value) of the the regression equation for each pixel of the predictor domain}
+\item{\code{p_predictor}}{\code{SpatRaster} of the significance (p-value) of the regression equation for each pixel of the predictor domain}
 
-\item{\code{resid_predictor}}{the RasterBrick of the reduced data for the predictor domain}
+\item{\code{resid_predictor}}{\code{SpatRaster} of the reduced data for the predictor domain}
 
-\item{\code{r_response}}{the RasterLayer of the correlation coefficients between the base point and each pixel of the response domain}
+\item{\code{r_response}}{\code{SpatRaster} of the correlation coefficients between the base point and each pixel of the response domain}
 
 \item{\code{rsq_response}}{as above but for the coefficient of determination of the response domain}
 
-\item{\code{int_response}}{the RasterLayer of the intercept of the regression equation for each pixel of the response domain}
+\item{\code{int_response}}{\code{SpatRaster} of the intercept of the regression equation for each pixel of the response domain}
 
 \item{\code{slp_response}}{as above but for the slope of the regression equation for each pixel of the response domain}
 
-\item{\code{p_response}}{same the RasterLayer of the significance (p-value) of the the regression equation for each pixel of the response domain}
+\item{\code{p_response}}{\code{SpatRaster} of the significance (p-value) of the regression equation for each pixel of the response domain}
 
-\item{\code{resid_response}}{the RasterBrick of the reduced data for the response domain}
+\item{\code{resid_response}}{\code{SpatRaster} of the reduced data for the response domain}
 }}
 

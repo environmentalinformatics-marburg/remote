@@ -1,61 +1,95 @@
-#' Read \code{Eot}* files from disk
+#' Read `Eot*` files from disk
 #' 
 #' @description 
-#' Read \code{Eot}* related files from disk, e.g. for further use with 
+#' Read `Eot*` related files from disk, e.g. for further use with 
 #' [remote::predict()] or [remote::plot()]. 
 #' 
-#' @param x `character`, search path for \code{Eot}* related files passed 
+#' @param x `character`, search path for `Eot*` related files passed 
 #' to [list.files()]. 
-#' @param prefix `character`, see [writeEot()] for details. 
-#' Should be the same as previously supplied to [eot()]. 
-#' @param suffix `character`, file extension depending on the output file 
-#' type of locally stored \code{Eot}* files, see [raster::writeRaster()].
+#' @param prefix `character`, see [writeEot()] for details. Should be the same 
+#'   'prefix' as used during file creation in [eot()] or [writeEot()].
+#' @param suffix `character`, default `.grd` for native `"RRASTER"` format. File
+#'   extension depending on the output file type of locally stored `Eot*` files.
 #' 
-#' @return An \code{Eot}* object.
+#' @return An `EotMode` if a single mode is found on disk, or an `EotStack` 
+#'   otherwise.
 #' 
-#' @seealso [eot()], [writeEot()], 
-#' [raster::writeRaster()].
+#' @seealso [writeEot()]
 #' 
 #' @author Florian Detsch
 #' 
 #' @examples 
 #' \dontrun{
 #' ## calculate 3 leading modes
-#' data(vdendool)
-#' nh_modes <- eot(x = vdendool, n = 3, standardised = FALSE, 
-#'                 write.out = TRUE, path.out = "~/data")
+#' gph <- terra::unwrap(vdendool)
+#' nh_modes <- eot(x = gph, n = 3, standardised = FALSE, 
+#'                 write.out = TRUE, path.out = tempdir())
 #'                 
 #' ## reimport related files
 #' rm(nh_modes)
-#' nh_modes <- readEot("~/data")
+#' nh_modes <- readEot(tempdir())
 #' nh_modes
 #' }
 #' 
-#' @export readEot
-#' @name readEot
-readEot <- function(x, prefix = "remote", suffix = "grd") {
+#' @export
+readEot <- function(x, prefix = "remote", suffix = ".grd") {
   
   ## identify available files and modes
-  fls_mds <- list.files(x, pattern = paste0(prefix, "_mode.*", suffix), 
-                        full.names = TRUE)
-  mds <- unique(sapply(strsplit(fls_mds, "_"), "[[", 3))
-  
+  fls_mds = list.files(
+    x
+    , pattern = sprintf(
+      "^%s_mode_\\d+_.*_(predictor|response)%s$"
+      , prefix
+      , suffix
+    )
+    , full.names = TRUE
+  )
+
+  mds = regmatches(
+    fls_mds
+    , m = regexpr(
+      "(?<=mode_)\\d+"
+      , fls_mds
+      , perl = TRUE
+    )
+  )
+
+  mds = unique(mds)
+
   ## import locations and explained variance related to leading modes
-  dat_mds <- list.files(x, paste0(prefix, "_eot_locations.csv"), 
-                        full.names = TRUE)
-  dat_mds <- utils::read.csv(dat_mds)
+  # TODO: `.csv` file is only created in `eot()`, not in `writeEot()`
+  fl_mds = list.files(
+    x
+    , sprintf(
+      "^%s_eot_locations\\.csv$"
+      , prefix
+    )
+    , full.names = TRUE
+  )
+
+  dat_mds = utils::read.csv(fl_mds)
 
   ## loop over modes, creating 'EotMode' objects for each mode available
   lst_eot <- lapply(mds, function(n) {
     
     # track and reorder files related to current mode
-    fls <- fls_mds[grep(paste0("mode_", n), basename(fls_mds))]
-    ids <- sapply(eotLayerNames(), function(j) grep(j, fls))
-    fls <- fls[ids]
+    pttrns = sprintf(
+      "mode_%s%s"
+      , n
+      , eotLayerNames()
+    )
+
+    fls = vapply(
+      pttrns
+      , FUN = grep
+      , FUN.VALUE = character(1L)
+      , x = fls_mds
+      , value = TRUE
+    )
     
     # import files
     lst <- lapply(1:length(fls), function(j) {
-      if (j %in% c(7, 13)) raster::brick(fls[j]) else raster::raster(fls[j])
+      terra::rast(fls[j])
     })
     
     # create 'EotMode' object
@@ -82,16 +116,15 @@ readEot <- function(x, prefix = "remote", suffix = "grd") {
         p_response = lst[[12]],
         resid_response = lst[[13]])
   })
-  
-  ## create 'EotStack' objects if more than one leading mode is available
-  if (length(mds) > 1) {
-    names(lst_eot) <- sapply(lst_eot, function(i) i@name)
-    new('EotStack', modes = lst_eot, names = names(lst_eot))
-  
-  ## else return 'EotMode' object    
-  } else {
-    lst_eot[[1]]
+
+  ## for a single leading mode, return `EotMode`
+  if (length(mds) == 1L) {
+    return(lst_eot[[1L]])
   }
+  
+  ## else create an `EotStack` if more than one leading mode is available
+  names(lst_eot) <- vapply(lst_eot, slot, character(1L), "name")
+  new('EotStack', modes = lst_eot, names = names(lst_eot))
 }
 
 # function to create patterns of required raster* files

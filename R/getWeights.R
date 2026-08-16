@@ -1,31 +1,47 @@
 #' Calculate weights from latitude
 #' 
-#' Calculate weights using the cosine of latitude to compensate for area 
-#' distortion of non-projected lat/lon data
+#' @description Calculate weights using the cosine of latitude to compensate for
+#'   area distortion of non-projected lat/lon data.
 #' 
-#' @param x a Raster* object
-#' @param f a function to be used to the weighting.
-#' Defaults to \code{cos(x)}
-#' @param ... additional arguments to be passed to f
+#' @param x A non-projected `SpatRaster` (or `Raster*`) object.
+#' @param f A `function` applied to the latitude (in radians) to compute 
+#'   weights. Defaults to `cos`.
+#' @param ... Additional arguments passed to 'f'.
 #' 
-#' @return a numeric vector of weights
+#' @return A `numeric` vector of weights for non-`NA` cells in 'x'.
 #' 
 #' @examples 
-#' data("australiaGPCP")
-#' wghts <- getWeights(australiaGPCP)
-#' wghts_rst <- australiaGPCP[[1]]
-#' wghts_rst[] <- wghts
+#' pcp = terra::unwrap(australiaGPCP)
 #' 
-#' opar <- par(mfrow = c(1,2))
-#' plot(australiaGPCP[[1]], main = "data")
+#' wghts = getWeights(pcp)
+#' utils::head(wghts)
+#' 
+#' wghts_rst = terra::setValues(pcp[[1]], wghts)
+#' 
+#' opar = par(mfrow = c(1,2))
+#' plot(pcp[[1]], main = "data")
 #' plot(wghts_rst, main = "weights")
 #' par(opar)
 #' 
-#' @export getWeights
-getWeights <- function(x, 
-                       f = function(x) cos(x),
-                       ...) {
+#' @export
+getWeights = function(
+  x
+  , f = cos
+  , ...
+) {
   
-  f(deg2rad(sp::coordinates(x)[, 2][!is.na(x[[1]][])]), ...)
+  # TODO: 
+  # * what happens in the presence of `NA` values (length of weights vector is
+  #   not a multiple of `ncell(x)`)? Use `na.all = TRUE` to account for all 
+  #   layers in 'x', not just first?
+  # * test for epsg:4326
+  x = asSpatRaster(x)
 
+  f(
+    deg2rad(
+      terra::crds(x, na.rm = TRUE)[, 2L]
+    )
+    , ...
+  )
+  
 }

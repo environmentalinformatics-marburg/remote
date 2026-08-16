@@ -1,18 +1,14 @@
 
 
-setMethod ('print', 'EotMode', 
+methods::setMethod ('print', 'EotMode', 
            function(x, ...) {
-             if (inherits(x, 'EotMode')) {
-               show(x)
-             }
+             show(x)
            }
 )
 
 
-setMethod ('print', 'EotStack', 
+methods::setMethod ('print', 'EotStack', 
            function(x, ...) {
-             if (inherits(x, 'EotStack')) {
-               show(x)
-             }
+             show(x)
            }
 )

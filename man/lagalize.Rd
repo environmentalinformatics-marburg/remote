@@ -2,36 +2,37 @@
 % Please edit documentation in R/lagalize.R
 \name{lagalize}
 \alias{lagalize}
-\title{Create lagged RasterStacks}
+\title{Create lagged raster series}
 \usage{
-lagalize(x, y, lag = NULL, freq = 12, ...)
+lagalize(x, y, lag = NULL, freq = 12L, ...)
 }
 \arguments{
-\item{x}{a RasterStack (to be cut from tail)}
+\item{x}{A \code{SpatRaster} (or \verb{Raster*}) series to be cut from tail.}
 
-\item{y}{a RasterStack (to be cut from beginning)}
+\item{y}{A \code{SpatRaster} (or \verb{Raster*}) series to be cut from beginning.}
 
-\item{lag}{the desired lag (in the native frequency of the RasterStack)}
+\item{lag}{The desired lag in the native frequency of the series passed to
+\code{\link[=cutStack]{cutStack()}}.}
 
-\item{freq}{the frequency of the RasterStacks}
+\item{freq}{The frequency of the raster series as \code{integer}.}
 
-\item{...}{currently not used}
+\item{...}{Currently not used.}
 }
 \value{
-a list with the two RasterStacks lagged by \code{lag}
+A \code{list} with the two raster series lagged by 'lag'.
 }
 \description{
-The function is used to produce two lagged RasterStacks. The second is cut
+The function is used to produce two lagged raster series. The second is cut
 from the beginning, the first from the tail to ensure equal output lengths
 (provided that input lengths were equal).
 }
 \examples{
-data(pacificSST)
-data(australiaGPCP)
+sst = terra::unwrap(pacificSST)
+pcp = terra::unwrap(australiaGPCP)
 
 # lag GPCP by 4 months
-lagged <- lagalize(pacificSST, australiaGPCP, lag = 4, freq = 12)
-lagged[[1]][[1]] #check names to see date of layer
-lagged[[2]][[1]] #check names to see date of layer
+lagged = lagalize(sst, pcp, lag = 4, freq = 12)
+lagged[[1]][[1]] # check names to see date of layer
+lagged[[2]][[1]] # -"-
 
 }

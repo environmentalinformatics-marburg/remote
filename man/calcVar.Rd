@@ -2,26 +2,28 @@
 % Please edit documentation in R/calcVar.R
 \name{calcVar}
 \alias{calcVar}
-\title{Calculate space-time variance of a RasterStack or RasterBrick}
+\title{Calculate space-time variance of a raster series}
 \usage{
 calcVar(x, standardised = FALSE, ...)
 }
 \arguments{
-\item{x}{a RasterStack or RasterBrick}
+\item{x}{A \code{SpatRaster} (or \verb{Raster*}) series.}
 
-\item{standardised}{logical.}
+\item{standardised}{\code{logical}, defaults to \code{FALSE}.}
 
-\item{...}{currently not used}
+\item{...}{Currently not used.}
 }
 \value{
-the mean (optionally standardised) space-time variance.
+The mean (optionally standardised) space-time variance as \code{numeric}.
 }
 \description{
 The function calculates the (optionally standardised) space-time
-variance of a RasterStack or RasterBrick.
+variance of a raster series.
 }
 \examples{
-data("pacificSST")
+sst = terra::unwrap(pacificSST)
 
-calcVar(pacificSST)
+calcVar(sst) # default non-standardised
+calcVar(sst, standardised = TRUE)
+
 }

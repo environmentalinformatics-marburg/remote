@@ -4,31 +4,26 @@
 \alias{geoWeight}
 \title{Geographic weighting}
 \usage{
-geoWeight(x, f = function(x) cos(x), ...)
+geoWeight(x, f = cos, ...)
 }
 \arguments{
-\item{x}{a Raster* object}
-
-\item{f}{a function to be used to the weighting.
-Defaults to \code{cos(x)}}
-
-\item{...}{additional arguments to be passed to f}
+\item{x, f, ...}{See \code{\link[=getWeights]{getWeights()}}.}
 }
 \value{
-a weighted Raster* object
+A weighted \code{SpatRaster}.
 }
 \description{
-The function performs geographic weighting of non-projected long/lat
-data. By default it uses the cosine of latitude to compensate for the
-area distortion, though the user can supply other functions via \code{f}.
+The function performs geographic weighting of non-projected long/lat data. By
+default it uses the cosine of latitude (in radians) to compensate for the
+area distortion, though the user can supply other weighting functions.
 }
 \examples{
-data(vdendool)
-
-wgtd <- geoWeight(vdendool)
+gph <- terra::unwrap(vdendool)
+wgtd <- geoWeight(gph)
 
 opar <- par(mfrow = c(1,2))
-plot(vdendool[[1]], main = "original")
+plot(gph[[1]], main = "original")
 plot(wgtd[[1]], main = "weighted")
 par(opar)
+
 }

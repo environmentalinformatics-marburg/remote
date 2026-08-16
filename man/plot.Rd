@@ -69,7 +69,7 @@ predictor and response fields}
 produce a map showing the locations of all modes. Ignored if x is an
 EotMode}
 
-\item{...}{further arguments to be passed to \code{\link[raster:spplot]{raster::spplot()}}}
+\item{...}{further arguments to be passed to \code{\link[sp:spplot]{sp::spplot()}}}
 }
 \description{
 This is the standard plotting routine for the results of \code{\link[=eot]{eot()}}.
@@ -82,10 +82,10 @@ domain, iii) the time series at the identified base point
 
 }}
 \examples{
-data(vdendool)
+gph <- terra::unwrap(vdendool)
 
-## claculate 2 leading modes
-nh_modes <- eot(x = vdendool, y = NULL, n = 2, 
+## calculate 2 leading modes
+nh_modes <- eot(x = gph, y = NULL, n = 2, 
                 standardised = FALSE, 
                 verbose = TRUE)
 
@@ -98,8 +98,8 @@ plot(nh_modes[[1]])
 plot(nh_modes, y = 2) # shows variance explained by mode 2 only
 plot(nh_modes[[2]]) # shows cumulative variance explained by modes 1 & 2
 
-## showing the loction of the mode
-plot(nh_modes, y = 1, show.bp = TRUE)
+## showing the location of the mode but without map overlay
+plot(nh_modes, y = 1, show.bp = TRUE, add.map = FALSE)
 
 ## changing parameters
 plot(nh_modes, y = 1, show.bp = TRUE,

@@ -5,22 +5,29 @@
 \alias{vdendool}
 \title{Mean seasonal (DJF) 700 mb geopotential heights}
 \format{
-a RasterBrick with the following attributes\cr
-\cr
-dimensions  : 14, 36, 504, 50  (nrow, ncol, ncell, nlayers)\cr
-resolution  : 10, 4.931507  (x, y)\cr
-extent      : -180, 180, 20.9589, 90  (xmin, xmax, ymin, ymax)\cr
-coord. ref. : +proj=longlat +datum=WGS84 +ellps=WGS84 +towgs84=0,0,0\cr
+A \code{PackedSpatRaster} with the following attributes:\cr
+
+\if{html}{\out{<div class="sourceCode sh">}}\preformatted{size        : 14, 36, 50  (nrow, ncol, nlyr)
+resolution  : 10, 5  (x, y)
+extent      : -180, 180, 20, 90  (xmin, xmax, ymin, ymax)
+coord. ref. : +proj=longlat +datum=WGS84 +no_defs
+}\if{html}{\out{</div>}}
 }
 \source{
 \url{https://psl.noaa.gov/data/gridded/data.ncep.reanalysis.derived.pressure.html}\cr
 \emph{Original Source:} NOAA National Center for Environmental Prediction
+}
+\usage{
+vdendool
 }
 \description{
 NCEP/NCAR reanalysis data of mean seasonal (DJF) 700 mb geopotential heights from 1948 to 1998
 }
 \details{
 NCEP/NCAR reanalysis data of mean seasonal (DJF) 700 mb geopotential heights from 1948 to 1998
+}
+\examples{
+terra::unwrap(vdendool)
 }
 \references{
 The NCEP/NCAR 40-year reanalysis project\cr

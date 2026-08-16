@@ -15,9 +15,9 @@ if (!isGeneric('names')) {
 #' if \code{x} is a EotMode, the name the respective mode
 #' 
 #' @examples
-#' data(vdendool)
+#' gph <- terra::unwrap(vdendool)
 #' 
-#' nh_modes <- eot(vdendool, n = 2)
+#' nh_modes <- eot(gph, n = 2)
 #' 
 #' ## mode names
 #' names(nh_modes)

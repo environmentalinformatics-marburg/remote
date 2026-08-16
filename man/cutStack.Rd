@@ -2,33 +2,34 @@
 % Please edit documentation in R/cutStack.R
 \name{cutStack}
 \alias{cutStack}
-\title{Shorten a RasterStack}
+\title{Shorten a raster series}
 \usage{
 cutStack(x, tail = TRUE, n = NULL)
 }
 \arguments{
-\item{x}{a RasterStack}
+\item{x}{A \code{SpatRaster} (or \verb{Raster*}) series.}
 
-\item{tail}{logical. If \code{TRUE} the layers will be taken off
+\item{tail}{\code{logical}. If \code{TRUE} (default) the layers will be taken off
 the end of the stack. If \code{FALSE} layers will be taken off
 the beginning.}
 
-\item{n}{the number of layers to take away.}
+\item{n}{The number of layers to take away as \code{integer}. If \code{NULL} (default),
+'x' is returned unchanged.}
 }
 \value{
-a RasterStack shortened by \code{n} layers either from the
-beginning or the end, depending on the specification of \code{tail}
+A \code{SpatRaster} series shortened by 'n' layers either from the
+beginning or the end, depending on the specification of 'tail'.
 }
 \description{
-The function cuts a specified number of layers off a RrasterStack in
-order to create lagged RasterStacks.
+The function cuts a specified number of layers off a raster
+series in order to create a lagged stack.
 }
 \examples{
-data(australiaGPCP)
+pcp = terra::unwrap(australiaGPCP)
 
 # 6 layers from the beginning
-cutStack(australiaGPCP, tail = FALSE, n = 6)
+cutStack(pcp, tail = FALSE, n = 6)
 # 8 layers from the end
-cutStack(australiaGPCP, tail = TRUE, n = 8)
+cutStack(pcp, tail = TRUE, n = 8)
 
 }

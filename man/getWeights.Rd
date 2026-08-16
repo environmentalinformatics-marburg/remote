@@ -4,31 +4,33 @@
 \alias{getWeights}
 \title{Calculate weights from latitude}
 \usage{
-getWeights(x, f = function(x) cos(x), ...)
+getWeights(x, f = cos, ...)
 }
 \arguments{
-\item{x}{a Raster* object}
+\item{x}{A non-projected \code{SpatRaster} (or \verb{Raster*}) object.}
 
-\item{f}{a function to be used to the weighting.
-Defaults to \code{cos(x)}}
+\item{f}{A \code{function} applied to the latitude (in radians) to compute
+weights. Defaults to \code{cos}.}
 
-\item{...}{additional arguments to be passed to f}
+\item{...}{Additional arguments passed to 'f'.}
 }
 \value{
-a numeric vector of weights
+A \code{numeric} vector of weights for non-\code{NA} cells in 'x'.
 }
 \description{
-Calculate weights using the cosine of latitude to compensate for area
-distortion of non-projected lat/lon data
+Calculate weights using the cosine of latitude to compensate for
+area distortion of non-projected lat/lon data.
 }
 \examples{
-data("australiaGPCP")
-wghts <- getWeights(australiaGPCP)
-wghts_rst <- australiaGPCP[[1]]
-wghts_rst[] <- wghts
+pcp = terra::unwrap(australiaGPCP)
 
-opar <- par(mfrow = c(1,2))
-plot(australiaGPCP[[1]], main = "data")
+wghts = getWeights(pcp)
+utils::head(wghts)
+
+wghts_rst = terra::setValues(pcp[[1]], wghts)
+
+opar = par(mfrow = c(1,2))
+plot(pcp[[1]], main = "data")
 plot(wghts_rst, main = "weights")
 par(opar)
 

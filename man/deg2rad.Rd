@@ -7,20 +7,34 @@
 deg2rad(deg)
 }
 \arguments{
-\item{deg}{vector of degrees to be converted to radians}
+\item{deg}{A series of degrees to be converted to radians.}
+}
+\value{
+A vector of radians.
 }
 \description{
-Convert degrees to radians
+Converts a series of degrees to radians.
 }
 \examples{
-data(vdendool)
-
 ## latitude in degrees
-degrees <- coordinates(vdendool)[, 2]
+gph = terra::unwrap(vdendool)
+
+degrees = terra::crds(gph)[, 2]
 head(degrees)
 
 ## latitude in radians
-radians <- deg2rad(coordinates(vdendool)[, 2])
+radians = deg2rad(degrees)
 head(radians)
+
+## `SpatRaster` input, e.g. useful for topographic operations
+tmp = gph[[1L]]
+terra::values(tmp) = degrees
+
+tmp_rad = deg2rad(tmp)
+
+opar = par(mfrow = c(1, 2))
+plot(tmp, main = "lat (degrees)")
+plot(tmp_rad, main = "lat (radians)")
+par(opar)
 
 }

@@ -2,28 +2,22 @@
 % Please edit documentation in R/nmodes.R
 \name{nmodes}
 \alias{nmodes}
-\alias{nmodes,EotStack-method}
-\title{Number of modes of an EotStack}
+\title{Number of modes of an \code{EotStack}}
 \usage{
-\S4method{nmodes}{EotStack}(x)
+nmodes(x)
 }
 \arguments{
-\item{x}{an EotStack}
+\item{x}{An \code{EotStack}.}
 }
 \value{
-integer
+The number of modes as \code{integer}.
 }
 \description{
-Number of modes of an EotStack
-}
-\details{
-retrieves the number of modes of an EotStack
+Retrieves the number of modes of an \code{EotStack}.
 }
 \examples{
-data(vdendool)
-
-nh_modes <- eot(vdendool, n = 2)
-
+gph = terra::unwrap(vdendool)
+nh_modes = eot(gph, n = 2)
 nmodes(nh_modes)
 
 }

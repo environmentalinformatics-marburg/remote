@@ -1,17 +1,17 @@
-#' Calculate long-term means from a 'RasterStack'
+#' Calculate long-term means from a raster series
 #' 
 #' @description 
-#' Calculate long-term means from an input 'RasterStack' (or 'RasterBrick') 
-#' object. Ideally, the number of input layers should be divisable by the 
-#' supplied \code{cycle.window}. For instance, if \code{x} consists of monthly 
-#' layers, \code{cycle.window} should be a multiple of 12.
+#' Calculate long-term means from an input raster series. Ideally, the number of
+#' input layers should be divisable by the supplied 'cycle.window'. For 
+#' instance, if 'x' consists of monthly layers, 'cycle.window' should be a 
+#' multiple of `12`.
 #' 
-#' @param x A 'RasterStack' (or 'RasterBrick') object.
-#' @param cycle.window 'integer'. See [deseason()].
+#' @param x A `SpatRaster` (or `Raster*`) series.
+#' @param cycle.window `integer`, defaults to `12`. See [deseason()].
 #' 
 #' @return
-#' If \code{cycle.window} equals \code{nlayers(x)} (which obviously doesn't make 
-#' much sense), a 'RasterLayer' object; else a 'RasterStack' object.
+#' A `SpatRaster` with 'cycle.window' layers, each containing the mean across 
+#' all corresponding time steps.
 #' 
 #' @author 
 #' Florian Detsch
@@ -20,24 +20,27 @@
 #' [deseason()]. 
 #' 
 #' @examples 
-#' data("australiaGPCP")
+#' pcp = terra::unwrap(australiaGPCP)
 #' 
-#' longtermMeans(australiaGPCP)
+#' longtermMeans(pcp)
 #' 
-#' @export longtermMeans
-#' @name longtermMeans
-longtermMeans <- function(x, cycle.window = 12L) {
-
-  ## raster to matrix  
-  mat <- raster::as.matrix(x)
+#' @export
+longtermMeans = function(x, cycle.window = 12L) {
   
-  ## long-term means
-  mat_ltm <- monthlyMeansC(mat, 12)
+  x = asSpatRaster(x)
   
   ## insert values
-  rst_ltm <- x[[1:(raster::nlayers(x) / cycle.window)]]
-  rst_ltm <- raster::setValues(rst_ltm, NA)
+  idx = rep(
+    1:cycle.window
+    , times = terra::nlyr(x) / cycle.window
+  )
   
-  rst_ltm <- raster::setValues(rst_ltm, mat_ltm)
+  rst_ltm = terra::tapp(
+    x
+    , index = idx
+    , fun = mean
+    , na.rm = TRUE
+  )
+  
   return(rst_ltm)
 }
