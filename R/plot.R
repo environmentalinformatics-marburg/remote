@@ -61,8 +61,8 @@ if ( !isGeneric('plot') ) {
 #' ## change plot arrangement
 #' plot(nh_modes, y = 1, show.bp = TRUE, arrange = "long") 
 #' 
-# ## plot locations of all base points
-# plot(nh_modes, locations = TRUE)
+#' ## plot locations of all base points
+#' plot(nh_modes, locations = TRUE)
 #' }
 #' 
 #' @export
@@ -228,14 +228,14 @@ setMethod('plot', signature(x = 'EotMode',
             
             # predictor
             plot(ps, legend = "top", maxcell = px.pred, axes = FALSE, box = TRUE, col = clr)
-            polygon(mm180$x, mm180$y, border = "grey20", lwd = 0.5, xpd = FALSE)
+            polygon(mm.pred$x, mm.pred$y, border = "grey20", lwd = 0.5, xpd = FALSE)
             points(xy[, "x"], xy[, "y"], pch = 21, cex = 2, col = "black", bg = "grey80")
             title(main = paste(p.prm, "mode", x@mode, sep = " "))
             
             # response
             plot(rs, legend = "top", maxcell = px.pred, 
                  col = clr, axes = FALSE, box = TRUE)
-            polygon(mm180$x, mm180$y, border = "grey20", lwd = 0.5, xpd = FALSE)
+            polygon(mm.resp$x, mm.resp$y, border = "grey20", lwd = 0.5, xpd = FALSE)
             points(xy[, "x"], xy[, "y"], pch = 21, cex = 2, col = "black", bg = "grey80")
             title(main = paste(r.prm, "mode", x@mode, sep = " "))
             
@@ -323,7 +323,7 @@ setMethod('plot', signature(x = 'EotStack',
                            ...)
               
             } else {
-              plotLocations(x, ...)
+              .plotLocations(x, ...)
             }
             
           }
@@ -499,16 +499,16 @@ setMethod('plot', signature(x = 'EotStack',
 
 
 # define function --------------------------------------------------------
-plotLocations <- function(x, ...) {
+.plotLocations <- function(x, ...) {
   
-  pkgs <- c("lattice", "latticeExtra", "grid", "gridExtra",
-            "RColorBrewer", "maps")
-  tst <- sapply(pkgs, "requireNamespace", 
-                quietly = TRUE, USE.NAMES = FALSE)
+  # pkgs <- c("lattice", "latticeExtra", "grid", "gridExtra",
+  #           "RColorBrewer", "maps")
+  # tst <- sapply(pkgs, "requireNamespace", 
+  #               quietly = TRUE, USE.NAMES = FALSE)
   
-  if (all(tst == TRUE)) {
+  # if (all(tst == TRUE)) {
     
-    try(attachNamespace("gridExtra"), silent = TRUE)
+    # try(attachNamespace("gridExtra"), silent = TRUE)
     try(attachNamespace("maps"), silent = TRUE)
     
     ### plot function
@@ -519,23 +519,11 @@ plotLocations <- function(x, ...) {
                                         cell = x[[i]]@cell_bp)
                                     })))
     
-    loc.df$eot <- paste("EOT", sprintf("%02.f", seq(x)), 
-                        sep = "_")
+    loc.df$eot <- as.factor(paste("mode", sprintf("%02.f", seq(nmodes(x))), 
+                        sep = "_"))
     
     mm <- maps::map("world", plot = FALSE, fill = TRUE)
     px.pred <- terra::ncell(x[[1]]@r_predictor)
-    
-    pred.p <- sp::spplot(x[[1]]@rsq_predictor, 
-                         mm = mm, maxpixels = px.pred,
-                         colorkey = FALSE, 
-                         col.regions = "grey50", 
-                         panel = function(..., mm) {
-                           lattice::panel.levelplot(...)
-                           lattice::panel.polygon(
-                             mm$x, mm$y, lwd = 0.5, 
-                             border = "grey20", 
-                             col = "grey70")
-                         }, ...) 
     
     clrs.hcl <- function(n) {
       hcl(h = seq(270, 0, length.out = n), 
@@ -545,75 +533,95 @@ plotLocations <- function(x, ...) {
     n <- nmodes(x)
     clrs <- clrs.hcl(n)
     
-    points.p <- lattice::xyplot(y ~ x, data = loc.df, col = "black", 
-                                fill = clrs, pch = 21,
-                                cex = 2)
     
-    out <- pred.p + latticeExtra::as.layer(points.p)
+    plot(x[[1]]@rsq_predictor, col = "grey50", legend = FALSE, axes = FALSE, box = TRUE, mar = c(2.1, 2.1, 2.1, 8))
+    polygon(mm$x, mm$y, border = "grey20", col = "grey70", lwd = 0.5, xpd = FALSE)
+    points(loc.df$x, loc.df$y, col = "black", pch = 21, cex = 2, bg = clrs)
+    terra::add_legend("topright", legend = loc.df$eot, pch = 21, pt.bg = clrs,
+               bty = "n", cex = 1.4, xjust = -1, yjust = 1, xpd = TRUE) #box.lwd = 0)
     
-    grid::grid.newpage()
     
-    map.vp <- grid::viewport(x = 0, y = 0, 
-                             height = 1, width = 0.85,
-                             just = c("left", "bottom"))
+    # pred.p <- sp::spplot(x[[1]]@rsq_predictor, 
+    #                      mm = mm, maxpixels = px.pred,
+    #                      colorkey = FALSE, 
+    #                      col.regions = "grey50", 
+    #                      panel = function(..., mm) {
+    #                        lattice::panel.levelplot(...)
+    #                        lattice::panel.polygon(
+    #                          mm$x, mm$y, lwd = 0.5, 
+    #                          border = "grey20", 
+    #                          col = "grey70")
+    #                      }, ...) 
+    # 
+    # points.p <- lattice::xyplot(y ~ x, data = loc.df, col = "black", 
+    #                             fill = clrs, pch = 21,
+    #                             cex = 2)
+    # 
+    # out <- pred.p + latticeExtra::as.layer(points.p)
+    # 
+    # grid::grid.newpage()
+    # 
+    # map.vp <- grid::viewport(x = 0, y = 0, 
+    #                          height = 1, width = 0.85,
+    #                          just = c("left", "bottom"))
+    # 
+    # grid::pushViewport(map.vp)
+    # 
+    # print(out, newpage = FALSE)
+    # 
+    # grid::downViewport(lattice::trellis.vpname(name = "figure"))
+    # 
+    # leg.vp <- grid::viewport(x = 1, y = 0.5, 
+    #                          height = n / 10, width = 0.15,
+    #                          just = c("left", "centre"))
+    # 
+    # grid::pushViewport(leg.vp)  
+    # 
+    # if(n == 1) ypos <- 0.5 else ypos <- seq(0.95, 0.05, length.out = n + 2)
+    # if(n == 1) ypos <- ypos else ypos <- ypos[-c(1, length(ypos))]
+    # xpos.pts <- grid::unit(0.15, "npc")
+    # size.pts <- 1 / n
+    # 
+    # for (i in 1:n) {
+    #   
+    #   vp <- grid::viewport(x = xpos.pts, y = ypos[i], 
+    #                        height = size.pts, width = 0.1,
+    #                        just = c("left", "centre"))
+    #   
+    #   grid::pushViewport(vp)
+    #   
+    #   grid::grid.circle(gp = grid::gpar(fill = clrs[i], 
+    #                                     col = "black"))
+    #   
+    #   grid::upViewport()
+    #   
+    # }
+    # 
+    # xpos.txt <- grid::unit(0.25, "npc")
+    # width.txt <- 0.7
+    # 
+    # for (i in 1:n) {
+    #   
+    #   vp <- grid::viewport(x = xpos.txt, y = ypos[i], 
+    #                        height = size.pts, width = width.txt,
+    #                        just = c("left", "centre"))
+    #   
+    #   grid::pushViewport(vp)
+    #   
+    #   txt <- grid::textGrob(x = 0.2, sort(names(x))[i],
+    #                         just = "left")
+    #   
+    #   grid::grid.draw(txt)
+    #   
+    #   grid::popViewport()
+    #   
+    # }
+    # 
+    # grid::upViewport(0)
+    # return(invisible())
     
-    grid::pushViewport(map.vp)
-    
-    print(out, newpage = FALSE)
-    
-    grid::downViewport(lattice::trellis.vpname(name = "figure"))
-    
-    leg.vp <- grid::viewport(x = 1, y = 0.5, 
-                             height = n / 10, width = 0.15,
-                             just = c("left", "centre"))
-    
-    grid::pushViewport(leg.vp)  
-    
-    if(n == 1) ypos <- 0.5 else ypos <- seq(0.95, 0.05, length.out = n + 2)
-    if(n == 1) ypos <- ypos else ypos <- ypos[-c(1, length(ypos))]
-    xpos.pts <- grid::unit(0.15, "npc")
-    size.pts <- 1 / n
-    
-    for (i in 1:n) {
-      
-      vp <- grid::viewport(x = xpos.pts, y = ypos[i], 
-                           height = size.pts, width = 0.1,
-                           just = c("left", "centre"))
-      
-      grid::pushViewport(vp)
-      
-      grid::grid.circle(gp = grid::gpar(fill = clrs[i], 
-                                        col = "black"))
-      
-      grid::upViewport()
-      
-    }
-    
-    xpos.txt <- grid::unit(0.25, "npc")
-    width.txt <- 0.7
-    
-    for (i in 1:n) {
-      
-      vp <- grid::viewport(x = xpos.txt, y = ypos[i], 
-                           height = size.pts, width = width.txt,
-                           just = c("left", "centre"))
-      
-      grid::pushViewport(vp)
-      
-      txt <- grid::textGrob(x = 0.2, sort(names(x))[i],
-                            just = "left")
-      
-      grid::grid.draw(txt)
-      
-      grid::popViewport()
-      
-    }
-    
-    grid::upViewport(0)
-    return(invisible())
-    
-  } else {    
-    stop("need packages 'gridExtra', 'latticeExtra' & 'maps' to plot locations")
-  }
+  # } else {    
+  #   stop("need packages 'gridExtra', 'latticeExtra' & 'maps' to plot locations")
+  # }
   
 } 

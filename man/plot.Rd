@@ -108,6 +108,8 @@ plot(nh_modes, y = 1, show.bp = TRUE,
 ## change plot arrangement
 plot(nh_modes, y = 1, show.bp = TRUE, arrange = "long") 
 
+## plot locations of all base points
+plot(nh_modes, locations = TRUE)
 }
 
 }
